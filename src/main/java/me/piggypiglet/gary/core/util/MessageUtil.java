@@ -27,15 +27,15 @@ public class MessageUtil {
         System.out.println(contain.parallelStream().allMatch(msg.toLowerCase()::contains));
         return contain.parallelStream().allMatch(msg.toLowerCase()::contains);
     }
-    public boolean startsWith(String msg) {
-        if (msg.contains("/")) {
-            String[] str = msg.split("/");
-            for (String string : str) {
+    public boolean startsWith(String msg, String str) {
+        if (str.contains("/")) {
+            String[] contain = str.split("/");
+            for (String string : contain) {
                 if (msg.toLowerCase().startsWith(string)) {
                     return true;
                 }
             }
         }
-        return msg.toLowerCase().startsWith(msg);
+        return msg.toLowerCase().startsWith(str);
     }
 }

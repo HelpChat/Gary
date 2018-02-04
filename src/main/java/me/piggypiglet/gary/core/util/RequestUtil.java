@@ -30,8 +30,8 @@ public class RequestUtil {
                 "service:",
                 "what i want:"
         ).forEach(items::add);
-        if (mutil.contains(msg, items) && mutil.startsWith("[unpaid]/[paid]")) {
-            if (msg.toLowerCase().startsWith("[paid]")) {
+        if (mutil.contains(msg, items) && mutil.startsWith(msg, "[unpaid]/[paid]")) {
+            if (mutil.startsWith(msg, "[paid]")) {
                 items.add("budget:");
             }
         } else {
