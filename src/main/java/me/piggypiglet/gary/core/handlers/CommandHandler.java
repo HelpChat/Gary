@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.AI;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.util.MessageUtil;
 import me.piggypiglet.gary.core.util.RequestUtil;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -16,6 +17,8 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public class CommandHandler extends ListenerAdapter {
     @Inject
     private RequestUtil rutil;
+    @Inject
+    private MessageUtil mutil;
     private Command[] commands;
 
     public CommandHandler() {
@@ -29,17 +32,11 @@ public class CommandHandler extends ListenerAdapter {
 
     @Override
     public void onMessageReceived(MessageReceivedEvent e) {
+        String msg = e.getMessage().getContentRaw();
         if (!e.getAuthor().isBot()) {
             for (Command command : commands) {
-                String[] args = e.getMessage().getContentRaw().replace(command.cmd, "").trim().split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                if (command.cmd.contains("/")) {
-                    String[] cmd = command.cmd.split("/");
-                    for (String cmds : cmd) {
-                        if (e.getMessage().getContentRaw().toLowerCase().startsWith(cmds)) {
-                            command.run(e, args);
-                        }
-                    }
-                } else if (e.getMessage().getContentRaw().toLowerCase().startsWith(command.cmd)) {
+                String[] args = msg.toLowerCase().replace(command.cmd.toLowerCase(), "").trim().split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                if (mutil.startsWith(msg, command.cmd)) {
                     command.run(e, args);
                 }
             }

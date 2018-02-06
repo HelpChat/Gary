@@ -24,7 +24,6 @@ public class MessageUtil {
                 .replace("%id%", e.getAuthor().getId());
     }
     public boolean contains(String msg, List<String> contain) {
-        System.out.println(contain.parallelStream().allMatch(msg.toLowerCase()::contains));
         return contain.parallelStream().allMatch(msg.toLowerCase()::contains);
     }
     public boolean startsWith(String msg, String str) {

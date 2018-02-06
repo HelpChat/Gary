@@ -17,12 +17,12 @@ import javax.security.auth.login.LoginException;
 public class Main {
     @Inject
     private CommandHandler commandHandler;
+
     private Main() {
         BinderModule module = new BinderModule(this.getClass());
         Injector injector = module.createInjector();
         injector.injectMembers(this);
     }
-
     public static void main(String[] args) throws LoginException, InterruptedException {
         Main main = new Main();
         new JDABuilder(AccountType.BOT)

@@ -18,6 +18,7 @@ dependencies {
     compile 'net.dv8tion:JDA:3.5.0_334'
     compile 'com.google.inject:guice:4.0'
     compile 'ai.api:libai:1.6.12'
+    compile 'org.apache.httpcomponents:httpclient:4.5.5'
 }
 
 shadowJar {
