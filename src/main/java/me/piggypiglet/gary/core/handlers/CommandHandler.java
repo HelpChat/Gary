@@ -3,6 +3,8 @@ package me.piggypiglet.gary.core.handlers;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.AI;
+import me.piggypiglet.gary.commands.RoleID;
+import me.piggypiglet.gary.commands.Speak;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.util.MessageUtil;
@@ -15,10 +17,11 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 // https://www.piggypiglet.me
 // ------------------------------
 public class CommandHandler extends ListenerAdapter {
-    @Inject
-    private RequestUtil rutil;
-    @Inject
-    private MessageUtil mutil;
+    @Inject private RequestUtil rutil;
+    @Inject private MessageUtil mutil;
+    @Inject private AI ai;
+    @Inject private Speak speak;
+    @Inject private RoleID roleid;
     private Command[] commands;
 
     public CommandHandler() {
@@ -26,7 +29,9 @@ public class CommandHandler extends ListenerAdapter {
         Injector injector = module.createInjector();
         injector.injectMembers(this);
         commands = new Command[] {
-                new AI()
+                ai,
+                speak,
+                roleid
         };
     }
 

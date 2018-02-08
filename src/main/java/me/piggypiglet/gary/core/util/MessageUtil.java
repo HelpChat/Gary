@@ -2,10 +2,7 @@ package me.piggypiglet.gary.core.util;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet ${year}
@@ -36,5 +33,11 @@ public class MessageUtil {
             }
         }
         return msg.toLowerCase().startsWith(str);
+    }
+    public String arrayToString(String[] array) {
+        return Arrays.toString(array)
+                .replace("[", "")
+                .replace("]", "")
+                .replace(", ", " ");
     }
 }

@@ -16,8 +16,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // https://www.piggypiglet.me
 // ------------------------------
 public class AI extends Command {
-    @Inject
-    private MessageUtil mutil;
+    @Inject private MessageUtil mutil;
 
     public AI() {
         cmd = "!";
