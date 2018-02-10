@@ -2,5 +2,3 @@
 .idea/
 src/test/
 build/
-src/main/java/me/piggypiglet/gary/Main.java
-src/main/java/me/piggypiglet/gary/commands/AI.java

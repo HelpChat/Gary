@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
+import me.piggypiglet.gary.core.objects.Constants;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
@@ -26,7 +27,7 @@ public class Main {
     public static void main(String[] args) throws LoginException, InterruptedException {
         Main main = new Main();
         new JDABuilder(AccountType.BOT)
-                .setToken("")
+                .setToken(Constants.TOKEN)
                 .setGame(Game.of(Game.GameType.WATCHING, "https://garys.life"))
                 .addEventListener(main.commandHandler)
                 .buildBlocking();

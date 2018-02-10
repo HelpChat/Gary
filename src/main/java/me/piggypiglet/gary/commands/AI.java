@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.util.MessageUtil;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -27,7 +28,7 @@ public class AI extends Command {
 
     public void execute(MessageReceivedEvent e, String[] args) {
         if (e.getChannel().getId().equalsIgnoreCase("339674158596358145")) {
-            AIConfiguration config = new AIConfiguration("");
+            AIConfiguration config = new AIConfiguration(Constants.AITOKEN);
             AIDataService data = new AIDataService(config);
             try {
                 AIRequest request = new AIRequest(e.getMessage().getContentRaw().replace("!", ""));
