@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.util;
 
 import com.google.gson.JsonParser;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -12,10 +13,12 @@ import org.apache.http.util.EntityUtils;
 // Copyright (c) PiggyPiglet ${year}
 // https://www.piggypiglet.me
 // ------------------------------
-class WebUtil {
-    public String hastebin(String str) {
+final class WebUtil {
+
+    String hastebin(String str) {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost post = new HttpPost("https://hastebin.com/documents");
+
         try {
             post.setEntity(new StringEntity(str, "UTF-8"));
             HttpResponse response = client.execute(post);
@@ -26,4 +29,5 @@ class WebUtil {
         }
         return "fail";
     }
+
 }

@@ -8,7 +8,8 @@ import com.google.inject.Injector;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class BinderModule extends AbstractModule {
+public final class BinderModule extends AbstractModule {
+
     private static Class clazz;
 
     public BinderModule(Class clazz) {
@@ -20,7 +21,9 @@ public class BinderModule extends AbstractModule {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void configure() {
         this.bind(clazz).toInstance(clazz);
     }
+
 }
