@@ -20,8 +20,10 @@ public class RoleUtil {
     }
 
     public boolean isStaff(Member member) {
-        Role staff = member.getGuild().getRoleById("411094569850109955");
+//        Role staff = member.getGuild().getRoleById("411094569850109955"); Why doesn't this work?
+        Role admin = getRole(member.getGuild(), "admins");
+        Role trusted = getRole(member.getGuild(), "trusted");
         Role helpful = getRole(member.getGuild(), "helpful");
-        return member.getRoles().contains(staff) || member.getRoles().contains(helpful);
+        return member.getRoles().contains(admin) || member.getRoles().contains(trusted) || member.getRoles().contains(helpful);
     }
 }

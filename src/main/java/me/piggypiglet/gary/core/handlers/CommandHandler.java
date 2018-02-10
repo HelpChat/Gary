@@ -3,6 +3,7 @@ package me.piggypiglet.gary.core.handlers;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.AI;
+import me.piggypiglet.gary.commands.BanCheck;
 import me.piggypiglet.gary.commands.RoleID;
 import me.piggypiglet.gary.commands.Speak;
 import me.piggypiglet.gary.core.framework.BinderModule;
@@ -21,7 +22,8 @@ public class CommandHandler extends ListenerAdapter {
     @Inject private MessageUtil mutil;
     @Inject private AI ai;
     @Inject private Speak speak;
-    @Inject private RoleID roleid;
+    @Inject private RoleID roleID;
+    @Inject private BanCheck banCheck;
     private Command[] commands;
 
     public CommandHandler() {
@@ -31,7 +33,8 @@ public class CommandHandler extends ListenerAdapter {
         commands = new Command[] {
                 ai,
                 speak,
-                roleid
+                roleID,
+                banCheck
         };
     }
 
