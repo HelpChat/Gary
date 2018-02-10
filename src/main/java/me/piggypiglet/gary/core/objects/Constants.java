@@ -6,6 +6,6 @@ package me.piggypiglet.gary.core.objects;
 // ------------------------------
 public final class Constants {
 
-    public static final String BOT_TOKEN = "test", AI_TOKEN = "test";
+    public static final String BOT_TOKEN = "test1", AI_TOKEN = "test1";
 
 }
