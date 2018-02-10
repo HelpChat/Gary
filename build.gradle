@@ -1,12 +1,13 @@
 plugins {
-    id'java'
-    id'application'
-    id'com.github.johnrengelman.shadow' version '2.0.2'
+    id 'idea'
+    id 'java'
+    id 'application'
+    id 'com.github.johnrengelman.shadow' version '2.0.2'
 }
 
 group 'me.piggypiglet'
 version '1.0.0'
-mainClassName = 'me.piggypiglet.gary.Main'
+mainClassName = 'me.piggypiglet.gary.GaryBot'
 sourceCompatibility = 1.8
 
 repositories {
@@ -15,10 +16,10 @@ repositories {
 }
 
 dependencies {
-    compile 'net.dv8tion:JDA:3.5.0_334'
-    compile 'com.google.inject:guice:4.0'
-    compile 'ai.api:libai:1.6.12'
-    compile 'org.apache.httpcomponents:httpclient:4.5.5'
+    compile 'ai.api:libai:+'
+    compile 'net.dv8tion:JDA:+'
+    compile 'com.google.inject:guice:+'
+    compile 'org.apache.httpcomponents:httpclient:+'
 }
 
 shadowJar {
