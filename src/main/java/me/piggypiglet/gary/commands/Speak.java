@@ -2,15 +2,13 @@ package me.piggypiglet.gary.commands;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
+import me.piggypiglet.gary.core.framework.BinderModule;
+import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.util.MessageUtil;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
-import me.piggypiglet.gary.core.framework.BinderModule;
-import me.piggypiglet.gary.core.framework.Command;
-import me.piggypiglet.gary.core.util.MessageUtil;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -18,13 +16,14 @@ import me.piggypiglet.gary.core.util.MessageUtil;
 // ------------------------------
 public final class Speak extends Command {
 
+    @Inject private MessageUtil mutil;
     private static final long HOME = 373010561794834432L;
     private static final long HELP = 164280494874165248L, DEV = 165129131770511360L, RATE = 339676414137860097L;
     private static final long IDEAS = 339773683469910016L, MC = 382856648064237568L, OTHER = 164523548390457355L;
-    @Inject private MessageUtil mutil;
 
     public Speak() {
         super("1 /2 /3 /4 /5 /6 ");
+
         BinderModule module = new BinderModule(this.getClass());
         Injector injector = module.createInjector();
         injector.injectMembers(this);

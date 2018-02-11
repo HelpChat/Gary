@@ -3,11 +3,7 @@ package me.piggypiglet.gary.core.util;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.TimeZone;
+import java.util.*;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet ${year}
@@ -34,7 +30,7 @@ public final class MessageUtil {
     public boolean startsWith(String msg, String str) {
         if (str.contains("/")) {
             String[] contain = str.split("/");
-            return Arrays.stream(contain).anyMatch(msg::startsWith);
+            return Arrays.stream(contain).anyMatch(msg.toLowerCase()::startsWith);
         }
         return msg.toLowerCase().startsWith(str);
     }
