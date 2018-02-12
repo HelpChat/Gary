@@ -20,7 +20,8 @@ public final class MessageUtil {
         }
 
         User author = e.getAuthor();
-        return str.replace("%n%", "\n").replace("%name%", author.getName()).replace("%id%", author.getId());
+        String message = e.getMessage().getContentRaw().replace("!", "").replace("say ", "");
+        return str.replace("%n%", "\n").replace("%name%", author.getName()).replace("%id%", author.getId()).replace("%text%", message);
     }
 
     boolean contains(String msg, List<String> contain) {

@@ -19,7 +19,7 @@ import java.util.Map;
 // ------------------------------
 public class Config {
     @Inject private ConfigUtil cutil;
-    private static File config;
+    private File config;
 
     public Config() {
         BinderModule module = new BinderModule(this.getClass());
@@ -44,7 +44,7 @@ public class Config {
         }
     }
 
-    public static String getItem(String item) {
+    public String getItem(String item) {
         try {
             Gson gson = new Gson();
             JsonReader reader = new JsonReader(new FileReader(config));

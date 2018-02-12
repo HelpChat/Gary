@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
-import me.piggypiglet.gary.core.objects.Constants;
+import me.piggypiglet.gary.core.objects.Config;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.entities.Game;
 public final class GaryBot {
 
     @Inject private CommandHandler commandHandler;
+    @Inject private Config config;
 
     private GaryBot() {
         BinderModule module = new BinderModule(this.getClass());
@@ -24,7 +25,7 @@ public final class GaryBot {
 
         try {
             new JDABuilder(AccountType.BOT)
-                    .setToken(Constants.BOT_TOKEN)
+                    .setToken(config.getItem("token"))
                     .setGame(Game.of(Game.GameType.WATCHING, "https://garys.life"))
                     .addEventListener(commandHandler)
                     .buildBlocking();

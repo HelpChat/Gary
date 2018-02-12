@@ -1,19 +1,17 @@
 package me.piggypiglet.gary.commands;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
 import ai.api.AIConfiguration;
 import ai.api.AIDataService;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
-import me.piggypiglet.gary.core.objects.Constants;
+import me.piggypiglet.gary.core.objects.Config;
 import me.piggypiglet.gary.core.util.MessageUtil;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet ${year}
@@ -22,6 +20,7 @@ import me.piggypiglet.gary.core.util.MessageUtil;
 public final class AI extends Command {
 
     @Inject private MessageUtil mutil;
+    @Inject private Config config;
 
     public AI() {
         super("!");
@@ -36,7 +35,7 @@ public final class AI extends Command {
         MessageChannel channel = e.getChannel();
 
         if (channel.getIdLong() == 339674158596358145L) {
-            AIConfiguration config = new AIConfiguration(Constants.AI_TOKEN);
+            AIConfiguration config = new AIConfiguration(this.config.getItem("aitoken"));
             AIDataService data = new AIDataService(config);
 
             try {
