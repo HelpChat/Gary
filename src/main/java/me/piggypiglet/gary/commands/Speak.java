@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.util.MessageUtil;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
@@ -17,9 +18,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public final class Speak extends Command {
 
     @Inject private MessageUtil mutil;
-    private static final long HOME = 373010561794834432L;
-    private static final long HELP = 164280494874165248L, DEV = 165129131770511360L, RATE = 339676414137860097L;
-    private static final long IDEAS = 339773683469910016L, MC = 382856648064237568L, OTHER = 164523548390457355L;
 
     public Speak() {
         super("1 /2 /3 /4 /5 /6 ");
@@ -32,7 +30,7 @@ public final class Speak extends Command {
     @Override
     protected void execute(MessageReceivedEvent e, String[] args) {
         MessageChannel channel = e.getChannel();
-        if (channel.getIdLong() != HOME) {
+        if (channel.getIdLong() != Constants.SPEAK) {
             return;
         }
 
@@ -42,32 +40,47 @@ public final class Speak extends Command {
 
         switch (message.getContentRaw().charAt(0)) {
             case '1':
-                channelId = HELP;
+                channelId = Constants.PLUGIN;
                 toReplace = 1;
                 break;
 
             case '2':
-                channelId = DEV;
+                channelId = Constants.DEV;
                 toReplace = 2;
                 break;
 
             case '3':
-                channelId = RATE;
+                channelId = Constants.RMS;
                 toReplace = 3;
                 break;
 
             case '4':
-                channelId = IDEAS;
+                channelId = Constants.IDEAS;
                 toReplace = 4;
                 break;
 
             case '5':
-                channelId = MC;
+                channelId = Constants.REQUEST;
                 toReplace = 5;
                 break;
 
             case '6':
-                channelId = OTHER;
+                channelId = Constants.OFFER;
+                toReplace = 6;
+                break;
+
+            case '7':
+                channelId = Constants.MC;
+                toReplace = 6;
+                break;
+
+            case '8':
+                channelId = Constants.OTHER;
+                toReplace = 6;
+                break;
+
+            case '9':
+                channelId = Constants.BOT;
                 toReplace = 6;
                 break;
 
