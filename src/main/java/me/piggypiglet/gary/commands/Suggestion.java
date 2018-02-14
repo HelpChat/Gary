@@ -6,6 +6,9 @@ import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.util.MessageUtil;
+import me.piggypiglet.gary.core.util.TimeUtil;
+import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 // ------------------------------
@@ -13,6 +16,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class Suggestion extends Command {
+    @Inject private TimeUtil tutil;
     @Inject private MessageUtil mutil;
 
     public Suggestion() {
@@ -30,6 +34,12 @@ public final class Suggestion extends Command {
             e.getChannel().sendMessage("Invalid suggestion").queue();
             return;
         }
-        e.getGuild().getTextChannelById(Constants.PIG).sendMessage(mutil.arrayToString(args)).queue();
+        MessageEmbed.Field field = new MessageEmbed.Field("Suggestion:", mutil.arrayToString(args), true);
+        MessageEmbed embed = new EmbedBuilder()
+                .setAuthor(e.getMessage().getAuthor().getName() + "#" + e.getMessage().getAuthor().getDiscriminator())
+                .addField(field)
+                .setFooter("Created at " + tutil.getTime() + " in #" + e.getChannel().getName(), null)
+                .build();
+        e.getGuild().getTextChannelById(Constants.PIG).sendMessage(embed).queue();
     }
 }
