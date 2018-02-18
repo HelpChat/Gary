@@ -30,6 +30,7 @@ public final class MessageUtil {
                 .replace("%name%", author.getName())
                 .replace("%id%", author.getId())
                 .replace("%text%", message)
+                .replace("%user%", author.getAsMention())
                 .replace("%time%", tutil.getTime());
     }
 
