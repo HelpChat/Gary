@@ -1,2 +1,2 @@
 # Gary
-Gary Bot!
+Gary Bot
