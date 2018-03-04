@@ -11,6 +11,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.util.concurrent.TimeUnit;
+
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
@@ -41,5 +43,6 @@ public final class Suggestion extends Command {
                 .setFooter("Created at " + tutil.getTime() + " in #" + e.getChannel().getName(), null)
                 .build();
         e.getGuild().getTextChannelById(Constants.PIG).sendMessage(embed).queue();
+        e.getChannel().sendMessage("Suggestion successfully sent!").complete().delete().queueAfter(12, TimeUnit.SECONDS);
     }
 }

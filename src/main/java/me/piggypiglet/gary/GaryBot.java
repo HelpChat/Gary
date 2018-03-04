@@ -14,7 +14,6 @@ import net.dv8tion.jda.core.entities.Game;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class GaryBot {
-
     @Inject private CommandHandler commandHandler;
     @Inject private Config config;
 
@@ -26,12 +25,13 @@ public final class GaryBot {
         try {
             new JDABuilder(AccountType.BOT)
                     .setToken(config.getItem("token"))
-                    .setGame(Game.of(Game.GameType.WATCHING, "https://garys.life"))
+                    .setGame(Game.watching("https://garys.life"))
                     .addEventListener(commandHandler)
                     .buildBlocking();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public static void main(String[] args) {
