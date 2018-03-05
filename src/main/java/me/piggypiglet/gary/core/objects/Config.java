@@ -17,7 +17,7 @@ import java.util.Map;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class Config {
+public final class Config {
     @Inject private ConfigUtil cutil;
     private File config;
 

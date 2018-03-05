@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.*;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.util.MessageUtil;
 import me.piggypiglet.gary.core.util.RequestUtil;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -29,6 +30,7 @@ public final class CommandHandler extends ListenerAdapter {
         BinderModule module = new BinderModule(this.getClass());
         Injector injector = module.createInjector();
         injector.injectMembers(this);
+
         commands = new Command[] { ai, speak, roleID, banCheck, suggestion };
     }
 
@@ -45,7 +47,7 @@ public final class CommandHandler extends ListenerAdapter {
                 }
             }
 
-            if (e.getChannel().getIdLong() == 297996869173379072L) {
+            if (e.getChannel().getIdLong() == Constants.REQUEST) {
                 rutil.checkMessage(e);
             }
         }

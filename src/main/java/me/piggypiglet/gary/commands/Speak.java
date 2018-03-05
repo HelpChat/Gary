@@ -1,11 +1,7 @@
 package me.piggypiglet.gary.commands;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.util.MessageUtil;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -16,15 +12,8 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class Speak extends Command {
-
-    @Inject private MessageUtil mutil;
-
     public Speak() {
         super("1 /2 /3 /4 /5 /6 ");
-
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
     }
 
     @Override
@@ -89,7 +78,7 @@ public final class Speak extends Command {
         }
 
         Guild guild = e.getGuild();
-        guild.getTextChannelById(channelId).sendMessage(mutil.arrayToString(args).replace(String.valueOf(toReplace), "")).queue();
+        guild.getTextChannelById(channelId).sendMessage(message.getContentRaw().replace(String.valueOf(toReplace) + " ", "")).queue();
     }
 
 }
