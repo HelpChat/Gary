@@ -24,14 +24,16 @@ public final class MessageUtil {
 
     public String format(MessageReceivedEvent e, String str) {
         User author = e.getAuthor();
-        String message = e.getMessage().getContentRaw().replace("!", "").replace("say ", "");
-        return str
+        String message = e.getMessage().getContentRaw()
+                .replace("!", "")
+                .replace("say ", "")
                 .replace("%n%", "\n")
                 .replace("%name%", author.getName())
                 .replace("%id%", author.getId())
-                .replace("%text%", message)
                 .replace("%user%", author.getAsMention())
                 .replace("%time%", tutil.getTime());
+        return str
+                .replace("%text%", message);
     }
 
     boolean contains(String msg, List<String> contain) {
