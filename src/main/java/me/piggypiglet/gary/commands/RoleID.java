@@ -2,14 +2,12 @@ package me.piggypiglet.gary.commands;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-
+import me.piggypiglet.gary.core.framework.BinderModule;
+import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-
-import me.piggypiglet.gary.core.framework.BinderModule;
-import me.piggypiglet.gary.core.framework.Command;
-import me.piggypiglet.gary.core.util.RoleUtil;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -17,7 +15,7 @@ import me.piggypiglet.gary.core.util.RoleUtil;
 // ------------------------------
 public final class RoleID extends Command {
 
-    @Inject private RoleUtil rutil;
+    @Inject private RoleUtils rutil;
 
     public RoleID() {
         super("?roleid");

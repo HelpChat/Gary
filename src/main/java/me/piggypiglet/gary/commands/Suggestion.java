@@ -5,8 +5,8 @@ import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.util.MessageUtil;
-import me.piggypiglet.gary.core.util.TimeUtil;
+import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.misc.TimeUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class Suggestion extends Command {
-    @Inject private TimeUtil tutil;
-    @Inject private MessageUtil mutil;
+    @Inject private TimeUtils tutil;
+    @Inject private MessageUtils mutil;
 
     public Suggestion() {
         super("?suggestion");

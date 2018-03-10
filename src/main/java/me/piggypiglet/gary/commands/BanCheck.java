@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
-import me.piggypiglet.gary.core.util.RoleUtil;
+import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -19,7 +19,7 @@ import java.util.Map;
 // ------------------------------
 public final class BanCheck extends Command {
 
-    @Inject private RoleUtil rutil;
+    @Inject private RoleUtils rutil;
 
     public BanCheck() {
         super("?bancheck");

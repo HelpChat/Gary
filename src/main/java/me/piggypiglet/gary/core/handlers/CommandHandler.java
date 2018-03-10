@@ -3,11 +3,12 @@ package me.piggypiglet.gary.core.handlers;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.*;
+import me.piggypiglet.gary.commands.placeholderapi.List;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.util.MessageUtil;
-import me.piggypiglet.gary.core.util.RequestUtil;
+import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.channel.RequestUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -17,13 +18,14 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 // ------------------------------
 public final class CommandHandler extends ListenerAdapter {
 
-    @Inject private RequestUtil rutil;
-    @Inject private MessageUtil mutil;
+    @Inject private RequestUtils rutil;
+    @Inject private MessageUtils mutil;
     @Inject private AI ai;
     @Inject private Speak speak;
     @Inject private RoleID roleID;
     @Inject private BanCheck banCheck;
     @Inject private Suggestion suggestion;
+    @Inject private List list;
     private Command[] commands;
 
     public CommandHandler() {
@@ -31,7 +33,7 @@ public final class CommandHandler extends ListenerAdapter {
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        commands = new Command[] { ai, speak, roleID, banCheck, suggestion };
+        commands = new Command[] { ai, speak, roleID, banCheck, suggestion, list };
     }
 
     @Override

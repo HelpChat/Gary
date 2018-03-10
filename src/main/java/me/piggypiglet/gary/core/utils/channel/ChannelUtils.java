@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.util;
+package me.piggypiglet.gary.core.utils.channel;
 
 import me.piggypiglet.gary.core.objects.Constants;
 import net.dv8tion.jda.core.JDA;
@@ -13,7 +13,7 @@ import java.util.List;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class ChannelUtil {
+public final class ChannelUtils {
     public void purgeChannel(JDA jda, long channelId, long messageId) {
         Guild guild = jda.getGuildById(Constants.HELP_CHAT);
         List<Message> messages = guild.getTextChannelById(channelId).getHistoryAfter(messageId, 100).complete().getRetrievedHistory();

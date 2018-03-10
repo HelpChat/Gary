@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.util;
+package me.piggypiglet.gary.core.utils.admin;
 
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -10,7 +10,7 @@ import java.util.Objects;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class RoleUtil {
+public final class RoleUtils {
 
     public Role getRole(Guild guild, String name) {
         return guild.getRolesByName(name, true).stream().filter(Objects::nonNull).findFirst().orElse(null);

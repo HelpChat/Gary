@@ -7,7 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.framework.BinderModule;
-import me.piggypiglet.gary.core.util.ConfigUtil;
+import me.piggypiglet.gary.core.utils.file.ConfigUtils;
 
 import java.io.File;
 import java.io.FileReader;
@@ -18,7 +18,7 @@ import java.util.Map;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class Config {
-    @Inject private ConfigUtil cutil;
+    @Inject private ConfigUtils cutil;
     private File config;
 
     public Config() {

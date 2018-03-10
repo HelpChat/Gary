@@ -9,7 +9,7 @@ import com.google.inject.Injector;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Config;
-import me.piggypiglet.gary.core.util.MessageUtil;
+import me.piggypiglet.gary.core.utils.channel.MessageUtils;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
@@ -19,11 +19,11 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // ------------------------------
 public final class AI extends Command {
 
-    @Inject private MessageUtil mutil;
+    @Inject private MessageUtils mutil;
     @Inject private Config config;
 
     public AI() {
-        super("!");
+        super("!/!say ");
 
         BinderModule module = new BinderModule(this.getClass());
         Injector injector = module.createInjector();
@@ -44,7 +44,12 @@ public final class AI extends Command {
                 AIResponse response = data.request(request);
 
                 if (response.getStatus().getCode() == 200) {
-                    channel.sendMessage(mutil.format(e, response.getResult().getFulfillment().getSpeech())).queue();
+                    if (e.getMessage().getContentRaw().startsWith("!say ")) {
+                        channel.sendMessage(mutil.format(e, e.getMessage().getContentRaw()
+                        .replace("!say ", ""))).queue();
+                    } else {
+                        channel.sendMessage(mutil.format(e, response.getResult().getFulfillment().getSpeech())).queue();
+                    }
                 } else {
                     System.out.println(response.getStatus().getErrorDetails());
                 }

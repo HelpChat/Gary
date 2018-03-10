@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.util;
+package me.piggypiglet.gary.core.utils.file;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -9,7 +9,7 @@ import java.nio.file.StandardCopyOption;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class ConfigUtil {
+public final class ConfigUtils {
     public boolean exportResource(InputStream source, String destination) {
         boolean success = true;
         try {

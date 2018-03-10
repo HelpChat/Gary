@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.util.ChannelUtil;
+import me.piggypiglet.gary.core.utils.channel.ChannelUtils;
 import net.dv8tion.jda.core.JDA;
 
 import java.util.TimerTask;
@@ -12,7 +12,7 @@ import java.util.TimerTask;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class ChannelClearing extends TimerTask {
-    @Inject private ChannelUtil cutil;
+    @Inject private ChannelUtils cutil;
     private JDA jda;
 
     public void setup(JDA jda) {
