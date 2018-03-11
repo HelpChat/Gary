@@ -2,8 +2,6 @@ package me.piggypiglet.gary.core.utils.web;
 
 import com.google.gson.JsonParser;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -18,12 +16,6 @@ import org.apache.http.util.EntityUtils;
 public final class WebUtils {
 
     @Inject private JsonParser jsonParser;
-
-    public WebUtils() {
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
-    }
 
     public String hastebin(String str) {
         HttpClient client = HttpClientBuilder.create().build();

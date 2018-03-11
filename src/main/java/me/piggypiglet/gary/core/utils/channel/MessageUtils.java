@@ -1,8 +1,6 @@
 package me.piggypiglet.gary.core.utils.channel;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.utils.misc.TimeUtils;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -16,12 +14,6 @@ import java.util.List;
 // ------------------------------
 public final class MessageUtils {
     @Inject private TimeUtils tutil;
-
-    public MessageUtils() {
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
-    }
 
     public String format(MessageReceivedEvent e, String str) {
         User author = e.getAuthor();

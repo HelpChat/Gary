@@ -4,9 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
 import me.piggypiglet.gary.GaryBot;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.utils.file.ConfigUtils;
 
 import java.io.File;
@@ -22,10 +20,6 @@ public final class Config {
     private File config;
 
     public Config() {
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
-
         config = new File("./config.json");
         try {
             if (!config.exists()) {

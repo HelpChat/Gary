@@ -1,8 +1,6 @@
 package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import net.dv8tion.jda.core.JDA;
 
 import java.util.Calendar;
@@ -15,12 +13,6 @@ import java.util.concurrent.TimeUnit;
 // ------------------------------
 public final class RunTasks {
     @Inject private ChannelClearing cc;
-
-    public RunTasks() {
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
-    }
 
     public void setup(JDA jda) {
         cc.setup(jda);

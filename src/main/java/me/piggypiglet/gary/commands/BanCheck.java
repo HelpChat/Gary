@@ -1,8 +1,6 @@
 package me.piggypiglet.gary.commands;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import net.dv8tion.jda.core.entities.Guild;
@@ -23,10 +21,6 @@ public final class BanCheck extends Command {
 
     public BanCheck() {
         super("?bancheck");
-
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
     }
 
     @Override

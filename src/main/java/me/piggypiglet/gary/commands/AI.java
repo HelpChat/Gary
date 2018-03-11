@@ -5,8 +5,6 @@ import ai.api.AIDataService;
 import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Config;
 import me.piggypiglet.gary.core.utils.channel.MessageUtils;
@@ -24,10 +22,6 @@ public final class AI extends Command {
 
     public AI() {
         super("!/!say ");
-
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
     }
 
     @Override

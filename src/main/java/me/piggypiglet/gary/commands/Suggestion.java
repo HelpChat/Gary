@@ -1,8 +1,6 @@
 package me.piggypiglet.gary.commands;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.channel.MessageUtils;
@@ -23,10 +21,6 @@ public final class Suggestion extends Command {
 
     public Suggestion() {
         super("?suggestion");
-
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
     }
 
     @Override
