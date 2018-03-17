@@ -23,7 +23,7 @@ public final class ChannelClearing extends TimerTask {
     public void run() {
         cutil.purgeChannel(jda, Constants.REQUEST, Constants.REQUEST_MESSAGE);
         cutil.purgeChannel(jda, Constants.OFFER, Constants.OFFER_MESSAGE);
-//        cutil.purgeChannel(jda, Constants.RMS, Constants.RMS_MESSAGE);
-        System.out.println("Request and Offer channels cleared!");
+        cutil.purgeChannel(jda, Constants.RMS, Constants.RMS_MESSAGE);
+        System.out.println("Request, offer and rms channels cleared!");
     }
 }

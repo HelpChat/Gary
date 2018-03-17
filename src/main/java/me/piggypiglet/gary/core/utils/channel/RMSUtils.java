@@ -17,8 +17,7 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 public class RMSUtils {
-    @Inject
-    private MessageUtils mutil;
+    @Inject private MessageUtils mutil;
     @Inject private WebUtils wutil;
 
     public void checkMessage(MessageReceivedEvent e) {
@@ -54,14 +53,14 @@ public class RMSUtils {
 
                 privateChannel.sendMessage(string).queue(message1 -> {
                 }, throwable -> {
-                    String hastebin = wutil.hastebin(string.replace("`", "").replace("\n", "\n\n"));
+                    String hastebin = wutil.hastebin(string.replace("`", ""));
 
                     String toSend = !hastebin.equals("fail")
                             ? "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**\n" + author.getAsMention()
-                            + " Your message does not follow the requirements for <#297996869173379072>, "
+                            + " Your message does not follow the requirements for <#424460627663126538>, "
                             + "please read this:\n" + hastebin
                             : "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**\n" + author.getAsMention()
-                            + " Your message does not follow the requirements for <#297996869173379072>, "
+                            + " Your message does not follow the requirements for <#424460627663126538>, "
                             + "please fix any mistakes.\nhastebin.com is down and you have pm's disabled, "
                             + "I cannot show you your message, you will have to try remember it.";
 

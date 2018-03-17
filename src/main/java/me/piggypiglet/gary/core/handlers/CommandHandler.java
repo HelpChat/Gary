@@ -8,6 +8,7 @@ import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.channel.RMSUtils;
 import me.piggypiglet.gary.core.utils.channel.RequestUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -19,7 +20,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public final class CommandHandler extends ListenerAdapter {
 
     @Inject private RequestUtils rutil;
-//    @Inject private RMSUtils rmsutil;
+    @Inject private RMSUtils rmsutil;
     @Inject private MessageUtils mutil;
     @Inject private AI ai;
     @Inject private Speak speak;
@@ -53,9 +54,9 @@ public final class CommandHandler extends ListenerAdapter {
             if (e.getChannel().getIdLong() == Constants.REQUEST) {
                 rutil.checkMessage(e);
             }
-//            if (e.getChannel().getIdLong() == Constants.RMS) {
-//                rmsutil.checkMessage(e);
-//            }
+            if (e.getChannel().getIdLong() == Constants.RMS) {
+                rmsutil.checkMessage(e);
+            }
         }
     }
 
