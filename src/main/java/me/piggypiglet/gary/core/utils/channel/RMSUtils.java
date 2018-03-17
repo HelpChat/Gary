@@ -46,7 +46,7 @@ public class RMSUtils {
                     "Description:";
 
             author.openPrivateChannel().queue(privateChannel -> {
-                String string = "Your latest request is not following the requirements for <#297996869173379072>.\n" +
+                String string = "Your latest request is not following the requirements for <#424460627663126538>.\n" +
                         "The requirements are as below:\n```" + requirements + "```\nFor example, your review needs to look like this: \n```" + exampleReview + "```\n" +
                         "RMS requests need to look like this:\n```" + exampleRMS + "```\n" +
                         "Please edit your message below to fit the requirements:\n```" + msg + "```";

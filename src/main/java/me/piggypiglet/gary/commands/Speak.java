@@ -60,17 +60,17 @@ public final class Speak extends Command {
 
             case '7':
                 channelId = Constants.MC;
-                toReplace = 6;
+                toReplace = 7;
                 break;
 
             case '8':
                 channelId = Constants.OTHER;
-                toReplace = 6;
+                toReplace = 8;
                 break;
 
             case '9':
                 channelId = Constants.BOT;
-                toReplace = 6;
+                toReplace = 9;
                 break;
 
             default:
