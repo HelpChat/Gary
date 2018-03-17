@@ -31,10 +31,10 @@ public final class MessageUtils {
 
     public boolean startsWith(String msg, String str) {
         if (str.contains("/")) {
-            String[] contain = str.split("/");
+            String[] contain = str.toLowerCase().split("/");
             return Arrays.stream(contain).anyMatch(msg.toLowerCase()::startsWith);
         }
-        return msg.toLowerCase().startsWith(str);
+        return msg.toLowerCase().startsWith(str.toLowerCase());
     }
 
     public String arrayToString(String[] array) {

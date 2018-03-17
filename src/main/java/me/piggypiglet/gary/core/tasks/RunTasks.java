@@ -21,6 +21,7 @@ public final class RunTasks {
     public void runTasks() {
         System.out.println("Task - Request & Offer service cleaning started");
         long time = TimeUnit.DAYS.toMillis(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+//        long time = TimeUnit.SECONDS.toMillis(20);
         Timer timer = new Timer();
         timer.schedule(cc, time, time);
     }

@@ -19,6 +19,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public final class CommandHandler extends ListenerAdapter {
 
     @Inject private RequestUtils rutil;
+//    @Inject private RMSUtils rmsutil;
     @Inject private MessageUtils mutil;
     @Inject private AI ai;
     @Inject private Speak speak;
@@ -52,6 +53,9 @@ public final class CommandHandler extends ListenerAdapter {
             if (e.getChannel().getIdLong() == Constants.REQUEST) {
                 rutil.checkMessage(e);
             }
+//            if (e.getChannel().getIdLong() == Constants.RMS) {
+//                rmsutil.checkMessage(e);
+//            }
         }
     }
 
