@@ -20,6 +20,7 @@ dependencies {
     compile 'net.dv8tion:JDA:+'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
+    compile 'com.zaxxer:HikariCP:+'
 }
 
 shadowJar {
