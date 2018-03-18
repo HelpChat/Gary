@@ -32,4 +32,4 @@ In Gary, we use google guice for dependency injection. This allows you to get an
 ```java
 @Inject private ClassYouWantToInject classYouWantToInject;
 ```
-Once you've made your command class, be sure to test it via your own server before making a pull request. Once you've tested and made the pull request, I'll review over you code and if accepted, your contributions will go live immediately.
+Once you've made your command class, go into me.piggypiglet.gary.core.handlers.CommandHandler and add an instance of your command class to the `commands` array.<br/><br/>Be sure to test your new class via your own server before making a pull request. Once you've tested and made the pull request, I'll review over you code and if accepted, your contributions will go live immediately.
