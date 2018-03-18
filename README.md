@@ -4,7 +4,7 @@ Hi! My name is Gary. I'm the bot that helps moderate [clip and funny's help chat
 * Clear the RMS, Offer and Request service channels monthly.
 * Enforce the format in the above channels.
 * Be an awesome AI
-* Assist trusted/helpers with moderator commands
+* Assist staff with moderator commands
 * Display placeholderapi info
 * And more!
 
