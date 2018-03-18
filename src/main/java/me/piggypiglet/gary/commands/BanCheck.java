@@ -38,13 +38,11 @@ public final class BanCheck extends Command {
                     Map<String, String> users = new HashMap<>();
                     bans.forEach(ban -> users.put(ban.getUser().getName() + "#" + ban.getUser().getDiscriminator(), ban.getReason()));
 
-                    StringBuilder banned = new StringBuilder(args[0] + " is ");
+                    String banned = "";
                     for (String s : users.keySet()) {
-                        banned.append(s.equalsIgnoreCase(args[0]) ? "banned" : "not banned");
+                        banned = s.equalsIgnoreCase(args[0]) ? "banned." : "not banned.";
                     }
-
-                    banned.append(".");
-                    channel.sendMessage(banned.toString()).queue();
+                    channel.sendMessage(args[0] + " is " + banned).queue();
                 } else {
                     channel.sendMessage("Invalid name/discriminator").queue();
                 }

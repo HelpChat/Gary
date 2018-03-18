@@ -10,7 +10,9 @@ import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.channel.MessageUtils;
 import me.piggypiglet.gary.core.utils.channel.RMSUtils;
 import me.piggypiglet.gary.core.utils.channel.RequestUtils;
+import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 // ------------------------------
@@ -50,13 +52,23 @@ public final class CommandHandler extends ListenerAdapter {
                     command.run(e, args);
                 }
             }
+            checkMessages(e);
+        }
+    }
 
-            if (e.getChannel().getIdLong() == Constants.REQUEST) {
-                rutil.checkMessage(e);
-            }
-            if (e.getChannel().getIdLong() == Constants.RMS) {
-                rmsutil.checkMessage(e);
-            }
+    @Override
+    public void onMessageUpdate(MessageUpdateEvent e) {
+        if (!e.getAuthor().isBot()) {
+            checkMessages(e);
+        }
+    }
+
+    private void checkMessages(GenericMessageEvent e) {
+        if (e.getChannel().getIdLong() == Constants.REQUEST) {
+            rutil.checkMessage(e);
+        }
+        if (e.getChannel().getIdLong() == Constants.RMS) {
+            rmsutil.checkMessage(e);
         }
     }
 
