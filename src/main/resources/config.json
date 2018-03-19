@@ -1,4 +1,10 @@
 {
   "token": "<BOT TOKEN>",
-  "aitoken": "<AI TOKEN>"
+  "aitoken": "<AI TOKEN>",
+
+  "mysql-ip": "<IP>",
+  "mysql-port": "3306",
+  "mysql-username": "<USERNAME>",
+  "mysql-db": "<DB>",
+  "mysql-password": "<PASSWORD>"
 }

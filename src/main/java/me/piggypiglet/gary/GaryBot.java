@@ -19,11 +19,14 @@ public final class GaryBot {
     @Inject private CommandHandler commandHandler;
     @Inject private Config config;
     @Inject private RunTasks runTasks;
+//    @Inject private MySQLSetup mySQLSetup;
 
     private GaryBot() {
         BinderModule module = new BinderModule(this.getClass());
         Injector injector = module.createInjector();
         injector.injectMembers(this);
+
+//        mySQLSetup.connect();
 
         try {
             JDA jda = new JDABuilder(AccountType.BOT)
@@ -36,7 +39,6 @@ public final class GaryBot {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static void main(String[] args) {

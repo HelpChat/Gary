@@ -3,7 +3,6 @@ package me.piggypiglet.gary.core.handlers;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.*;
-import me.piggypiglet.gary.commands.placeholderapi.List;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
@@ -29,7 +28,8 @@ public final class CommandHandler extends ListenerAdapter {
     @Inject private RoleID roleID;
     @Inject private BanCheck banCheck;
     @Inject private Suggestion suggestion;
-    @Inject private List list;
+//    @Inject private Test test;
+//    @Inject private Info info;
     private Command[] commands;
 
     public CommandHandler() {
@@ -37,7 +37,7 @@ public final class CommandHandler extends ListenerAdapter {
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        commands = new Command[] { ai, speak, roleID, banCheck, suggestion, list };
+        commands = new Command[] { ai, speak, roleID, banCheck, suggestion/*, info, test*/ };
     }
 
     @Override
@@ -48,27 +48,28 @@ public final class CommandHandler extends ListenerAdapter {
             for (Command command : commands) {
                 String name = command.getName();
                 String[] args = msg.toLowerCase().replace(name.toLowerCase(), "").trim().split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
+                // TODO: Fix args to make it pickup slashes in a command name
                 if (mutil.startsWith(msg, name)) {
                     command.run(e, args);
                 }
             }
-            checkMessages(e);
+            checkMessage(e);
         }
     }
 
     @Override
     public void onMessageUpdate(MessageUpdateEvent e) {
         if (!e.getAuthor().isBot()) {
-            checkMessages(e);
+            checkMessage(e);
         }
     }
 
-    private void checkMessages(GenericMessageEvent e) {
+    private void checkMessage(GenericMessageEvent e) {
         if (e.getChannel().getIdLong() == Constants.REQUEST) {
             rutil.checkMessage(e);
         }
         if (e.getChannel().getIdLong() == Constants.RMS) {
-            rmsutil.checkMessage(e);
+            rmsutil.createMessage(e);
         }
     }
 
