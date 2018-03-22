@@ -3,6 +3,7 @@ package me.piggypiglet.gary.core.handlers;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.*;
+import me.piggypiglet.gary.commands.placeholderapi.Info;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
@@ -29,7 +30,7 @@ public final class CommandHandler extends ListenerAdapter {
     @Inject private BanCheck banCheck;
     @Inject private Suggestion suggestion;
 //    @Inject private Test test;
-//    @Inject private Info info;
+    @Inject private Info info;
     private Command[] commands;
 
     public CommandHandler() {
@@ -37,7 +38,7 @@ public final class CommandHandler extends ListenerAdapter {
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        commands = new Command[] { ai, speak, roleID, banCheck, suggestion/*, info, test*/ };
+        commands = new Command[] { ai, speak, roleID, banCheck, suggestion, info/*, test*/ };
     }
 
     @Override
