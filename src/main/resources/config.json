@@ -3,7 +3,7 @@
   "aitoken": "<AI TOKEN>",
 
   "mysql-ip": "<IP>",
-  "mysql-port": "3306",
+  "mysql-port": "<PORT>",
   "mysql-username": "<USERNAME>",
   "mysql-db": "<DB>",
   "mysql-password": "<PASSWORD>"

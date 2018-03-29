@@ -29,7 +29,6 @@ public final class CommandHandler extends ListenerAdapter {
     @Inject private RoleID roleID;
     @Inject private BanCheck banCheck;
     @Inject private Suggestion suggestion;
-//    @Inject private Test test;
     @Inject private Info info;
     private Command[] commands;
 
@@ -38,7 +37,7 @@ public final class CommandHandler extends ListenerAdapter {
         Injector injector = module.createInjector();
         injector.injectMembers(this);
 
-        commands = new Command[] { ai, speak, roleID, banCheck, suggestion, info/*, test*/ };
+        commands = new Command[] { ai, speak, roleID, banCheck, suggestion, info };
     }
 
     @Override

@@ -58,16 +58,16 @@ public class RMSUtils {
             } else {
                 message.delete().queue();
                 String requirements = "**Reviews** - The message must start with [REVIEW]\n" +
-                        "**RMS Request** - You must have 'Name:' in your request.\n" +
-                        "**RMS Request** - You must have 'IP:' in your request\n" +
-                        "**RMS Request** - Not required, but we suggest having 'Website:' in your request.\n" +
-                        "**RMS Request** - You must have 'Description:' in your request.";
+                        "**RMS Request** - You must have '[Name]' in your request.\n" +
+                        "**RMS Request** - You must have '[IP]' in your request\n" +
+                        "**RMS Request** - Not required, but we suggest having '[Website]' in your request.\n" +
+                        "**RMS Request** - You must have '[Description]' in your request.";
                 String exampleReview = "[REVIEW]\n" +
                         "message";
-                String exampleRMS = "Name:\n" +
-                        "IP:\n" +
-                        "Website (optional):\n" +
-                        "Description:";
+                String exampleRMS = "[Name] TestPlugins\n" +
+                        "[IP] testplugins.com\n" +
+                        "[Website] https://testplugins.com\n" +
+                        "[Description] Cool description";
 
                 User finalAuthor = author;
                 author.openPrivateChannel().queue(privateChannel -> {
@@ -130,27 +130,42 @@ public class RMSUtils {
                     }
                 }
 
+                String[] ipSegments = ip.split(":");
+                
+                switch (ipSegments.length) {
+                    case 0:
+                        message.delete().queue();
+                        e.getChannel().sendMessage(author.getAsMention() + " You didn't include an address for your server.").complete().delete().queueAfter(30, TimeUnit.SECONDS);
+                        break;
+                    case 1:
+                        ipSegments = (ip + ":25565").split(":");
+                        break;
+                    default:
+                        message.delete().queue();
+                        e.getChannel().sendMessage(author.getAsMention() + " The address you entered is invalid, please resend your rms.").complete().delete().queueAfter(30, TimeUnit.SECONDS);
+
+                }
+
+                if (!siutils.serverStatus(ipSegments[0], ipSegments[1])) {
+                    message.delete().queue();
+                    e.getChannel().sendMessage(author.getAsMention() + " The server you specified is either offline or doesn't exist, please check the address/turn the server on.").complete().delete().queueAfter(30, TimeUnit.SECONDS);
+                    return;
+                }
+
+                String extra = "Version - " + siutils.getInfo("version", ipSegments[0], ipSegments[1]) + "\n" +
+                        "MOTD - " + siutils.getInfo("motd", ipSegments[0], ipSegments[1]);
+
                 MessageEmbed.Field nameField = new MessageEmbed.Field("Name:", name, false);
                 MessageEmbed.Field ipField = new MessageEmbed.Field("IP:", ip, false);
                 MessageEmbed.Field descriptionField = new MessageEmbed.Field("Description:", description, false);
-
-                String[] ipSegments = ip.split(":");
-                if (ipSegments.length == 0) {
-                    message.delete().queue();
-                }
-                if (ipSegments.length == 1) {
-                    ipSegments = (ip + ":25565").split(":");
-                }
-                if (ipSegments.length >= 3) {
-                    message.delete().queue();
-                    return;
-                }
+                MessageEmbed.Field extraField = new MessageEmbed.Field("Extra:", extra,true);
 
                 EmbedBuilder newMessage = new EmbedBuilder()
                         .setThumbnail(siutils.getIconURL(ipSegments[0], ipSegments[1]))
                         .addField(nameField)
                         .addField(ipField)
                         .addField(descriptionField)
+                        .addField(extraField)
                         .setFooter(author.getName() + "#" + author.getDiscriminator(), message.getAuthor().getAvatarUrl());
 
                 if (!website.equals("")) {

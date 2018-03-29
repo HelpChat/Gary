@@ -5,6 +5,7 @@ import me.piggypiglet.gary.core.utils.misc.TimeUtils;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,6 +28,16 @@ public final class MessageUtils {
 
     boolean contains(String msg, List<String> contain) {
         return contain.parallelStream().allMatch(msg.toLowerCase()::contains);
+    }
+
+    public String bigLetters(String word) {
+        List<String> letters = Arrays.asList(word.split(""));
+        List<String> newLetters = new ArrayList<>();
+        letters.forEach(letter -> newLetters.add(":regional_indicator_" + letter.toLowerCase() + ": "));
+        return newLetters.toString()
+                .replace("]", "")
+                .replace("[", "")
+                .replace(", ", "");
     }
 
     public boolean startsWith(String msg, String str) {

@@ -15,7 +15,7 @@ public final class ChannelClearing extends TimerTask {
     @Inject private ChannelUtils cutil;
     private JDA jda;
 
-    public void setup(JDA jda) {
+    void setup(JDA jda) {
         this.jda = jda;
     }
 
