@@ -1,10 +1,7 @@
 package me.piggypiglet.gary.core.handlers;
 
 import com.google.inject.Inject;
-import com.google.inject.Injector;
-import me.piggypiglet.gary.commands.*;
-import me.piggypiglet.gary.commands.placeholderapi.Info;
-import me.piggypiglet.gary.core.framework.BinderModule;
+import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.channel.MessageUtils;
@@ -15,29 +12,27 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // ------------------------------
 // Copyright (c) PiggyPiglet ${year}
 // https://www.piggypiglet.me
 // ------------------------------
+@Singleton
 public final class CommandHandler extends ListenerAdapter {
 
     @Inject private RequestUtils rutil;
     @Inject private RMSUtils rmsutil;
     @Inject private MessageUtils mutil;
-    @Inject private AI ai;
-    @Inject private Speak speak;
-    @Inject private RoleID roleID;
-    @Inject private BanCheck banCheck;
-    @Inject private Suggestion suggestion;
-    @Inject private Info info;
-    private Command[] commands;
+    private List<Command> commands;
 
     public CommandHandler() {
-        BinderModule module = new BinderModule(this.getClass());
-        Injector injector = module.createInjector();
-        injector.injectMembers(this);
+        commands = new ArrayList<>();
+    }
 
-        commands = new Command[] { ai, speak, roleID, banCheck, suggestion, info };
+    public List<Command> getCommands() {
+        return commands;
     }
 
     @Override

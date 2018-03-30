@@ -27,7 +27,6 @@ public final class WordChanger extends TimerTask {
 
     public void run() {
         String word = crr.getRandomWord();
-        System.out.println(word);
         jda.getGuildById(Constants.HELP_CHAT).getTextChannelById(Constants.CR).getManager().setTopic("Scramble >> " + mutil.bigLetters(crr.scrambleWord(word))).queue();
         files.setWord(word);
     }
