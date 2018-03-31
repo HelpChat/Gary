@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import me.piggypiglet.gary.aprilfirst.handlers.ChatHandler;
 import me.piggypiglet.gary.commands.*;
 import me.piggypiglet.gary.commands.admin.PurgeChannel;
+import me.piggypiglet.gary.commands.admin.Restart;
 import me.piggypiglet.gary.commands.chatreaction.CurrentWord;
 import me.piggypiglet.gary.commands.chatreaction.NewWord;
 import me.piggypiglet.gary.commands.placeholderapi.Info;
@@ -40,6 +41,7 @@ public final class GaryBot {
     @Inject private Suggestion suggestion;
     @Inject private PurgeChannel purgeChannel;
     @Inject private NewWord newWord;
+    @Inject private Restart restart;
 
     private JDA jda;
 
@@ -58,7 +60,7 @@ public final class GaryBot {
             switch (register.toLowerCase()) {
                 case "commands":
                     Stream.of(
-                            currentWord, info, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord
+                            currentWord, info, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord, restart
                     ).forEach(commandHandler.getCommands()::add);
                     break;
                 case "files":

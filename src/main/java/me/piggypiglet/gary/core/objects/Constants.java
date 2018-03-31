@@ -13,6 +13,8 @@ public final class Constants {
 
     public static final long HELP_CHAT = 164280494874165248L;
 
+    public static final long PIGGYPIGLET = 181675431362035712L;
+
     public static final long REQUEST_MESSAGE = 420177187187064854L, OFFER_MESSAGE = 420176968928198657L, RMS_MESSAGE = 428971039570132992L;
 
 }
