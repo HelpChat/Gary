@@ -17,7 +17,6 @@ public class ChatHandler extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!e.getAuthor().isBot()) {
-            System.out.println();
             if (e.getChannel().getIdLong() == Constants.CR) {
                 if (e.getMessage().getContentRaw().equalsIgnoreCase(files.getItem("word-storage", "current-word"))) {
                     e.getChannel().sendMessage("Winner! " + e.getAuthor().getAsMention() + " Congratulations. The word was " + files.getItem("word-storage", "current-word")).queue();

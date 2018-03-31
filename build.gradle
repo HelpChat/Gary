@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'me.piggypiglet'
-version '1.1.1'
+version '1.2.4'
 mainClassName = 'me.piggypiglet.gary.GaryBot'
 sourceCompatibility = 1.8
 
@@ -20,6 +20,9 @@ dependencies {
     compile 'net.dv8tion:JDA:+'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
+    compile 'org.apache.commons:commons-lang3:+'
+    compile 'org.slf4j:slf4j-simple:+'
+    compile 'mysql:mysql-connector-java:+'
     compile 'com.zaxxer:HikariCP:+'
 }
 

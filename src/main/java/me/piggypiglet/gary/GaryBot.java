@@ -6,10 +6,12 @@ import me.piggypiglet.gary.aprilfirst.handlers.ChatHandler;
 import me.piggypiglet.gary.commands.*;
 import me.piggypiglet.gary.commands.admin.PurgeChannel;
 import me.piggypiglet.gary.commands.chatreaction.CurrentWord;
+import me.piggypiglet.gary.commands.chatreaction.NewWord;
 import me.piggypiglet.gary.commands.placeholderapi.Info;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
 import me.piggypiglet.gary.core.objects.GFile;
+import me.piggypiglet.gary.core.storage.MySQLSetup;
 import me.piggypiglet.gary.core.tasks.RunTasks;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -27,6 +29,7 @@ public final class GaryBot {
     @Inject private ChatHandler chatHandler;
     @Inject private GFile files;
     @Inject private RunTasks runTasks;
+    @Inject private MySQLSetup mysql;
 
     @Inject private CurrentWord currentWord;
     @Inject private Info info;
@@ -36,6 +39,7 @@ public final class GaryBot {
     @Inject private Speak speak;
     @Inject private Suggestion suggestion;
     @Inject private PurgeChannel purgeChannel;
+    @Inject private NewWord newWord;
 
     private JDA jda;
 
@@ -45,7 +49,7 @@ public final class GaryBot {
         injector.injectMembers(this);
 
         Stream.of(
-                "files", "commands", "bot", "tasks"
+                "files", "mysql", "commands", "bot", "tasks"
         ).forEach(this::register);
     }
 
@@ -54,7 +58,7 @@ public final class GaryBot {
             switch (register.toLowerCase()) {
                 case "commands":
                     Stream.of(
-                            currentWord, info, ai, banCheck, roleID, speak, suggestion, purgeChannel
+                            currentWord, info, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord
                     ).forEach(commandHandler.getCommands()::add);
                     break;
                 case "files":
@@ -73,6 +77,9 @@ public final class GaryBot {
                             .addEventListener(commandHandler)
                             .addEventListener(chatHandler)
                             .buildBlocking();
+                    break;
+                case "mysql":
+                    mysql.connect();
                     break;
             }
         } catch (Exception e) {
