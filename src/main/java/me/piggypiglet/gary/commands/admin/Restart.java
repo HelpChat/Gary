@@ -17,7 +17,7 @@ public class Restart extends Command {
     protected void execute(MessageReceivedEvent e, String[] args) {
         if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET) {
             try {
-                Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", "/home/gary/test.sh"}, null);
+                Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", "/home/gary/test.sh"}, null);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
