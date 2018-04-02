@@ -51,7 +51,7 @@ public final class GaryBot {
         injector.injectMembers(this);
 
         Stream.of(
-                "files", "mysql", "commands", "bot", "tasks"
+                "files", "commands", "bot", "tasks"
         ).forEach(this::register);
     }
 
@@ -67,6 +67,7 @@ public final class GaryBot {
                     files.make("config", "./config.json", "/config.json");
                     files.make("words", "./words.txt", "/words.txt");
                     files.make("word-storage", "./word-storage.json", "/word-storage.json");
+                    files.make("mysql", "./schema/GaryBot.sql", "/schema/GaryBot.sql");
                     break;
                 case "tasks":
                     runTasks.setup(jda);
@@ -82,6 +83,7 @@ public final class GaryBot {
                     break;
                 case "mysql":
                     mysql.connect();
+                    mysql.setup();
                     break;
             }
         } catch (Exception e) {
