@@ -30,9 +30,16 @@ public final class GFile {
         }
 
         File file = new File(externalPath);
+        String[] externalSplit = externalPath.split("/");
 
         try {
             if (!file.exists()) {
+                if ((externalSplit.length == 2 && !externalSplit[0].equals(".") || (externalSplit.length >= 3 && externalSplit[0].equals(".")))) {
+                    if (!file.getParentFile().mkdirs()) {
+                        System.out.println("Failed to create directory: " + externalSplit[1]);
+                        return;
+                    }
+                }
                 if (file.createNewFile()) {
                     if (cutil.exportResource(GaryBot.class.getResourceAsStream(internalPath), externalPath)) {
                         System.out.println(name + " successfully created.");
