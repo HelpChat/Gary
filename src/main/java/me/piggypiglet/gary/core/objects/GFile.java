@@ -75,6 +75,10 @@ public final class GFile {
         return item + " not found in " + fileName;
     }
 
+    public Map<String, File> getgFiles() {
+        return gFiles;
+    }
+
     // TODO: Change this to a better solution
     public void setWord(String currentWord) {
         Gson gson = new Gson();

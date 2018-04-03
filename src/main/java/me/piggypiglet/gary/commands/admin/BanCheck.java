@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands;
+package me.piggypiglet.gary.commands.admin;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;

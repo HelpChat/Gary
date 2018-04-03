@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '1.2.5.12'
+version = '1.2.5.13'
 mainClassName = 'me.piggypiglet.gary.GaryBot'
 sourceCompatibility = 1.8
 
@@ -28,7 +28,7 @@ dependencies {
 
 task replaceTokensFirst {
     ant.replace(
-            file: "src/main/java/me/piggypiglet/gary/chatreaction/tasks/WordChanger.java",
+            file: "src/main/java/me/piggypiglet/gary/core/objects/Version.java",
             token: "@version@",
             value: version
     )
@@ -37,7 +37,7 @@ task replaceTokensFirst {
 task replaceTokensLast {
     doLast {
         ant.replace(
-                file: "src/main/java/me/piggypiglet/gary/chatreaction/tasks/WordChanger.java",
+                file: "src/main/java/me/piggypiglet/gary/core/objects/Version.java",
                 token: version,
                 value: "@version@"
         )

@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands;
+package me.piggypiglet.gary.commands.admin;
 
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;

@@ -3,12 +3,17 @@ package me.piggypiglet.gary;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.chatreaction.handlers.ChatHandler;
-import me.piggypiglet.gary.commands.*;
+import me.piggypiglet.gary.commands.AI;
+import me.piggypiglet.gary.commands.RoleID;
+import me.piggypiglet.gary.commands.Suggestion;
+import me.piggypiglet.gary.commands.admin.BanCheck;
 import me.piggypiglet.gary.commands.admin.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.Restart;
+import me.piggypiglet.gary.commands.admin.Speak;
 import me.piggypiglet.gary.commands.chatreaction.CurrentWord;
 import me.piggypiglet.gary.commands.chatreaction.NewWord;
-import me.piggypiglet.gary.commands.placeholderapi.Info;
+import me.piggypiglet.gary.commands.placeholderapi.ExpansionInfo;
+import me.piggypiglet.gary.commands.server.Info;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
 import me.piggypiglet.gary.core.objects.GFile;
@@ -33,7 +38,7 @@ public final class GaryBot {
     @Inject private MySQLSetup mysql;
 
     @Inject private CurrentWord currentWord;
-    @Inject private Info info;
+    @Inject private ExpansionInfo expansionInfo;
     @Inject private AI ai;
     @Inject private BanCheck banCheck;
     @Inject private RoleID roleID;
@@ -42,6 +47,7 @@ public final class GaryBot {
     @Inject private PurgeChannel purgeChannel;
     @Inject private NewWord newWord;
     @Inject private Restart restart;
+    @Inject private Info serverInfo;
 
     private JDA jda;
 
@@ -60,7 +66,7 @@ public final class GaryBot {
             switch (register.toLowerCase()) {
                 case "commands":
                     Stream.of(
-                            currentWord, info, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord, restart
+                            currentWord, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord, restart, serverInfo
                     ).forEach(commandHandler.getCommands()::add);
                     break;
                 case "files":
