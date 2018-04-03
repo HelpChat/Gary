@@ -32,14 +32,15 @@ public final class WordChanger extends TimerTask {
     public void run() {
         TextChannel channel = jda.getTextChannelById(Constants.CR);
         String word = crr.getRandomWord();
-        MessageEmbed.Field field = new MessageEmbed.Field(word, "", true);
+        String scrambled = crr.scrambleWord(word);
         MessageEmbed message = new EmbedBuilder()
-                .setTitle("Word Update", "https://www.spigotmc.org/data/resource_icons/3/3748.jpg")
-                .addField(field)
+                .setTitle("Word Update")
+                .setThumbnail("https://www.spigotmc.org/data/resource_icons/3/3748.jpg")
+                .setDescription(scrambled)
                 .setFooter("Gary ChatReaction v1.0", "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
                 .build();
 
-        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(crr.scrambleWord(word))).queue();
+        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(scrambled)).queue();
         channel.sendMessage(message).complete().delete().queueAfter(5, TimeUnit.MINUTES);
         files.setWord(word);
     }
