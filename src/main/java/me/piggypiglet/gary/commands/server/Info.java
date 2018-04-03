@@ -31,11 +31,23 @@ public class Info extends Command {
 
     @Override
     protected void execute(MessageReceivedEvent e, String[] args) {
-        List<Member> membersOnline = new ArrayList<>();
-        e.getGuild().getMembers().forEach(member -> { if (member.getOnlineStatus() != OnlineStatus.OFFLINE) membersOnline.add(member); });
+        List<Member> totalOnlineList = new ArrayList<>(), membersList = new ArrayList<>(), membersOnlineList = new ArrayList<>();
+        List<Member> botsList = new ArrayList<>(), botsOnlineList = new ArrayList<>();
+
+        e.getGuild().getMembers().forEach(member -> {
+            if (member.getOnlineStatus() != OnlineStatus.OFFLINE && !member.getUser().isBot()) membersOnlineList.add(member);
+            if (!member.getUser().isBot()) membersList.add(member);
+            if (member.getOnlineStatus() != OnlineStatus.OFFLINE && member.getUser().isBot()) botsOnlineList.add(member);
+            if (member.getUser().isBot()) botsList.add(member);
+            if (member.getOnlineStatus() != OnlineStatus.OFFLINE) totalOnlineList.add(member);
+        });
+
+        String total = totalOnlineList.size() + "/" + e.getGuild().getMembers().size();
+        String members = membersOnlineList.size() + "/" + membersList.size();
+        String bots = botsOnlineList.size() + "/" + botsList.size();
 
         MessageEmbed.Field helpchat = new MessageEmbed.Field("HelpChat:", "Info regarding the discord server\n\u200C\u200C", false);
-        MessageEmbed.Field users = new MessageEmbed.Field("Users online:", membersOnline.size() + "/" + e.getGuild().getMembers().size() + "\n\u200C\u200C", true);
+        MessageEmbed.Field users = new MessageEmbed.Field("Users online:", "Total: " + total + "\n\u200C\u200CMembers: " + members + "\n\u200C\u200CBots: " + bots + "\n\u200C\u200C", true);
 
         MessageEmbed.Field gary = new MessageEmbed.Field("Gary:", "Info about gary himself\n\u200C\u200C", false);
         MessageEmbed.Field uptime = new MessageEmbed.Field("Uptime:", TimeUnit.MILLISECONDS.toHours(ManagementFactory.getRuntimeMXBean().getUptime()) + " hours uptime.", true);
