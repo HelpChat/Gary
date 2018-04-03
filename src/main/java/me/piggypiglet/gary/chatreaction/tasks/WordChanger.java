@@ -6,9 +6,13 @@ import me.piggypiglet.gary.chatreaction.utils.CRRandom;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -26,8 +30,17 @@ public final class WordChanger extends TimerTask {
     }
 
     public void run() {
+        TextChannel channel = jda.getTextChannelById(Constants.CR);
         String word = crr.getRandomWord();
-        jda.getGuildById(Constants.HELP_CHAT).getTextChannelById(Constants.CR).getManager().setTopic("Scramble >> " + mutil.bigLetters(crr.scrambleWord(word))).queue();
+        MessageEmbed.Field field = new MessageEmbed.Field(word, "", true);
+        MessageEmbed message = new EmbedBuilder()
+                .setTitle("Word Update", "https://www.spigotmc.org/data/resource_icons/3/3748.jpg")
+                .addField(field)
+                .setFooter("Gary ChatReaction v1.0", "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
+                .build();
+
+        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(crr.scrambleWord(word))).queue();
+        channel.sendMessage(message).complete().delete().queueAfter(5, TimeUnit.MINUTES);
         files.setWord(word);
     }
 }
