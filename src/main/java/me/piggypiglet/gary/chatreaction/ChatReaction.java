@@ -1,7 +1,7 @@
-package me.piggypiglet.gary.aprilfirst;
+package me.piggypiglet.gary.chatreaction;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.aprilfirst.tasks.WordChanger;
+import me.piggypiglet.gary.chatreaction.tasks.WordChanger;
 import me.piggypiglet.gary.core.objects.GFile;
 
 import java.io.File;

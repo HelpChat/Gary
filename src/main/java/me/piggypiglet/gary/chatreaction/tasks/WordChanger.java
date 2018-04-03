@@ -1,8 +1,8 @@
-package me.piggypiglet.gary.aprilfirst.tasks;
+package me.piggypiglet.gary.chatreaction.tasks;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.piggypiglet.gary.aprilfirst.utils.CRRandom;
+import me.piggypiglet.gary.chatreaction.utils.CRRandom;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.utils.channel.MessageUtils;

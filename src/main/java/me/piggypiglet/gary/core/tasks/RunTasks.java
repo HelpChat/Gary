@@ -1,7 +1,7 @@
 package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.aprilfirst.tasks.WordChanger;
+import me.piggypiglet.gary.chatreaction.tasks.WordChanger;
 import net.dv8tion.jda.core.JDA;
 
 import java.util.Calendar;
@@ -28,8 +28,8 @@ public final class RunTasks {
         long timeCC = TimeUnit.DAYS.toMillis(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
         timer.schedule(cc, timeCC, timeCC);
 
-//        System.out.println("Task - April Fools started");
-//        long timeAF = TimeUnit.MINUTES.toMillis(5);
-//        timer.schedule(wc, TimeUnit.SECONDS.toMillis(1), timeAF);
+        System.out.println("Task - ChatReaction started");
+        long timeAF = TimeUnit.MINUTES.toMillis(5);
+        timer.schedule(wc, TimeUnit.SECONDS.toMillis(1), timeAF);
     }
 }

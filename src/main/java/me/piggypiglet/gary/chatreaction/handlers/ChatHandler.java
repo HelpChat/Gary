@@ -1,7 +1,7 @@
-package me.piggypiglet.gary.aprilfirst.handlers;
+package me.piggypiglet.gary.chatreaction.handlers;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.aprilfirst.ChatReaction;
+import me.piggypiglet.gary.chatreaction.ChatReaction;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -11,7 +11,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class ChatHandler extends ListenerAdapter {
+public final class ChatHandler extends ListenerAdapter {
     @Inject private ChatReaction cr;
     @Inject private GFile files;
 

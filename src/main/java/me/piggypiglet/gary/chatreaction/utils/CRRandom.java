@@ -1,8 +1,8 @@
-package me.piggypiglet.gary.aprilfirst.utils;
+package me.piggypiglet.gary.chatreaction.utils;
 
 import com.google.common.primitives.Chars;
 import com.google.inject.Inject;
-import me.piggypiglet.gary.aprilfirst.ChatReaction;
+import me.piggypiglet.gary.chatreaction.ChatReaction;
 
 import java.util.Collections;
 import java.util.List;

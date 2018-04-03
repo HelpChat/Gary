@@ -2,10 +2,12 @@ package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import me.piggypiglet.gary.aprilfirst.handlers.ChatHandler;
+import me.piggypiglet.gary.chatreaction.handlers.ChatHandler;
 import me.piggypiglet.gary.commands.*;
 import me.piggypiglet.gary.commands.admin.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.Restart;
+import me.piggypiglet.gary.commands.chatreaction.CurrentWord;
+import me.piggypiglet.gary.commands.chatreaction.NewWord;
 import me.piggypiglet.gary.commands.placeholderapi.Info;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
@@ -30,7 +32,7 @@ public final class GaryBot {
     @Inject private RunTasks runTasks;
     @Inject private MySQLSetup mysql;
 
-//    @Inject private CurrentWord currentWord;
+    @Inject private CurrentWord currentWord;
     @Inject private Info info;
     @Inject private AI ai;
     @Inject private BanCheck banCheck;
@@ -38,7 +40,7 @@ public final class GaryBot {
     @Inject private Speak speak;
     @Inject private Suggestion suggestion;
     @Inject private PurgeChannel purgeChannel;
-//    @Inject private NewWord newWord;
+    @Inject private NewWord newWord;
     @Inject private Restart restart;
 
     private JDA jda;
@@ -58,7 +60,7 @@ public final class GaryBot {
             switch (register.toLowerCase()) {
                 case "commands":
                     Stream.of(
-                            /*currentWord, */info, ai, banCheck, roleID, speak, suggestion, purgeChannel,/* newWord,*/ restart
+                            currentWord, info, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord, restart
                     ).forEach(commandHandler.getCommands()::add);
                     break;
                 case "files":
