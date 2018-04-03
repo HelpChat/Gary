@@ -26,9 +26,8 @@ public final class CurrentWord extends Command {
     protected void execute(MessageReceivedEvent e, String[] args) {
         if (e.getChannel().getIdLong() == Constants.CR) {
             if (roleUtils.isStaff(e.getMember())) {
-                String word = gFile.getItem("word-storage", "current-word");
+                e.getChannel().sendMessage(gFile.getItem("word-storage", "current-word")).queue();
                 chatReaction.generateNewWord();
-                e.getChannel().sendMessage(word).queue();
             }
         }
     }
