@@ -35,8 +35,8 @@ public final class WordChanger extends TimerTask {
         String scrambled = crr.scrambleWord(word);
         MessageEmbed message = new EmbedBuilder()
                 .setTitle("Word Update")
-                .setDescription(scrambled)
-                .setFooter("Gary ChatReaction v1.0", "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
+                .setDescription(mutil.bigLetters(scrambled))
+                .setFooter("Gary @version@", "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
                 .build();
 
         channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(scrambled)).queue();
