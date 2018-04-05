@@ -89,7 +89,6 @@ public final class GaryBot {
                     break;
                 case "mysql":
                     mysql.connect();
-                    mysql.setup();
                     break;
             }
         } catch (Exception e) {
