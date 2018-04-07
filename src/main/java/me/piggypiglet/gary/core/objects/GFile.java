@@ -33,10 +33,7 @@ public final class GFile {
 
         try {
             if (!file.exists()) {
-                if (!file.getParentFile().mkdirs()) {
-                    System.out.println("failed to create directory: " + name);
-                    return;
-                }
+                file.getParentFile().mkdirs();
                 if (file.createNewFile()) {
                     if (cutil.exportResource(GaryBot.class.getResourceAsStream(internalPath), externalPath)) {
                         System.out.println(name + " successfully created.");

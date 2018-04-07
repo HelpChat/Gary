@@ -59,7 +59,7 @@ public final class GaryBot {
         injector.injectMembers(this);
 
         Stream.of(
-                "files", "bot", "mysql"
+                "files", "commands", "bot", "mysql", "tasks"
         ).forEach(this::register);
     }
 
@@ -87,8 +87,8 @@ public final class GaryBot {
                             .setToken(files.getItem("config", "token"))
                             .setGame(Game.watching("https://garys.life"))
                             .addEventListener(userHandler)
-//                            .addEventListener(commandHandler)
-//                            .addEventListener(chatHandler)
+                            .addEventListener(commandHandler)
+                            .addEventListener(chatHandler)
                             .buildBlocking();
                     break;
                 case "mysql":
