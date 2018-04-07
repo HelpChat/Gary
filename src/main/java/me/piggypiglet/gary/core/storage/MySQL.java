@@ -59,6 +59,8 @@ public class MySQL {
             }
 
             System.out.println("database successfully loaded.");
+
+            System.out.println(DB.getFirstColumnAsync("SELECT `wins` FROM `gary_cr_stats` WHERE `id`=1").get());
         } catch (Exception e) {
             e.printStackTrace();
         }
