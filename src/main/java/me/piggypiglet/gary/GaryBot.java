@@ -2,7 +2,6 @@ package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import me.piggypiglet.gary.chatreaction.handlers.ChatHandler;
 import me.piggypiglet.gary.commands.AI;
 import me.piggypiglet.gary.commands.RoleID;
 import me.piggypiglet.gary.commands.Suggestion;
@@ -15,6 +14,7 @@ import me.piggypiglet.gary.commands.chatreaction.NewWord;
 import me.piggypiglet.gary.commands.placeholderapi.ExpansionInfo;
 import me.piggypiglet.gary.commands.server.Info;
 import me.piggypiglet.gary.core.framework.BinderModule;
+import me.piggypiglet.gary.core.handlers.ChatHandler;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
 import me.piggypiglet.gary.core.handlers.UserHandler;
 import me.piggypiglet.gary.core.objects.GFile;
@@ -76,7 +76,7 @@ public final class GaryBot {
                     files.make("words", "./words.txt", "/words.txt");
                     files.make("word-storage", "./word-storage.json", "/word-storage.json");
                     files.make("users", "schema/Users.sql", "/schema/Users.sql");
-                    files.make("crstats", "schema/CRStats.sql", "/schema/CRStats.sql");
+                    files.make("stats", "schema/Stats.sql", "/schema/Stats.sql");
                     break;
                 case "tasks":
                     runTasks.setup(jda);

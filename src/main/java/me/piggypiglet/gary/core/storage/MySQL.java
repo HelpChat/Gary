@@ -8,7 +8,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
-import me.piggypiglet.gary.core.utils.channel.MessageUtils;
 import net.dv8tion.jda.core.JDA;
 import org.intellij.lang.annotations.Language;
 
@@ -24,7 +23,6 @@ import java.util.stream.Stream;
 @Singleton
 public class MySQL {
     @Inject private GFile gFile;
-    @Inject private MessageUtils messageUtils;
     @Inject private Users users;
 
     public void connect() {
@@ -46,21 +44,19 @@ public class MySQL {
                         .replace("]", "")
                         .replace("[", "")
                         .replace(", ", "\n");
-                String crstats = Arrays.toString(Files.lines(Paths.get(gFile.getFile("crstats").getPath())).toArray())
+                String stats = Arrays.toString(Files.lines(Paths.get(gFile.getFile("stats").getPath())).toArray())
                         .replace("]", "")
                         .replace("[", "")
                         .replace(", ", "\n");
                 Stream.of(
                         users_,
-                        crstats
+                        stats
                 ).forEach(this::sql);
 
                 jda.getGuildById(Constants.HELP_CHAT).getMembers().forEach(member -> users.addUser(member.getUser()));
             }
 
             System.out.println("database successfully loaded.");
-
-            System.out.println(DB.getFirstColumnAsync("SELECT `wins` FROM `gary_cr_stats` WHERE `id`=1").get());
         } catch (Exception e) {
             e.printStackTrace();
         }

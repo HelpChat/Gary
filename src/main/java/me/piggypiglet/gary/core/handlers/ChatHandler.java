@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.chatreaction.handlers;
+package me.piggypiglet.gary.core.handlers;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.chatreaction.ChatReaction;
@@ -19,9 +19,17 @@ public final class ChatHandler extends ListenerAdapter {
 
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!e.getAuthor().isBot()) {
+            String message = e.getMessage().getContentRaw();
+
+            if (message.contains(" o ") || message.startsWith("o ") || message.endsWith(" o") || message.equalsIgnoreCase("o")) {
+                stats.addO(e.getMember().getUser());
+            }
+
             if (e.getChannel().getIdLong() == Constants.CR) {
-                if (e.getMessage().getContentRaw().equalsIgnoreCase(files.getItem("word-storage", "current-word"))) {
-                    e.getChannel().sendMessage("Winner! " + e.getAuthor().getAsMention() + " Congratulations. The word was " + files.getItem("word-storage", "current-word")).queue();
+                String word = files.getItem("word-storage", "current-word");
+
+                if (message.equalsIgnoreCase(word)) {
+                    e.getChannel().sendMessage("Winner! " + e.getAuthor().getAsMention() + " Congratulations. The word was " + word).queue();
                     stats.addWin(e.getMember().getUser());
                     cr.generateNewWord();
                 }

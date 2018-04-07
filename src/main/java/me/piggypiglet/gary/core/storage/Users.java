@@ -15,7 +15,7 @@ public class Users {
 
         try {
             DB.executeInsert("INSERT INTO `gary_users` (`id`, `discord_id`, `username`, `discriminator`) VALUES ('0', ?, ?, ?);", discord_id, username, discriminator);
-            DB.executeInsert("INSERT INTO `gary_cr_stats` (`id`, `discord_id`, `wins`) VALUES ('0', ?, '0');", discord_id);
+            DB.executeInsert("INSERT INTO `gary_stats` (`id`, `discord_id`, `wins`) VALUES ('0', ?, '0');", discord_id);
             System.out.println(username + "#" + discriminator + " has been added to the database.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -27,7 +27,7 @@ public class Users {
 
         try {
             DB.executeUpdate("DELETE FROM `gary_users` WHERE `discord_id`=?;", discord_id);
-            DB.executeUpdate("DELETE FROM `gary_cr_stats` WHERE `discord_id`=?;", discord_id);
+            DB.executeUpdate("DELETE FROM `gary_stats` WHERE `discord_id`=?;", discord_id);
             System.out.println(user.getName() + "#" + user.getDiscriminator() + " has been removed to the database.");
         } catch (Exception e) {
             e.printStackTrace();
