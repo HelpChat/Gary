@@ -26,7 +26,8 @@ dependencies {
     compile 'org.apache.httpcomponents:httpclient:+'
     compile 'org.apache.commons:commons-lang3:+'
     compile 'org.slf4j:slf4j-simple:+'
-    compile 'mysql:mysql-connector-java:+'
+    compile 'com.intellij:annotations:+'
+    compile 'mysql:mysql-connector-java:5.1.33'
     compile 'co.aikar:idb-core:1.0.0-SNAPSHOT'
     compile 'com.zaxxer:HikariCP:2.4.1'
 }

@@ -16,8 +16,9 @@ import me.piggypiglet.gary.commands.placeholderapi.ExpansionInfo;
 import me.piggypiglet.gary.commands.server.Info;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
+import me.piggypiglet.gary.core.handlers.UserHandler;
 import me.piggypiglet.gary.core.objects.GFile;
-import me.piggypiglet.gary.core.storage.MySQLSetup;
+import me.piggypiglet.gary.core.storage.MySQL;
 import me.piggypiglet.gary.core.tasks.RunTasks;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -33,9 +34,10 @@ import java.util.stream.Stream;
 public final class GaryBot {
     @Inject private CommandHandler commandHandler;
     @Inject private ChatHandler chatHandler;
+    @Inject private UserHandler userHandler;
     @Inject private GFile files;
     @Inject private RunTasks runTasks;
-    @Inject private MySQLSetup mysql;
+    @Inject private MySQL mysql;
 
     @Inject private CurrentWord currentWord;
     @Inject private ExpansionInfo expansionInfo;
@@ -57,7 +59,7 @@ public final class GaryBot {
         injector.injectMembers(this);
 
         Stream.of(
-                "files", "commands", "bot", "tasks"
+                "files", "bot", "mysql"
         ).forEach(this::register);
     }
 
@@ -73,7 +75,8 @@ public final class GaryBot {
                     files.make("config", "./config.json", "/config.json");
                     files.make("words", "./words.txt", "/words.txt");
                     files.make("word-storage", "./word-storage.json", "/word-storage.json");
-                    files.make("mysql", "./schema/GaryBot.sql", "/schema/GaryBot.sql");
+                    files.make("users", "schema/Users.sql", "/schema/Users.sql");
+                    files.make("crstats", "schema/CRStats.sql", "/schema/CRStats.sql");
                     break;
                 case "tasks":
                     runTasks.setup(jda);
@@ -83,12 +86,14 @@ public final class GaryBot {
                     jda = new JDABuilder(AccountType.BOT)
                             .setToken(files.getItem("config", "token"))
                             .setGame(Game.watching("https://garys.life"))
-                            .addEventListener(commandHandler)
-                            .addEventListener(chatHandler)
+                            .addEventListener(userHandler)
+//                            .addEventListener(commandHandler)
+//                            .addEventListener(chatHandler)
                             .buildBlocking();
                     break;
                 case "mysql":
                     mysql.connect();
+                    mysql.setup(jda);
                     break;
             }
         } catch (Exception e) {
