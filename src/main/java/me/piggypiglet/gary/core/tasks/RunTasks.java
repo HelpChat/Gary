@@ -29,7 +29,7 @@ public final class RunTasks {
         timer.schedule(cc, timeCC, timeCC);
 
         System.out.println("Task - ChatReaction started");
-        long timeAF = TimeUnit.MINUTES.toMillis(5);
-        timer.schedule(wc, TimeUnit.SECONDS.toMillis(1), timeAF);
+        long timeCR = TimeUnit.MINUTES.toMillis(5);
+        timer.schedule(wc, TimeUnit.SECONDS.toMillis(1), timeCR);
     }
 }

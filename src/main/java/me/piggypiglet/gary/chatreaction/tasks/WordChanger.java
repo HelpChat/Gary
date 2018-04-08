@@ -41,7 +41,7 @@ public final class WordChanger extends TimerTask {
                 .setFooter("Gary v" + version.getVersion(), "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
                 .build();
 
-        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(scrambled)).queue();
+//        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(scrambled)).queue();
         channel.sendMessage(message).complete().delete().queueAfter(5, TimeUnit.MINUTES);
         files.setWord(word);
     }
