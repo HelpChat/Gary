@@ -9,6 +9,7 @@ import me.piggypiglet.gary.commands.admin.BanCheck;
 import me.piggypiglet.gary.commands.admin.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.Restart;
 import me.piggypiglet.gary.commands.admin.Speak;
+import me.piggypiglet.gary.commands.admin.channel.SetMotd;
 import me.piggypiglet.gary.commands.admin.database.CheckUsers;
 import me.piggypiglet.gary.commands.admin.database.SyncUsers;
 import me.piggypiglet.gary.commands.chatreaction.CurrentWord;
@@ -54,6 +55,7 @@ public final class GaryBot {
     @Inject private Info serverInfo;
     @Inject private CheckUsers checkUsers;
     @Inject private SyncUsers syncUsers;
+    @Inject private SetMotd setMotd;
 
     private JDA jda;
 
@@ -73,7 +75,7 @@ public final class GaryBot {
                 case "commands":
                     Stream.of(
                             currentWord, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord, restart, serverInfo,
-                            checkUsers, syncUsers
+                            checkUsers, syncUsers, setMotd
                     ).forEach(commandHandler.getCommands()::add);
                     break;
                 case "files":
