@@ -28,7 +28,7 @@ public class Users {
         try {
             DB.executeUpdate("DELETE FROM `gary_users` WHERE `discord_id`=?;", discord_id);
             DB.executeUpdate("DELETE FROM `gary_stats` WHERE `discord_id`=?;", discord_id);
-            System.out.println(user.getName() + "#" + user.getDiscriminator() + " has been removed to the database.");
+            System.out.println(user.getName() + "#" + user.getDiscriminator() + " has been removed from the database.");
         } catch (Exception e) {
             e.printStackTrace();
         }
