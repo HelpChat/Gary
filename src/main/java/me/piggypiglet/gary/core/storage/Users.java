@@ -15,7 +15,7 @@ public class Users {
 
         try {
             DB.executeInsert("INSERT INTO `gary_users` (`id`, `discord_id`, `username`, `discriminator`) VALUES ('0', ?, ?, ?);", discord_id, username, discriminator);
-            DB.executeInsert("INSERT INTO `gary_stats` (`id`, `discord_id`, `wins`) VALUES ('0', ?, '0');", discord_id);
+            DB.executeInsert("INSERT INTO `gary_stats` (`id`, `discord_id`, `win`, `o`, `bro`) VALUES ('0', ?, '0', '0', '0');", discord_id);
             System.out.println(username + "#" + discriminator + " has been added to the database.");
         } catch (Exception e) {
             e.printStackTrace();

@@ -74,6 +74,19 @@ public final class MessageUtils {
         return msg.toLowerCase().startsWith(str.toLowerCase());
     }
 
+    public boolean equalsIgnoreCase(String msg, String str) {
+        if (str.contains("/")) {
+            String[] equals = str.split("/");
+            return Arrays.stream(equals).anyMatch(msg.toLowerCase()::equalsIgnoreCase);
+        }
+        return msg.equalsIgnoreCase(str);
+    }
+
+    public boolean hasWord(String msg, String str) {
+        msg = msg.trim();
+        return msg.contains(" " + str + " ") || msg.startsWith(str + " ") || msg.endsWith(" " + str) || msg.equalsIgnoreCase(str);
+    }
+
     public String arrayToString(String[] array) {
         return Arrays.toString(array).replace("[", "").replace("]", "").replace(", ", " ");
     }

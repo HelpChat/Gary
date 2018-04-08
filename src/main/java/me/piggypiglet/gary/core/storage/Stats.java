@@ -1,6 +1,8 @@
 package me.piggypiglet.gary.core.storage;
 
 import co.aikar.idb.DB;
+import com.google.inject.Inject;
+import me.piggypiglet.gary.core.utils.channel.MessageUtils;
 import net.dv8tion.jda.core.entities.User;
 
 // ------------------------------
@@ -8,25 +10,17 @@ import net.dv8tion.jda.core.entities.User;
 // https://www.piggypiglet.me
 // ------------------------------
 public class Stats {
-    public void addWin(User user) {
+    @Inject private MessageUtils messageUtils;
+
+    public void add(String column, User user) {
         long discord_id = user.getIdLong();
 
-        try {
-            int wins = (int) DB.getFirstColumnAsync("SELECT `wins` FROM `gary_stats` WHERE `discord_id`=?", discord_id).get();
-            DB.executeUpdate("UPDATE `gary_stats` SET `wins`=? WHERE `discord_id`=?", wins + 1, discord_id);
-            System.out.println("Added a win to " + user.getName() + "#" + user.getDiscriminator());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addO(User user) {
-        long discord_id = user.getIdLong();
+        if (!messageUtils.equalsIgnoreCase(column, "win/o/bro")) return;
 
         try {
-            int o = (int) DB.getFirstColumnAsync("SELECT `o` FROM `gary_stats` WHERE `discord_id`=?", discord_id).get();
-            DB.executeUpdate("UPDATE `gary_stats` SET `o`=? WHERE `discord_id`=?", o + 1, discord_id);
-            System.out.println("Added an o to " + user.getName() + "#" + user.getDiscriminator());
+            int newValue = (int) DB.getFirstColumnAsync("SELECT " + column + " FROM `gary_stats` WHERE `discord_id`=?", discord_id).get() + 1;
+            DB.executeUpdate("UPDATE `gary_stats` SET " + column + "=? WHERE `discord_id`=?", newValue, discord_id);
+            System.out.println("Added " + column + " to " + user.getName() + "#" + user.getDiscriminator());
         } catch (Exception e) {
             e.printStackTrace();
         }
