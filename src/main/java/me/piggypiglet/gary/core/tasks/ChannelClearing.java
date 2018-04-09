@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.utils.channel.ChannelUtils;
+import me.piggypiglet.gary.core.utils.misc.ChannelUtils;
 import net.dv8tion.jda.core.JDA;
 
 import java.util.TimerTask;

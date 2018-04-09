@@ -1,7 +1,6 @@
 package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.chatreaction.tasks.WordChanger;
 import net.dv8tion.jda.core.JDA;
 
 import java.util.Calendar;

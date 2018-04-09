@@ -81,7 +81,6 @@ public final class GaryBot {
                 case "files":
                     files.make("config", "./config.json", "/config.json");
                     files.make("words", "./words.txt", "/words.txt");
-                    files.make("word-storage", "./word-storage.json", "/word-storage.json");
                     files.make("users", "schema/Users.sql", "/schema/Users.sql");
                     files.make("stats", "schema/Stats.sql", "/schema/Stats.sql");
                     break;

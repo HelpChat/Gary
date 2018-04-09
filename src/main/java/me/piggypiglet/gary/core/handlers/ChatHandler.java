@@ -1,11 +1,10 @@
 package me.piggypiglet.gary.core.handlers;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.chatreaction.ChatReaction;
+import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.storage.Stats;
-import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
@@ -15,7 +14,6 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 // ------------------------------
 public final class ChatHandler extends ListenerAdapter {
     @Inject private ChatReaction cr;
-    @Inject private GFile files;
     @Inject private Stats stats;
     @Inject private MessageUtils messageUtils;
 
@@ -31,7 +29,7 @@ public final class ChatHandler extends ListenerAdapter {
             }
 
             if (e.getChannel().getIdLong() == Constants.CR) {
-                String word = files.getItem("word-storage", "current-word");
+                String word = cr.getCurrentWord();
 
                 if (message.equalsIgnoreCase(word)) {
                     e.getChannel().sendMessage("Winner! " + e.getAuthor().getAsMention() + " Congratulations. The word was " + word).queue();

@@ -3,7 +3,7 @@ package me.piggypiglet.gary.commands.admin;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.utils.channel.ChannelUtils;
+import me.piggypiglet.gary.core.utils.misc.ChannelUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 // ------------------------------

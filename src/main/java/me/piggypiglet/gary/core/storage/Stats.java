@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.storage;
 
 import co.aikar.idb.DB;
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.entities.User;
 
 // ------------------------------

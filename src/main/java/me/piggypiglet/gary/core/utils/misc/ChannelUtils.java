@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.utils.channel;
+package me.piggypiglet.gary.core.utils.misc;
 
 import me.piggypiglet.gary.core.objects.Constants;
 import net.dv8tion.jda.core.JDA;

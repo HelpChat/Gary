@@ -1,7 +1,7 @@
 package me.piggypiglet.gary.commands.chatreaction;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.chatreaction.ChatReaction;
+import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;

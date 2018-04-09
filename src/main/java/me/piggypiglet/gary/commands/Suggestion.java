@@ -3,7 +3,7 @@ package me.piggypiglet.gary.commands;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import me.piggypiglet.gary.core.utils.misc.TimeUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;

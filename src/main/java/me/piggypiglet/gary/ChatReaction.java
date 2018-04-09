@@ -1,8 +1,8 @@
-package me.piggypiglet.gary.chatreaction;
+package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.chatreaction.tasks.WordChanger;
 import me.piggypiglet.gary.core.objects.GFile;
+import me.piggypiglet.gary.core.tasks.WordChanger;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -46,5 +46,9 @@ public final class ChatReaction {
 
     public void generateNewWord() {
         wordChanger.run();
+    }
+
+    public String getCurrentWord() {
+        return wordChanger.getCurrentWord();
     }
 }

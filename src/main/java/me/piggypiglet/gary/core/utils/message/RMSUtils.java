@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.utils.channel;
+package me.piggypiglet.gary.core.utils.message;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.utils.mc.ServerInfoUtils;

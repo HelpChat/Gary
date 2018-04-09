@@ -10,8 +10,6 @@ import me.piggypiglet.gary.core.utils.file.ConfigUtils;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -72,18 +70,5 @@ public final class GFile {
 
     public Map<String, File> getgFiles() {
         return gFiles;
-    }
-
-    // TODO: Change this to a better solution
-    public void setWord(String currentWord) {
-        Gson gson = new Gson();
-        String json = "{\"current-word\": " + gson.toJson(currentWord) + "}";
-        try {
-            FileWriter writer = new FileWriter(gFiles.get("word-storage"));
-            writer.write(json);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

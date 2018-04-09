@@ -1,19 +1,18 @@
-package me.piggypiglet.gary.chatreaction.tasks;
+package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.piggypiglet.gary.chatreaction.utils.CRRandom;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.objects.Version;
-import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.CRRandomUtils;
+import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -21,19 +20,28 @@ import java.util.concurrent.TimeUnit;
 // ------------------------------
 @Singleton
 public final class WordChanger extends TimerTask {
-    @Inject private CRRandom crr;
+    @Inject private CRRandomUtils crr;
     @Inject private MessageUtils mutil;
-    @Inject private GFile files;
     @Inject private Version version;
+    private String word;
+    private Message msg;
     private JDA jda;
 
-    public void setup(JDA jda) {
+    public WordChanger() {
+        if (word == null) {
+            word = "";
+        }
+    }
+
+    void setup(JDA jda) {
         this.jda = jda;
     }
 
     public void run() {
+        if (msg != null) msg.delete().queue();
+
         TextChannel channel = jda.getTextChannelById(Constants.CR);
-        String word = crr.getRandomWord();
+        word = crr.getRandomWord();
         String scrambled = crr.scrambleWord(word);
         MessageEmbed message = new EmbedBuilder()
                 .setTitle("Word Update")
@@ -42,7 +50,10 @@ public final class WordChanger extends TimerTask {
                 .build();
 
 //        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(scrambled)).queue();
-        channel.sendMessage(message).complete().delete().queueAfter(5, TimeUnit.MINUTES);
-        files.setWord(word);
+        msg = channel.sendMessage(message).complete();
+    }
+
+    public String getCurrentWord() {
+        return word;
     }
 }

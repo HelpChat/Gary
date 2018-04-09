@@ -7,7 +7,7 @@ import ai.api.model.AIResponse;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.GFile;
-import me.piggypiglet.gary.core.utils.channel.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
