@@ -40,7 +40,7 @@ public class ExpansionInfo extends Command {
                 MessageEmbed msg = new EmbedBuilder()
                         .setTitle("Placeholders for " + args[2] + " - version: " + papiutils.getVersion())
                         .addField(field)
-                        .setFooter("Author - " + papiutils.getAuthor(), "https://avatars1.githubusercontent.com/u/37001286?s=200&v=4")
+                        .setFooter("Author - " + papiutils.getAuthor() + " - `/papi ecloud download " + args[2] + "`", "https://avatars1.githubusercontent.com/u/37001286?s=200&v=4")
                         .build();
                 e.getChannel().sendMessage(msg).queue();
         }
