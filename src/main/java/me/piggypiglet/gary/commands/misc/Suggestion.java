@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands;
+package me.piggypiglet.gary.commands.misc;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
@@ -20,7 +20,7 @@ public final class Suggestion extends Command {
     @Inject private MessageUtils mutil;
 
     public Suggestion() {
-        super("?suggestion");
+        super("?suggestion", "Send a suggestion to be added into gary.", true);
     }
 
     @Override

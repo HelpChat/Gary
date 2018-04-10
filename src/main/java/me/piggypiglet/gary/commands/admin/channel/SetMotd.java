@@ -9,7 +9,7 @@ public class SetMotd extends Command {
     @Inject private RoleUtils roleUtils;
 
     public SetMotd() {
-        super("?setmotd ");
+        super("?setmotd ", "", false);
     }
 
     @Override

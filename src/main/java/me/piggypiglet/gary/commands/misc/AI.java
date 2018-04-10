@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands;
+package me.piggypiglet.gary.commands.misc;
 
 import ai.api.AIConfiguration;
 import ai.api.AIDataService;
@@ -21,7 +21,7 @@ public final class AI extends Command {
     @Inject private GFile config;
 
     public AI() {
-        super("!/!say ");
+        super("!/!say ", "Speak to gary, or speak through gary.", true);
     }
 
     @Override

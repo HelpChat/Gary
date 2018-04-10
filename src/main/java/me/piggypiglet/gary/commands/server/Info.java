@@ -3,8 +3,8 @@ package me.piggypiglet.gary.commands.server;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
-import me.piggypiglet.gary.core.objects.Version;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Member;
@@ -21,12 +21,11 @@ import java.util.concurrent.TimeUnit;
 // https://www.piggypiglet.me
 // ------------------------------
 public class Info extends Command {
-    @Inject private Version version;
     @Inject private CommandHandler commandHandler;
     @Inject private GFile gFile;
 
     public Info() {
-        super("?info/?serverinfo");
+        super("?info/?serverinfo", "Get info about the discord server.", true);
     }
 
     @Override
@@ -46,10 +45,10 @@ public class Info extends Command {
         String members = membersOnlineList.size() + "/" + membersList.size();
         String bots = botsOnlineList.size() + "/" + botsList.size();
 
-        MessageEmbed.Field helpchat = new MessageEmbed.Field("HelpChat:", "Info regarding the discord server\n\u200C\u200C", false);
-        MessageEmbed.Field users = new MessageEmbed.Field("Users online:", "Total: " + total + "\n\u200C\u200CMembers: " + members + "\n\u200C\u200CBots: " + bots + "\n\u200C\u200C", true);
+        MessageEmbed.Field helpchat = new MessageEmbed.Field("HelpChat:", "Info regarding the discord server\n\u200C", false);
+        MessageEmbed.Field users = new MessageEmbed.Field("Users online:", "Total: " + total + "\n\u200CMembers: " + members + "\n\u200C\u200CBots: " + bots + "\nu200C", true);
 
-        MessageEmbed.Field gary = new MessageEmbed.Field("Gary:", "Info about gary himself\n\u200C\u200C", false);
+        MessageEmbed.Field gary = new MessageEmbed.Field("Gary:", "Info about gary himself\n\u200C", false);
         MessageEmbed.Field uptime = new MessageEmbed.Field("Uptime:", TimeUnit.MILLISECONDS.toHours(ManagementFactory.getRuntimeMXBean().getUptime()) + " hours uptime.", true);
         MessageEmbed.Field commands = new MessageEmbed.Field("Loaded Commands:", commandHandler.getCommands().size() + " loaded commands.", true);
         MessageEmbed.Field configs = new MessageEmbed.Field("Loaded Files:", gFile.getgFiles().size() + " loaded files.", true);
@@ -63,7 +62,7 @@ public class Info extends Command {
                 .addField(uptime)
                 .addField(commands)
                 .addField(configs)
-                .setFooter("Gary v" + version.getVersion(), e.getJDA().getSelfUser().getAvatarUrl())
+                .setFooter("Gary v" + Constants.VERSION, e.getJDA().getSelfUser().getAvatarUrl())
                 .build();
 
         e.getChannel().sendMessage(message).queue();

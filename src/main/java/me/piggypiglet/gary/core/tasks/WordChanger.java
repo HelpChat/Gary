@@ -3,7 +3,6 @@ package me.piggypiglet.gary.core.tasks;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.Version;
 import me.piggypiglet.gary.core.utils.message.CRRandomUtils;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -22,7 +21,6 @@ import java.util.TimerTask;
 public final class WordChanger extends TimerTask {
     @Inject private CRRandomUtils crr;
     @Inject private MessageUtils mutil;
-    @Inject private Version version;
     private String word;
     private Message msg;
     private JDA jda;
@@ -46,7 +44,7 @@ public final class WordChanger extends TimerTask {
         MessageEmbed message = new EmbedBuilder()
                 .setTitle("Word Update")
                 .setDescription(mutil.bigLetters(scrambled))
-                .setFooter("Gary v" + version.getVersion(), "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
+                .setFooter("Gary v" + Constants.VERSION, "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
                 .build();
 
 //        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(scrambled)).queue();

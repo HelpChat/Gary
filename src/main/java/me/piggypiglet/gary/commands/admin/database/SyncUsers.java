@@ -18,7 +18,7 @@ public class SyncUsers extends Command {
     @Inject private Users users;
 
     public SyncUsers() {
-        super("?syncusers");
+        super("?syncusers", "", false);
     }
 
     @Override

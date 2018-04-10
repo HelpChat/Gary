@@ -15,7 +15,7 @@ import java.util.List;
 // ------------------------------
 public class CheckUsers extends Command {
     public CheckUsers() {
-        super("?checkusers");
+        super("?checkusers", "", false);
     }
 
     @Override

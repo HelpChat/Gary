@@ -15,7 +15,7 @@ public class ExpansionInfo extends Command {
     @Inject private PlaceholderUtils papiutils;
 
     public ExpansionInfo() {
-        super("?papi placeholders /?placeholderapi placeholders /?papi p /?placeholderapi p ");
+        super("?papi placeholders /?placeholderapi placeholders /?papi p /?placeholderapi p ", "Get the placeholders in a papi expansion.", true);
     }
 
     @Override
@@ -36,11 +36,14 @@ public class ExpansionInfo extends Command {
                 e.getChannel().sendMessage("Unknown expansion.").queue();
                 break;
             case "success":
-                MessageEmbed.Field field = new MessageEmbed.Field("Placeholders", papiutils.getPlaceholders().replace("_", "\\_"), true);
+                MessageEmbed.Field placeholders = new MessageEmbed.Field("Placeholders", papiutils.getPlaceholders().replace("_", "\\_") + "\n\u200C", true);
+                MessageEmbed.Field command = new MessageEmbed.Field("Command:", "```/papi ecloud download " + args[2] + "\n/papi reload```", false);
+
                 MessageEmbed msg = new EmbedBuilder()
                         .setTitle("Placeholders for " + args[2] + " - version: " + papiutils.getVersion())
-                        .addField(field)
-                        .setFooter("Author - " + papiutils.getAuthor() + " - `/papi ecloud download " + args[2] + "`", "https://avatars1.githubusercontent.com/u/37001286?s=200&v=4")
+                        .addField(placeholders)
+                        .addField(command)
+                        .setFooter("Author - " + papiutils.getAuthor(), "https://avatars1.githubusercontent.com/u/37001286?s=200&v=4")
                         .build();
                 e.getChannel().sendMessage(msg).queue();
         }

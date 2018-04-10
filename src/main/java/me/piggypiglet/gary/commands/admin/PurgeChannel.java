@@ -14,7 +14,7 @@ public class PurgeChannel extends Command {
     @Inject private ChannelUtils channelUtils;
 
     public PurgeChannel() {
-        super("?purge ");
+        super("?purge ", "", false);
     }
 
     @Override

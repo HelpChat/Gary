@@ -9,13 +9,17 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public abstract class Command {
 
     private final String name;
+    private final String description;
+    private final boolean help;
 
     protected Command() {
-        this("null");
+        this("null", "null", false);
     }
 
-    protected Command(String name) {
+    protected Command(String name, String description, boolean help) {
         this.name = name;
+        this.description = description;
+        this.help = help;
     }
 
     protected abstract void execute(MessageReceivedEvent e, String[] args);
@@ -26,6 +30,14 @@ public abstract class Command {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public boolean getHelp() {
+        return help;
     }
 
 }

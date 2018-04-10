@@ -16,7 +16,7 @@ public class NewWord extends Command {
     @Inject private RoleUtils roleUtils;
 
     public NewWord() {
-        super("?cr newword");
+        super("?cr newword", "", false);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands;
+package me.piggypiglet.gary.commands.misc;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
@@ -16,7 +16,7 @@ public final class RoleID extends Command {
     @Inject private RoleUtils rutil;
 
     public RoleID() {
-        super("?roleid");
+        super("?roleid", "Util command to get a role's id.", true);
     }
 
     @Override

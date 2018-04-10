@@ -20,7 +20,7 @@ public final class BanCheck extends Command {
     @Inject private RoleUtils rutil;
 
     public BanCheck() {
-        super("?bancheck");
+        super("?bancheck", "", false);
     }
 
     @Override

@@ -87,6 +87,14 @@ public final class MessageUtils {
         return msg.contains(" " + str + " ") || msg.startsWith(str + " ") || msg.endsWith(" " + str) || msg.equalsIgnoreCase(str);
     }
 
+    public String getFirst(String msg) {
+        if (msg.contains("/")) {
+            String[] split = msg.split("/");
+            return split.length >= 1 ? split[0].trim() : msg.trim();
+        }
+        return msg.trim();
+    }
+
     public String arrayToString(String[] array) {
         return Arrays.toString(array).replace("[", "").replace("]", "").replace(", ", " ");
     }

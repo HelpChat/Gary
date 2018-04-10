@@ -117,8 +117,7 @@ public class RMSUtils {
                     return;
                 }
 
-                String extra = "Version - " + siutils.getInfo("version", ipSegments[0], ipSegments[1]) + "\n" +
-                        "MOTD - " + siutils.getInfo("motd", ipSegments[0], ipSegments[1]);
+                String extra = "Version - " + siutils.getInfo("version", ipSegments[0], ipSegments[1]);
 
                 MessageEmbed.Field nameField = new MessageEmbed.Field("Name:", name, false);
                 MessageEmbed.Field ipField = new MessageEmbed.Field("IP:", ip, false);

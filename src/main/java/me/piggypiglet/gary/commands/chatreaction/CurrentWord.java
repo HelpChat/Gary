@@ -19,7 +19,7 @@ public final class CurrentWord extends Command {
     @Inject private RoleUtils roleUtils;
 
     public CurrentWord() {
-        super("?cr currentword");
+        super("?cr currentword", "", false);
     }
 
     @Override
