@@ -19,9 +19,19 @@ public final class RoleUtils {
     public boolean isStaff(Member member) {
 // TODO:       Role staff = member.getGuild().getRoleById("411094569850109955"); Why doesn't this work?
         Guild guild = member.getGuild();
+
         return member.getRoles().stream().anyMatch(role -> {
             Role admin = getRole(guild, "admins"), trusted = getRole(guild, "trusted"), helpful = getRole(guild, "helpful");
             return role.equals(admin) || role.equals(trusted) || role.equals(helpful);
+        });
+    }
+
+    public boolean isTrustedPlus(Member member) {
+        Guild guild = member.getGuild();
+
+        return member.getRoles().stream().anyMatch(role -> {
+            Role admin = getRole(guild, "admins"), trusted = getRole(guild, "trusted");
+            return role.equals(admin) || role.equals(trusted);
         });
     }
 
