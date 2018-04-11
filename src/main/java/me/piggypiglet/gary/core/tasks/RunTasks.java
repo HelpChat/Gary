@@ -3,7 +3,6 @@ package me.piggypiglet.gary.core.tasks;
 import com.google.inject.Inject;
 import net.dv8tion.jda.core.JDA;
 
-import java.util.Calendar;
 import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
@@ -23,9 +22,9 @@ public final class RunTasks {
     public void runTasks() {
         Timer timer = new Timer();
 
-        System.out.println("Task - Request, offer and rms service cleaning started");
-        long timeCC = TimeUnit.DAYS.toMillis(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
-        timer.schedule(cc, timeCC, timeCC);
+//        System.out.println("Task - Request, offer and rms service cleaning started");
+//        long timeCC = TimeUnit.DAYS.toMillis(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+//        timer.schedule(cc, timeCC, timeCC);
 
         System.out.println("Task - ChatReaction started");
         long timeCR = TimeUnit.MINUTES.toMillis(5);

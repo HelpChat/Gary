@@ -2,17 +2,17 @@ package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import me.piggypiglet.gary.commands.misc.AI;
-import me.piggypiglet.gary.commands.misc.RoleID;
-import me.piggypiglet.gary.commands.misc.Suggestion;
 import me.piggypiglet.gary.commands.admin.BanCheck;
-import me.piggypiglet.gary.commands.admin.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.Speak;
+import me.piggypiglet.gary.commands.admin.channel.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.channel.SetMotd;
 import me.piggypiglet.gary.commands.admin.database.CheckUsers;
 import me.piggypiglet.gary.commands.admin.database.SyncUsers;
 import me.piggypiglet.gary.commands.chatreaction.CurrentWord;
 import me.piggypiglet.gary.commands.chatreaction.NewWord;
+import me.piggypiglet.gary.commands.misc.AI;
+import me.piggypiglet.gary.commands.misc.RoleID;
+import me.piggypiglet.gary.commands.misc.Suggestion;
 import me.piggypiglet.gary.commands.placeholderapi.ExpansionInfo;
 import me.piggypiglet.gary.commands.server.Info;
 import me.piggypiglet.gary.commands.server.help.Commands;
@@ -39,6 +39,7 @@ public final class GaryBot {
     @Inject private CommandHandler commandHandler;
     @Inject private ChatHandler chatHandler;
     @Inject private UserHandler userHandler;
+    @Inject private ChatReaction chatReaction;
     @Inject private GFile files;
     @Inject private RunTasks runTasks;
     @Inject private MySQL mysql;
@@ -85,6 +86,7 @@ public final class GaryBot {
                     files.make("words", "./words.txt", "/words.txt");
                     files.make("users", "schema/Users.sql", "/schema/Users.sql");
                     files.make("stats", "schema/Stats.sql", "/schema/Stats.sql");
+                    chatReaction.loadWords();
                     break;
                 case "tasks":
                     runTasks.setup(jda);

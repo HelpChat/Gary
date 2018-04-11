@@ -20,7 +20,7 @@ public final class ChatReaction {
     @Inject private WordChanger wordChanger;
     private File wordsFile;
 
-    private void loadWords() {
+    void loadWords() {
         wordsFile = files.getFile("words");
     }
 

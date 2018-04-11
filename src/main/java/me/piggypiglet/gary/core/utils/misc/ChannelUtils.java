@@ -1,12 +1,14 @@
 package me.piggypiglet.gary.core.utils.misc;
 
+import com.google.inject.Inject;
 import me.piggypiglet.gary.core.objects.Constants;
+import me.piggypiglet.gary.core.utils.web.WebUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 
-import java.time.Month;
-import java.util.Calendar;
 import java.util.List;
 
 // ------------------------------
@@ -14,14 +16,35 @@ import java.util.List;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class ChannelUtils {
-    public void purgeChannel(JDA jda, long channelId, long messageId) {
-        Guild guild = jda.getGuildById(Constants.HELP_CHAT);
-        List<Message> messages = guild.getTextChannelById(channelId).getHistoryAfter(messageId, 100).complete().getRetrievedHistory();
-        messages.forEach(msg -> guild.getTextChannelById(Constants.PIG).sendMessage(msg.getContentRaw()).queue()); // testing, will be removed after next month if successful.
-        messages.forEach(msg -> msg.delete().queue());
+    @Inject private WebUtils webUtils;
+    @Inject private TimeUtils timeUtils;
 
-        Calendar calendar = Calendar.getInstance();
-        String date = Month.of(calendar.get(Calendar.MONTH) + 1).toString().toLowerCase();
-        guild.getTextChannelById(channelId).getMessageById(messageId).complete().editMessage(":information_source:  Last Reset: " + date.substring(0, 1).toUpperCase() + date.substring(1) + " 1st").queue();
+    public void purgeChannel(TextChannel channel, long messageId, int limit, boolean before) {
+        JDA jda = channel.getJDA();
+        List<Message> messages;
+        if (before) {
+            messages = channel.getHistoryBefore(messageId, limit).complete().getRetrievedHistory();
+        } else {
+            messages = channel.getHistoryAfter(messageId, limit).complete().getRetrievedHistory();
+        }
+
+        StringBuilder message = new StringBuilder();
+        messages.forEach(msg -> message.append(msg.getContentRaw()).append("\n\n")); // testing, will be removed after next month if successful.
+
+        MessageEmbed.Field field = new MessageEmbed.Field("URL:", webUtils.hastebin(message.toString()), false);
+        MessageEmbed msg = new EmbedBuilder()
+                .setTitle("Purge")
+                .setFooter("Purged #" + channel.getName() + " at " + timeUtils.getTime(), Constants.AVATAR)
+                .addField(field)
+                .build();
+
+        jda.getTextChannelById(Constants.PIG).sendMessage(msg).queue();
+        channel.deleteMessages(messages).queue();
+
+        if (before) channel.getMessageById(messageId).complete().delete().queue();
+    }
+
+    public TextChannel getTextChannel(JDA jda, long id) {
+        return jda.getTextChannelById(id);
     }
 }

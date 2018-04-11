@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.commands.server;
 
 import com.google.inject.Inject;
+import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
 import me.piggypiglet.gary.core.objects.Constants;
@@ -14,6 +15,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 // ------------------------------
@@ -23,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class Info extends Command {
     @Inject private CommandHandler commandHandler;
     @Inject private GFile gFile;
+    @Inject private ChatReaction chatReaction;
 
     public Info() {
         super("?info/?serverinfo", "Get info about the discord server.", true);
@@ -52,6 +55,7 @@ public class Info extends Command {
         MessageEmbed.Field uptime = new MessageEmbed.Field("Uptime:", TimeUnit.MILLISECONDS.toHours(ManagementFactory.getRuntimeMXBean().getUptime()) + " hours uptime.", true);
         MessageEmbed.Field commands = new MessageEmbed.Field("Loaded Commands:", commandHandler.getCommands().size() + " loaded commands.", true);
         MessageEmbed.Field configs = new MessageEmbed.Field("Loaded Files:", gFile.getgFiles().size() + " loaded files.", true);
+        MessageEmbed.Field words = new MessageEmbed.Field("Loaded Words:", Objects.requireNonNull(chatReaction.getWords()).size() + " loaded words.", true);
 
         MessageEmbed message = new EmbedBuilder()
                 .setTitle("Info")
@@ -62,6 +66,7 @@ public class Info extends Command {
                 .addField(uptime)
                 .addField(commands)
                 .addField(configs)
+                .addField(words)
                 .setFooter("Gary v" + Constants.VERSION, e.getJDA().getSelfUser().getAvatarUrl())
                 .build();
 

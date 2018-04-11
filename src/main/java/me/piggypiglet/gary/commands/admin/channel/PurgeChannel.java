@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands.admin;
+package me.piggypiglet.gary.commands.admin.channel;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class PurgeChannel extends Command {
+public final class PurgeChannel extends Command {
     @Inject private ChannelUtils channelUtils;
 
     public PurgeChannel() {
@@ -21,7 +21,7 @@ public class PurgeChannel extends Command {
     protected void execute(MessageReceivedEvent e, String[] args) {
         if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET) {
             if (args.length == 1) {
-                channelUtils.purgeChannel(e.getJDA(), e.getChannel().getIdLong(), Long.valueOf(args[0]));
+                channelUtils.purgeChannel(e.getTextChannel(), e.getMessageIdLong(), Integer.valueOf(args[0]), true);
             }
         }
     }
