@@ -8,12 +8,14 @@ import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 
 import java.util.concurrent.TimeUnit;
 
 public class Commands extends Command {
     @Inject private CommandHandler commandHandler;
     @Inject private MessageUtils messageUtils;
+    @Inject private RoleUtils roleUtils;
 
     public Commands() {
         super("?commands", "Command list.", true);
@@ -24,7 +26,7 @@ public class Commands extends Command {
         StringBuilder description = new StringBuilder();
 
         for (Command command : commandHandler.getCommands()) {
-            if (command.getHelp()) {
+            if (roleUtils.isTrustedPlus(e.getMember) || command.getHelp()) {
                 description.append("**").append(messageUtils.getFirst(command.getName())).append("** - ").append(command.getDescription()).append("\n");
             }
         }
