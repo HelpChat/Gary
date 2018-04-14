@@ -52,6 +52,10 @@ public final class WordChanger extends TimerTask {
         msg = channel.sendMessage(message).complete();
     }
 
+    public Message getCurrentMessage() {
+        return msg;
+    }
+
     public String getCurrentWord() {
         return word;
     }

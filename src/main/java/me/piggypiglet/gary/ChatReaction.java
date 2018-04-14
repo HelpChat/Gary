@@ -3,6 +3,7 @@ package me.piggypiglet.gary;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.tasks.WordChanger;
+import net.dv8tion.jda.core.entities.Message;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -46,6 +47,10 @@ public final class ChatReaction {
 
     public void generateNewWord() {
         wordChanger.run();
+    }
+
+    public Message getCurrentMessage() {
+        return wordChanger.getCurrentMessage();
     }
 
     public String getCurrentWord() {

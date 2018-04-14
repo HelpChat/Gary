@@ -20,6 +20,7 @@ import me.piggypiglet.gary.commands.server.help.Help;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.ChatHandler;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
+import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.UserHandler;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
@@ -46,6 +47,7 @@ public final class GaryBot {
     @Inject private RunTasks runTasks;
     @Inject private MySQL mysql;
     @Inject private UserUtils userUtils;
+    @Inject private ShutdownHandler shutdownHandler;
 
     @Inject private CurrentWord currentWord;
     @Inject private ExpansionInfo expansionInfo;
@@ -73,6 +75,8 @@ public final class GaryBot {
         Stream.of(
                 "files", "commands", "bot", "mysql", "tasks"
         ).forEach(this::register);
+
+        Runtime.getRuntime().addShutdownHook(shutdownHandler);
     }
 
     private void register(String register) {
