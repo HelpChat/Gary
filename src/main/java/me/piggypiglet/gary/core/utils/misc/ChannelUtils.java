@@ -40,8 +40,6 @@ public final class ChannelUtils {
 
         jda.getTextChannelById(Constants.PIG).sendMessage(msg).queue();
         channel.deleteMessages(messages).queue();
-
-        if (before) channel.getMessageById(messageId).complete().delete().queue();
     }
 
     public TextChannel getTextChannel(JDA jda, long id) {

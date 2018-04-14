@@ -28,7 +28,6 @@ public class ExpansionInfo extends Command {
         papiutils.getJson(args[2]);
         String papi = papiutils.loadJson();
 
-        e.getMessage().delete().queue();
         switch (papi) {
             case "fail - getJson":
                 e.getChannel().sendMessage("I cannot contact the ecloud, please retry at a later date.").queue();

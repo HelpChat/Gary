@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class UserHandler extends ListenerAdapter {
+public final class UserHandler extends ListenerAdapter {
     @Inject private Users users;
 
     @Override

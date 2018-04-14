@@ -43,9 +43,10 @@ public final class CommandHandler extends ListenerAdapter {
             for (Command command : commands) {
                 String name = command.getName();
                 String[] args = msg.toLowerCase().replace(name.toLowerCase(), "").trim().split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
-                // TODO: Fix args to make it pickup slashes in a command name
+
                 if (mutil.startsWith(msg, name)) {
                     command.run(e, args);
+                    e.getMessage().delete().queue();
                 }
             }
             checkMessage(e);
