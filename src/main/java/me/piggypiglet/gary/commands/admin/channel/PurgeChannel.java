@@ -22,7 +22,14 @@ public final class PurgeChannel extends Command {
     protected void execute(MessageReceivedEvent e, String[] args) {
         if (roleUtils.isTrustedPlus(e.getMember())) {
             if (args.length == 1) {
-                channelUtils.purgeChannel(e.getTextChannel(), e.getMessageIdLong(), Integer.valueOf(args[0]), true);
+                long id = Long.valueOf(args[0]);
+
+                if (channelUtils.getTextChannel(e.getJDA(), id) != null) {
+                    channelUtils.purgeChannel(e.getTextChannel(), id, 99999, false);
+                } else {
+                    channelUtils.purgeChannel(e.getTextChannel(), e.getMessageIdLong(), Integer.valueOf(args[0]), true);
+                }
+
             }
         }
     }

@@ -4,11 +4,11 @@ import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
 import me.piggypiglet.gary.core.objects.Constants;
+import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,11 +25,11 @@ public class Commands extends Command {
     protected void execute(MessageReceivedEvent e, String[] args) {
         StringBuilder description = new StringBuilder();
 
-        for (Command command : commandHandler.getCommands()) {
-            if (roleUtils.isTrustedPlus(e.getMember) || command.getHelp()) {
-                description.append("**").append(messageUtils.getFirst(command.getName())).append("** - ").append(command.getDescription()).append("\n");
+        commandHandler.getCommands().forEach(cmd -> {
+            if (roleUtils.isTrustedPlus(e.getMember()) || cmd.getHelp()) {
+                description.append("**").append(messageUtils.getFirst(cmd.getName())).append("** - ").append(cmd.getDescription()).append("\n");
             }
-        }
+        });
 
         MessageEmbed message = new EmbedBuilder()
                 .setTitle("Commands")

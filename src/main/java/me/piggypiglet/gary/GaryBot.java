@@ -21,9 +21,11 @@ import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.ChatHandler;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
 import me.piggypiglet.gary.core.handlers.UserHandler;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.storage.MySQL;
 import me.piggypiglet.gary.core.tasks.RunTasks;
+import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -43,6 +45,7 @@ public final class GaryBot {
     @Inject private GFile files;
     @Inject private RunTasks runTasks;
     @Inject private MySQL mysql;
+    @Inject private UserUtils userUtils;
 
     @Inject private CurrentWord currentWord;
     @Inject private ExpansionInfo expansionInfo;
@@ -104,6 +107,7 @@ public final class GaryBot {
                 case "mysql":
                     mysql.connect();
                     mysql.setup(jda);
+                    System.out.println(userUtils.syncUsers(jda.getGuildById(Constants.HELP_CHAT), jda));
                     break;
             }
         } catch (Exception e) {
