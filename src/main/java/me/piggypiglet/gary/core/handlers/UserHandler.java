@@ -20,6 +20,6 @@ public class UserHandler extends ListenerAdapter {
 
     @Override
     public void onGuildMemberLeave(GuildMemberLeaveEvent e) {
-        users.delUser(e.getUser());
+        users.delUser(e.getUser().getIdLong());
     }
 }

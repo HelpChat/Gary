@@ -1,5 +1,7 @@
 package me.piggypiglet.gary.core.objects;
 
+import java.awt.*;
+
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
@@ -18,5 +20,6 @@ public final class Constants {
     public static final long PIGGYPIGLET = 181675431362035712L;
 
     public static final String VERSION = "@version@", AVATAR = "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png";
+    public static final Color ROLE_COLOR = new Color(32, 102, 148);
 
 }
