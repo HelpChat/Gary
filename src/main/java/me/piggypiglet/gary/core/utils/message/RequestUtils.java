@@ -42,7 +42,7 @@ public final class RequestUtils {
 
         if (author != null && message != null) {
             MessageChannel channel = e.getChannel();
-            String msg = message.getContentRaw();
+            String msg = message.getContentDisplay();
 
             List<String> items = new ArrayList<>();
             Stream.of("service:", "what i want:").forEach(items::add);
