@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.storage;
+package me.piggypiglet.gary.core.storage.tables;
 
 import co.aikar.idb.DB;
 import com.google.inject.Inject;
@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.entities.User;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class Stats {
+public final class Stats {
     @Inject private MessageUtils messageUtils;
 
     public void add(String column, User user) {

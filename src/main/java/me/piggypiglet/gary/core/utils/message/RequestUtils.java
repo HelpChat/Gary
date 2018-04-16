@@ -19,7 +19,6 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class RequestUtils {
-
     @Inject private MessageUtils mutil;
     @Inject private WebUtils wutil;
 
@@ -42,7 +41,7 @@ public final class RequestUtils {
 
         if (author != null && message != null) {
             MessageChannel channel = e.getChannel();
-            String msg = message.getContentDisplay();
+            String msg = message.getContentStripped();
 
             List<String> items = new ArrayList<>();
             Stream.of("service:", "what i want:").forEach(items::add);

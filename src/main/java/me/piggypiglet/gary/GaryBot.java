@@ -18,14 +18,12 @@ import me.piggypiglet.gary.commands.server.Info;
 import me.piggypiglet.gary.commands.server.help.Commands;
 import me.piggypiglet.gary.commands.server.help.Help;
 import me.piggypiglet.gary.core.framework.BinderModule;
-import me.piggypiglet.gary.core.handlers.ChatHandler;
-import me.piggypiglet.gary.core.handlers.CommandHandler;
-import me.piggypiglet.gary.core.handlers.ShutdownHandler;
-import me.piggypiglet.gary.core.handlers.UserHandler;
+import me.piggypiglet.gary.core.handlers.*;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.storage.MySQL;
 import me.piggypiglet.gary.core.tasks.RunTasks;
+import me.piggypiglet.gary.core.utils.misc.LogUtils;
 import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -48,6 +46,8 @@ public final class GaryBot {
     @Inject private MySQL mysql;
     @Inject private UserUtils userUtils;
     @Inject private ShutdownHandler shutdownHandler;
+    @Inject private LoggingHandler loggingHandler;
+    @Inject private LogUtils logUtils;
 
     @Inject private CurrentWord currentWord;
     @Inject private ExpansionInfo expansionInfo;
@@ -93,6 +93,7 @@ public final class GaryBot {
                     files.make("words", "./words.txt", "/words.txt");
                     files.make("users", "schema/Users.sql", "/schema/Users.sql");
                     files.make("stats", "schema/Stats.sql", "/schema/Stats.sql");
+                    files.make("messages", "schema/Messages.sql", "/schema/Messages.sql");
                     chatReaction.loadWords();
                     break;
                 case "tasks":
@@ -106,7 +107,9 @@ public final class GaryBot {
                             .addEventListener(userHandler)
                             .addEventListener(commandHandler)
                             .addEventListener(chatHandler)
+                            .addEventListener(loggingHandler)
                             .buildBlocking();
+                    logUtils.setup(jda);
                     break;
                 case "mysql":
                     mysql.connect();

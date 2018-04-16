@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
+import me.piggypiglet.gary.core.storage.tables.Users;
 import net.dv8tion.jda.core.JDA;
 import org.intellij.lang.annotations.Language;
 
@@ -21,7 +22,7 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 @Singleton
-public class MySQL {
+public final class MySQL {
     @Inject private GFile gFile;
     @Inject private Users users;
 
@@ -32,6 +33,7 @@ public class MySQL {
                 gFile.getItem("config", "mysql-db"),
                 gFile.getItem("config", "mysql-ip") + ":" + gFile.getItem("config", "mysql-port")
         ).build();
+
         Database db = PooledDatabaseOptions.builder().options(options).createHikariDatabase();
         DB.setGlobalDatabase(db);
     }
@@ -40,7 +42,7 @@ public class MySQL {
         try {
             if (DB.getFirstRow("SHOW TABLES LIKE 'gary_users'") == null) {
                 @Language("MySQL")
-                String users_ = Arrays.toString(Files.lines(Paths.get(gFile.getFile("users").getPath())).toArray())
+                String users = Arrays.toString(Files.lines(Paths.get(gFile.getFile("users").getPath())).toArray())
                         .replace("]", "")
                         .replace("[", "")
                         .replace(", ", "\n");
@@ -48,12 +50,18 @@ public class MySQL {
                         .replace("]", "")
                         .replace("[", "")
                         .replace(", ", "\n");
+                String messages = Arrays.toString(Files.lines(Paths.get(gFile.getFile("messages").getPath())).toArray())
+                        .replace("]", "")
+                        .replace("[", "")
+                        .replace(", ", "\n");
+
                 Stream.of(
-                        users_,
-                        stats
+                        users,
+                        stats,
+                        messages
                 ).forEach(this::sql);
 
-                jda.getGuildById(Constants.HELP_CHAT).getMembers().forEach(member -> users.addUser(member.getUser()));
+                jda.getGuildById(Constants.HELP_CHAT).getMembers().forEach(member -> this.users.addUser(member.getUser()));
             }
 
             System.out.println("database successfully loaded.");

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '2.2.10.1'
+version = '2.3.0.0'
 mainClassName = 'me.piggypiglet.gary.GaryBot'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

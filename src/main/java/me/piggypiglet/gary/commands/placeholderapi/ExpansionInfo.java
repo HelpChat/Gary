@@ -5,6 +5,7 @@ import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.utils.web.papi.PlaceholderUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 // ------------------------------
@@ -27,13 +28,14 @@ public class ExpansionInfo extends Command {
 
         papiutils.getJson(args[2]);
         String papi = papiutils.loadJson();
+        User author = e.getAuthor();
 
         switch (papi) {
             case "fail - getJson":
-                e.getChannel().sendMessage("I cannot contact the ecloud, please retry at a later date.").queue();
+                e.getChannel().sendMessage(author.getAsMention() + "\nI cannot contact the ecloud, please retry at a later date.").queue();
                 break;
             case "fail - Error":
-                e.getChannel().sendMessage("Unknown expansion.").queue();
+                e.getChannel().sendMessage(author.getAsMention() + "\nUnknown expansion.").queue();
                 break;
             case "success":
                 MessageEmbed.Field placeholders = new MessageEmbed.Field("Placeholders", papiutils.getPlaceholders().replace("_", "\\_") + "\n\u200C", true);

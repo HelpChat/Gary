@@ -3,8 +3,7 @@ package me.piggypiglet.gary.core.utils.mysql;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.storage.Users;
-import me.piggypiglet.gary.core.utils.web.WebUtils;
+import me.piggypiglet.gary.core.storage.tables.Users;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
@@ -15,9 +14,8 @@ import java.util.List;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class UserUtils {
+public final class UserUtils {
     @Inject private Users users;
-    @Inject private WebUtils webUtils;
 
     public String checkUsers(Guild guild) {
         List<Long> members = new ArrayList<>();

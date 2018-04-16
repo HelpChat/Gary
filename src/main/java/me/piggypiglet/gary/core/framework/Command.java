@@ -11,6 +11,7 @@ public abstract class Command {
     private final String name;
     private final String description;
     private final boolean help;
+    protected boolean delete = true;
 
     protected Command() {
         this("null", "null", false);
@@ -35,6 +36,8 @@ public abstract class Command {
     public String getDescription() {
         return description;
     }
+
+    public boolean getDelete() { return delete; }
 
     public boolean getHelp() {
         return help;

@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.storage;
+package me.piggypiglet.gary.core.storage.tables;
 
 import co.aikar.idb.DB;
 import net.dv8tion.jda.core.entities.User;
@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.entities.User;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class Users {
+public final class Users {
     public void addUser(User user) {
         long discord_id = user.getIdLong();
         String username = user.getName();

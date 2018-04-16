@@ -7,7 +7,7 @@ import me.piggypiglet.gary.ChatReaction;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class ShutdownHandler extends Thread {
+public final class ShutdownHandler extends Thread {
     @Inject private ChatReaction chatReaction;
 
     @Override

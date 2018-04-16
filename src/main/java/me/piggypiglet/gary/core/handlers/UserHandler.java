@@ -1,7 +1,7 @@
 package me.piggypiglet.gary.core.handlers;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.storage.Users;
+import me.piggypiglet.gary.core.storage.tables.Users;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;

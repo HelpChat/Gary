@@ -46,7 +46,10 @@ public final class CommandHandler extends ListenerAdapter {
 
                 if (mutil.startsWith(msg, name)) {
                     command.run(e, args);
-                    e.getMessage().delete().queue();
+
+                    if (command.getDelete()) {
+                        e.getMessage().delete().queue();
+                    }
                 }
             }
             checkMessage(e);

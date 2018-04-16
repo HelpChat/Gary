@@ -14,6 +14,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public final class Speak extends Command {
     public Speak() {
         super("1 /2 /3 /4 /5 /6 /7 /8 /9 ", "", false);
+        this.delete = false;
     }
 
     @Override

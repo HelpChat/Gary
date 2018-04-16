@@ -3,7 +3,9 @@ package me.piggypiglet.gary.core.handlers;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.storage.Stats;
+import me.piggypiglet.gary.core.storage.tables.Messages;
+import me.piggypiglet.gary.core.storage.tables.Stats;
+import me.piggypiglet.gary.core.utils.message.ErrorUtils;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -16,6 +18,8 @@ public final class ChatHandler extends ListenerAdapter {
     @Inject private ChatReaction cr;
     @Inject private Stats stats;
     @Inject private MessageUtils messageUtils;
+    @Inject private ErrorUtils errorUtils;
+    @Inject private Messages messages;
 
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!e.getAuthor().isBot()) {
@@ -37,6 +41,16 @@ public final class ChatHandler extends ListenerAdapter {
                     cr.generateNewWord();
                 }
             }
+
+            if (messageUtils.equalsIgnoreCase(e.getChannel().getName(), Constants.CHANNELS)) {
+                messages.addMessage(e.getMessage());
+            }
+        }
+    }
+
+    private void checkMessage(MessageReceivedEvent e) {
+        if (e.getChannel().getIdLong() == Constants.PLUGIN || e.getChannel().getIdLong() == Constants.DEV || e.getChannel().getIdLong() == Constants.PIG) {
+            errorUtils.checkMessage(e);
         }
     }
 }
