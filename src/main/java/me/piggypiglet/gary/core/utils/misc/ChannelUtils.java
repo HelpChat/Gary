@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 // ------------------------------
@@ -17,7 +18,6 @@ import java.util.List;
 // ------------------------------
 public final class ChannelUtils {
     @Inject private WebUtils webUtils;
-    @Inject private TimeUtils timeUtils;
 
     public void purgeChannel(TextChannel channel, long messageId, int limit, boolean before) {
         JDA jda = channel.getJDA();
@@ -34,7 +34,8 @@ public final class ChannelUtils {
         MessageEmbed.Field field = new MessageEmbed.Field("URL:", webUtils.hastebin(message.toString()), false);
         MessageEmbed msg = new EmbedBuilder()
                 .setTitle("Purge")
-                .setFooter("Purged #" + channel.getName() + " at " + timeUtils.getTime(), Constants.AVATAR)
+                .setFooter("Purged #" + channel.getName(), Constants.AVATAR)
+                .setTimestamp(ZonedDateTime.now())
                 .addField(field)
                 .build();
 

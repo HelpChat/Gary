@@ -23,7 +23,7 @@ import java.time.ZonedDateTime;
 // https://www.piggypiglet.me
 // ------------------------------
 @Singleton
-public class LogUtils {
+public final class LogUtils {
     @Inject private Messages messages;
 
     private TextChannel logChannel;

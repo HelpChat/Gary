@@ -29,7 +29,6 @@ public final class PurgeChannel extends Command {
                 } else {
                     channelUtils.purgeChannel(e.getTextChannel(), e.getMessageIdLong(), Integer.valueOf(args[0]), true);
                 }
-
             }
         }
     }
