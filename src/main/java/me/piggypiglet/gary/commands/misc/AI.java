@@ -22,6 +22,7 @@ public final class AI extends Command {
 
     public AI() {
         super("!/!say ", "Speak to gary, or speak through gary.", true);
+        this.delete = false;
     }
 
     @Override
