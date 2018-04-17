@@ -8,8 +8,8 @@ import me.piggypiglet.gary.commands.admin.channel.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.channel.SetMotd;
 import me.piggypiglet.gary.commands.admin.database.CheckUsers;
 import me.piggypiglet.gary.commands.admin.database.SyncUsers;
-import me.piggypiglet.gary.commands.chatreaction.CurrentWord;
-import me.piggypiglet.gary.commands.chatreaction.NewWord;
+import me.piggypiglet.gary.commands.chatreaction.admin.SetWord;
+import me.piggypiglet.gary.commands.chatreaction.admin.Skip;
 import me.piggypiglet.gary.commands.misc.AI;
 import me.piggypiglet.gary.commands.misc.RoleID;
 import me.piggypiglet.gary.commands.misc.Suggestion;
@@ -49,7 +49,7 @@ public final class GaryBot {
     @Inject private LoggingHandler loggingHandler;
     @Inject private LogUtils logUtils;
 
-    @Inject private CurrentWord currentWord;
+    @Inject private Skip skip;
     @Inject private ExpansionInfo expansionInfo;
     @Inject private AI ai;
     @Inject private BanCheck banCheck;
@@ -57,7 +57,7 @@ public final class GaryBot {
     @Inject private Speak speak;
     @Inject private Suggestion suggestion;
     @Inject private PurgeChannel purgeChannel;
-    @Inject private NewWord newWord;
+    @Inject private SetWord setWord;
     @Inject private Info serverInfo;
     @Inject private CheckUsers checkUsers;
     @Inject private SyncUsers syncUsers;
@@ -84,8 +84,8 @@ public final class GaryBot {
             switch (register.toLowerCase()) {
                 case "commands":
                     Stream.of(
-                            currentWord, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, newWord, serverInfo,
-                            checkUsers, syncUsers, setMotd, help, commands
+                            skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo,
+                            checkUsers, syncUsers, setMotd, help, commands, setWord
                     ).forEach(commandHandler.getCommands()::add);
                     break;
                 case "files":

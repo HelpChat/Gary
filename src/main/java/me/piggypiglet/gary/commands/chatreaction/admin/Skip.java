@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands.chatreaction;
+package me.piggypiglet.gary.commands.chatreaction.admin;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.ChatReaction;
@@ -12,12 +12,12 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class CurrentWord extends Command {
+public final class Skip extends Command {
     @Inject private ChatReaction chatReaction;
     @Inject private RoleUtils roleUtils;
 
-    public CurrentWord() {
-        super("?cr currentword", "", false);
+    public Skip() {
+        super("?cr skip", "Admin command.", false);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.tasks.WordChanger;
 import net.dv8tion.jda.core.entities.Message;
@@ -16,19 +17,15 @@ import java.util.List;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
+@Singleton
 public final class ChatReaction {
     @Inject private GFile files;
     @Inject private WordChanger wordChanger;
-    private File wordsFile;
+
+    private List<String> words;
 
     void loadWords() {
-        wordsFile = files.getFile("words");
-    }
-
-    public List<String> getWords() {
-        if (wordsFile == null) {
-            loadWords();
-        }
+        File wordsFile = files.getFile("words");
 
         try {
             List<String> words = new ArrayList<>();
@@ -37,12 +34,15 @@ public final class ChatReaction {
                     .replace("[", "")
                     .replace("]", "")
                     .replace(", ", " ");
-            return Arrays.asList(wordsString.split(" "));
+
+            this.words = Arrays.asList(wordsString.split(" "));
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-        return null;
+    public List<String> getWords() {
+        return this.words;
     }
 
     public void generateNewWord() {
@@ -51,6 +51,13 @@ public final class ChatReaction {
 
     public Message getCurrentMessage() {
         return wordChanger.getCurrentMessage();
+    }
+
+    public void setWord(String word) {
+        this.words = new ArrayList<>();
+        this.words.add(word);
+        generateNewWord();
+        loadWords();
     }
 
     public String getCurrentWord() {

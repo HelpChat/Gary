@@ -21,6 +21,7 @@ import java.util.TimerTask;
 public final class WordChanger extends TimerTask {
     @Inject private CRRandomUtils crr;
     @Inject private MessageUtils mutil;
+
     private String word;
     private Message msg;
     private JDA jda;
@@ -48,7 +49,6 @@ public final class WordChanger extends TimerTask {
                 .setFooter("Gary v" + Constants.VERSION, "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
                 .build();
 
-//        channel.getManager().setTopic("Scramble >> " + mutil.bigLetters(scrambled)).queue();
         msg = channel.sendMessage(message).complete();
     }
 
