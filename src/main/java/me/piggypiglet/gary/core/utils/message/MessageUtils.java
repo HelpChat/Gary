@@ -9,6 +9,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet ${year}
@@ -96,7 +97,7 @@ public final class MessageUtils {
     }
 
     public String arrayToString(String[] array) {
-        return Arrays.toString(array).replace("[", "").replace("]", "").replace(", ", " ");
+        return Arrays.stream(array).collect(Collectors.joining(" "));
     }
 
 }

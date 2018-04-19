@@ -19,11 +19,11 @@ import me.piggypiglet.gary.commands.server.help.Commands;
 import me.piggypiglet.gary.commands.server.help.Help;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.*;
+import me.piggypiglet.gary.core.logging.types.*;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.GFile;
 import me.piggypiglet.gary.core.storage.MySQL;
 import me.piggypiglet.gary.core.tasks.RunTasks;
-import me.piggypiglet.gary.core.utils.misc.LogUtils;
 import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -47,7 +47,6 @@ public final class GaryBot {
     @Inject private UserUtils userUtils;
     @Inject private ShutdownHandler shutdownHandler;
     @Inject private LoggingHandler loggingHandler;
-    @Inject private LogUtils logUtils;
 
     @Inject private Skip skip;
     @Inject private ExpansionInfo expansionInfo;
@@ -65,6 +64,12 @@ public final class GaryBot {
     @Inject private Help help;
     @Inject private Commands commands;
 
+    @Inject private MemberJoin memberJoin;
+    @Inject private MemberLeave memberLeave;
+    @Inject private MessageDelete messageDelete;
+    @Inject private MessageEdit messageEdit;
+    @Inject private VoiceJoin voiceJoin;
+
     private JDA jda;
 
     private GaryBot() {
@@ -73,7 +78,7 @@ public final class GaryBot {
         injector.injectMembers(this);
 
         Stream.of(
-                "files", "commands", "bot", "mysql", "tasks"
+                "files", "commands", "loggers", "bot", "mysql", "tasks"
         ).forEach(this::register);
 
         Runtime.getRuntime().addShutdownHook(shutdownHandler);
@@ -88,6 +93,13 @@ public final class GaryBot {
                             checkUsers, syncUsers, setMotd, help, commands, setWord
                     ).forEach(commandHandler.getCommands()::add);
                     break;
+
+                case "loggers":
+                    Stream.of(
+                            memberJoin, memberLeave, messageDelete, messageEdit, voiceJoin
+                    ).forEach(loggingHandler.getLoggers()::add);
+                    break;
+
                 case "files":
                     files.make("config", "./config.json", "/config.json");
                     files.make("words", "./words.txt", "/words.txt");
@@ -96,10 +108,12 @@ public final class GaryBot {
                     files.make("messages", "schema/Messages.sql", "/schema/Messages.sql");
                     chatReaction.loadWords();
                     break;
+
                 case "tasks":
                     runTasks.setup(jda);
                     runTasks.runTasks();
                     break;
+
                 case "bot":
                     jda = new JDABuilder(AccountType.BOT)
                             .setToken(files.getItem("config", "token"))
@@ -109,8 +123,8 @@ public final class GaryBot {
                             .addEventListener(chatHandler)
                             .addEventListener(loggingHandler)
                             .buildBlocking();
-                    logUtils.setup(jda);
                     break;
+
                 case "mysql":
                     mysql.connect();
                     mysql.setup(jda);
