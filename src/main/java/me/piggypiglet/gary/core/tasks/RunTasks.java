@@ -11,20 +11,14 @@ import java.util.concurrent.TimeUnit;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class RunTasks {
-    @Inject private ChannelClearing cc;
     @Inject private WordChanger wc;
 
     public void setup(JDA jda) {
-        cc.setup(jda);
         wc.setup(jda);
     }
 
     public void runTasks() {
         Timer timer = new Timer();
-
-//        System.out.println("Task - Request, offer and rms service cleaning started");
-//        long timeCC = TimeUnit.DAYS.toMillis(Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
-//        timer.schedule(cc, timeCC, timeCC);
 
         System.out.println("Task - ChatReaction started");
         long timeCR = TimeUnit.MINUTES.toMillis(5);
