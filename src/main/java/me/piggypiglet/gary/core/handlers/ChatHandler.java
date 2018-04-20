@@ -5,6 +5,7 @@ import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.storage.tables.Messages;
 import me.piggypiglet.gary.core.storage.tables.Stats;
+import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import me.piggypiglet.gary.core.utils.message.ErrorUtils;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -20,6 +21,7 @@ public final class ChatHandler extends ListenerAdapter {
     @Inject private MessageUtils messageUtils;
     @Inject private ErrorUtils errorUtils;
     @Inject private Messages messages;
+    @Inject private RoleUtils roleUtils;
 
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!e.getAuthor().isBot()) {
@@ -44,6 +46,10 @@ public final class ChatHandler extends ListenerAdapter {
 
             if (messageUtils.equalsIgnoreCase(e.getChannel().getName(), Constants.CHANNELS)) {
                 messages.addMessage(e.getMessage());
+            }
+
+            if (e.getChannel().getIdLong() == 419335515062534156L && !roleUtils.isTrustedPlus(e.getMember())) {
+                e.getMessage().delete().queue();
             }
         }
     }
