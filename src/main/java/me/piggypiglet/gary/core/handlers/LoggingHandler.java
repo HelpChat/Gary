@@ -41,32 +41,41 @@ public final class LoggingHandler extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(GuildMemberJoinEvent e) {
-        log(LogType.MEMBER_JOIN, e.getJDA(), e.getUser(), null, null, null, e.getGuild());
+        if (e.getGuild().getIdLong() == Constants.HELP_CHAT) {
+            log(LogType.MEMBER_JOIN, e.getJDA(), e.getUser(), null, null, null, e.getGuild());
+        }
     }
 
     @Override
     public void onGuildMemberLeave(GuildMemberLeaveEvent e) {
-        // TODO: is ban?
-        log(LogType.MEMBER_LEAVE, e.getJDA(), e.getUser(), null, null, null, e.getGuild());
+        if (e.getGuild().getIdLong() == Constants.HELP_CHAT) {
+            log(LogType.MEMBER_LEAVE, e.getJDA(), e.getUser(), null, null, null, e.getGuild());
+        }
     }
 
     @Override
     public void onMessageDelete(MessageDeleteEvent e) {
-        if (messageUtils.equalsIgnoreCase(e.getChannel().getName(), Constants.CHANNELS)) {
-            log(LogType.MESSAGE_DELETE, e.getJDA(), null, e.getTextChannel(), null, e.getMessageIdLong(), e.getGuild());
+        if (e.getGuild().getIdLong() == Constants.HELP_CHAT) {
+            if (messageUtils.equalsIgnoreCase(e.getChannel().getName(), Constants.CHANNELS)) {
+                log(LogType.MESSAGE_DELETE, e.getJDA(), null, e.getTextChannel(), null, e.getMessageIdLong(), e.getGuild());
+            }
         }
     }
 
     @Override
     public void onMessageUpdate(MessageUpdateEvent e) {
-        if (messageUtils.equalsIgnoreCase(e.getChannel().getName(), Constants.CHANNELS)) {
-            log(LogType.MESSAGE_EDIT, e.getJDA(), e.getAuthor(), e.getTextChannel(), e.getMessage(), e.getMessageIdLong(), e.getGuild());
+        if (e.getGuild().getIdLong() == Constants.HELP_CHAT) {
+            if (messageUtils.equalsIgnoreCase(e.getChannel().getName(), Constants.CHANNELS)) {
+                log(LogType.MESSAGE_EDIT, e.getJDA(), e.getAuthor(), e.getTextChannel(), e.getMessage(), e.getMessageIdLong(), e.getGuild());
+            }
         }
     }
 
     @Override
     public void onGuildVoiceJoin(GuildVoiceJoinEvent e) {
-        log(LogType.VOICE_JOIN, e.getJDA(), e.getMember().getUser(), e.getChannelJoined(), null, null, e.getGuild());
+        if (e.getGuild().getIdLong() == Constants.HELP_CHAT) {
+            log(LogType.VOICE_JOIN, e.getJDA(), e.getMember().getUser(), e.getChannelJoined(), null, null, e.getGuild());
+        }
     }
 
     private void log(LogType type, JDA jda, User user, Channel channel, Message message, Long messageId, Guild guild) {
