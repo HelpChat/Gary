@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class RMSUtils {
+public final class RMSUtils {
 
     @Inject private MessageUtils mutil;
     @Inject private WebUtils wutil;
@@ -77,6 +77,7 @@ public class RMSUtils {
 
                 Pattern p = Pattern.compile("([\\[][\\w]+[]])(.+)");
                 Matcher m = p.matcher(message.getContentRaw());
+
                 while (m.find()) {
                     String bracket = m.group(1);
                     String user = m.group(2);
@@ -143,7 +144,12 @@ public class RMSUtils {
                     newMessage.setTitle("Rate My Server");
                 }
 
-                channel.sendMessage(newMessage.build()).queue();
+//                Message rmsMessage = channel.sendMessage(newMessage.build()).complete();
+//                Stream.of(
+//                        424527592507310081L, 424527593036054549L, 424527594042687490L, 424527582411751424L, 424527593342107649L
+//                ).forEach(item -> rmsMessage.addReaction(rmsMessage.getJDA().getEmoteById(item)).queue());
+//                rmsMessage.addReaction("❌").queue();
+
                 message.delete().queue();
             }
         }

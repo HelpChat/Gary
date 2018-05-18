@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.storage.tables;
+package me.piggypiglet.gary.core.storage.mysql.tables;
 
 import co.aikar.idb.DB;
 import com.google.inject.Inject;

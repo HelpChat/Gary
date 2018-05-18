@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.concurrent.TimeUnit;
 
-public class Commands extends Command {
+public final class Commands extends Command {
     @Inject private CommandHandler commandHandler;
     @Inject private MessageUtils messageUtils;
     @Inject private RoleUtils roleUtils;

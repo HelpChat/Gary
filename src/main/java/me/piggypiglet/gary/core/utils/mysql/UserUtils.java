@@ -3,7 +3,7 @@ package me.piggypiglet.gary.core.utils.mysql;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.storage.tables.Users;
+import me.piggypiglet.gary.core.storage.mysql.tables.Users;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 

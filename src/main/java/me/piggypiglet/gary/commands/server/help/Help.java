@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.util.concurrent.TimeUnit;
 
-public class Help extends Command {
+public final class Help extends Command {
 
     public Help() {
         super("?help", "This page.", true);

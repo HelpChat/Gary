@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class SetWord extends Command {
+public final class SetWord extends Command {
     @Inject private RoleUtils roleUtils;
     @Inject private ChatReaction chatReaction;
 

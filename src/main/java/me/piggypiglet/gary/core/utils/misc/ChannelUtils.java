@@ -19,7 +19,7 @@ import java.util.List;
 public final class ChannelUtils {
     @Inject private WebUtils webUtils;
 
-    public void purgeChannel(TextChannel channel, long messageId, int limit, boolean before) {
+    public void purgeChannel(TextChannel channel, String messageId, int limit, boolean before) {
         JDA jda = channel.getJDA();
         List<Message> messages;
         if (before) {
@@ -43,7 +43,7 @@ public final class ChannelUtils {
         channel.deleteMessages(messages).queue();
     }
 
-    public TextChannel getTextChannel(JDA jda, long id) {
+    public TextChannel getTextChannel(JDA jda, String id) {
         return jda.getTextChannelById(id);
     }
 }

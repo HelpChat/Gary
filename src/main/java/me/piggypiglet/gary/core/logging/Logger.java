@@ -1,63 +1,49 @@
 package me.piggypiglet.gary.core.logging;
 
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.enums.LogType;
+import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.MessageEmbed;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
 public abstract class Logger {
-    private final LogType type;
-    private User user;
-    private Channel channel;
-    private Message message;
-    private Long messageId;
+    private final EventsEnum type;
     private Guild guild;
+    private Object[] other;
 
     protected Logger() {
         this(null);
     }
 
-    protected Logger(LogType type) {
+    protected Logger(EventsEnum type) {
         this.type = type;
     }
 
     protected abstract MessageEmbed send();
 
-    public void log(JDA jda, User user, Channel channel, Message message, Long messageId, Guild guild) {
-        this.user = user;
-        this.channel = channel;
-        this.message = message;
-        this.messageId = messageId;
+    public void log(JDA jda, Guild guild, Object... other) {
         this.guild = guild;
+        this.other = other;
 
-        jda.getTextChannelById(Constants.LOG).sendMessage(send()).queue();
-    }
-
-    protected User getUser() {
-        return user;
-    }
-
-    protected Channel getChannel() {
-        return channel;
-    }
-
-    protected Message getMessage() {
-        return message;
-    }
-
-    protected long getMessageId() {
-        return messageId;
+        MessageEmbed message = send();
+        if (message != null) {
+            jda.getTextChannelById(Constants.LOG).sendMessage(message).queue();
+        }
     }
 
     protected Guild getGuild() {
         return guild;
     }
 
-    public LogType getType() {
+    protected Object[] getOther() {
+        return other;
+    }
+
+    public EventsEnum getType() {
         return type;
     }
 }

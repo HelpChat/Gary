@@ -4,7 +4,6 @@ import me.piggypiglet.gary.core.logging.Logger;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.Channel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 
@@ -14,21 +13,21 @@ import java.time.ZonedDateTime;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class VoiceJoin extends Logger {
-    public VoiceJoin() {
-        super(EventsEnum.VOICE_JOIN);
+public final class MemberBan extends Logger {
+    public MemberBan() {
+        super(EventsEnum.MEMBER_BANNED);
     }
 
     @Override
     protected MessageEmbed send() {
-        if (getOther()[0] instanceof User && getOther()[1] instanceof Channel) {
+        if (getOther()[0] instanceof User) {
             User user = (User) getOther()[0];
-            Channel channel = (Channel) getOther()[1];
 
             return new EmbedBuilder()
-                    .setAuthor(user.getName() + "#" + user.getDiscriminator(), null, user.getEffectiveAvatarUrl())
-                    .setColor(Constants.GREEN)
-                    .setDescription(user.getAsMention() + " **joined voice channel <#" + channel.getId() + ">**")
+                    .setAuthor("Member Banned", null, user.getAvatarUrl())
+                    .setThumbnail(user.getEffectiveAvatarUrl())
+                    .setColor(Constants.RED)
+                    .setDescription(user.getAsMention() + " " + user.getName() + "#" + user.getDiscriminator())
                     .setFooter("ID: " + user.getId(), null)
                     .setTimestamp(ZonedDateTime.now())
                     .build();

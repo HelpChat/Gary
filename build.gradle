@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '2.3.2.3'
+version = '3.0.0.0-SNAPSHOT'
 mainClassName = 'me.piggypiglet.gary.GaryBot'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -25,6 +25,7 @@ dependencies {
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
     compile 'org.apache.commons:commons-lang3:+'
+    compile 'commons-io:commons-io:+'
     compile 'org.slf4j:slf4j-simple:+'
     compile 'com.intellij:annotations:+'
     compile 'mysql:mysql-connector-java:5.1.33'

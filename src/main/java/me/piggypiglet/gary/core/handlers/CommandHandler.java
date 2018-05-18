@@ -21,10 +21,10 @@ import java.util.List;
 // ------------------------------
 @Singleton
 public final class CommandHandler extends ListenerAdapter {
-
     @Inject private RequestUtils rutil;
     @Inject private RMSUtils rmsutil;
     @Inject private MessageUtils mutil;
+
     private List<Command> commands;
 
     public CommandHandler() {

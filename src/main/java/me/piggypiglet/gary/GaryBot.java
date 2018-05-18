@@ -3,6 +3,7 @@ package me.piggypiglet.gary;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.admin.BanCheck;
+import me.piggypiglet.gary.commands.admin.Eval;
 import me.piggypiglet.gary.commands.admin.Speak;
 import me.piggypiglet.gary.commands.admin.channel.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.channel.SetMotd;
@@ -21,8 +22,9 @@ import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.*;
 import me.piggypiglet.gary.core.logging.types.*;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.GFile;
-import me.piggypiglet.gary.core.storage.MySQL;
+import me.piggypiglet.gary.core.storage.json.GFile;
+import me.piggypiglet.gary.core.storage.json.GTypes;
+import me.piggypiglet.gary.core.storage.mysql.MySQL;
 import me.piggypiglet.gary.core.tasks.RunTasks;
 import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.AccountType;
@@ -42,6 +44,7 @@ public final class GaryBot {
     @Inject private UserHandler userHandler;
     @Inject private ChatReaction chatReaction;
     @Inject private GFile files;
+    @Inject private GTypes gTypes;
     @Inject private RunTasks runTasks;
     @Inject private MySQL mysql;
     @Inject private UserUtils userUtils;
@@ -63,11 +66,14 @@ public final class GaryBot {
     @Inject private SetMotd setMotd;
     @Inject private Help help;
     @Inject private Commands commands;
+    @Inject private Eval eval;
 
     @Inject private MemberJoin memberJoin;
     @Inject private MemberLeave memberLeave;
-    @Inject private MessageDelete messageDelete;
+    @Inject private MemberBan memberBan;
     @Inject private MessageEdit messageEdit;
+    @Inject private MessageDelete messageDelete;
+    @Inject private MessageBulkDelete messageBulkDelete;
     @Inject private VoiceJoin voiceJoin;
 
     private JDA jda;
@@ -89,15 +95,16 @@ public final class GaryBot {
             switch (register.toLowerCase()) {
                 case "commands":
                     Stream.of(
-                            skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo,
+                            skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
                             checkUsers, syncUsers, setMotd, help, commands, setWord
                     ).forEach(commandHandler.getCommands()::add);
                     break;
 
                 case "loggers":
                     Stream.of(
-                            memberJoin, memberLeave, messageDelete, messageEdit, voiceJoin
+                            memberJoin, memberLeave, memberBan, messageEdit, messageDelete, messageBulkDelete, voiceJoin
                     ).forEach(loggingHandler.getLoggers()::add);
+
                     break;
 
                 case "files":
@@ -116,18 +123,14 @@ public final class GaryBot {
 
                 case "bot":
                     jda = new JDABuilder(AccountType.BOT)
-                            .setToken(files.getItem("config", "token"))
+                            .setToken(gTypes.getString("config", "token"))
                             .setGame(Game.watching("https://garys.life"))
-                            .addEventListener(userHandler)
-                            .addEventListener(commandHandler)
-                            .addEventListener(chatHandler)
-                            .addEventListener(loggingHandler)
+                            .addEventListener(userHandler, commandHandler, chatHandler, loggingHandler)
                             .buildBlocking();
                     break;
 
                 case "mysql":
-                    mysql.connect();
-                    mysql.setup(jda);
+                    mysql.connect(jda);
                     System.out.println(userUtils.syncUsers(jda.getGuildById(Constants.HELP_CHAT), jda));
                     break;
             }
@@ -139,5 +142,4 @@ public final class GaryBot {
     public static void main(String[] args) {
         new GaryBot();
     }
-
 }

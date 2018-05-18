@@ -5,7 +5,7 @@ import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
-public class SetMotd extends Command {
+public final class SetMotd extends Command {
     @Inject private RoleUtils roleUtils;
 
     public SetMotd() {

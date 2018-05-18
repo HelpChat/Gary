@@ -9,7 +9,7 @@ import java.nio.file.StandardCopyOption;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class ConfigUtils {
+public final class FileUtils {
     public boolean exportResource(InputStream source, String destination) {
         boolean success = true;
         try {

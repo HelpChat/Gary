@@ -6,11 +6,13 @@ import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
+import java.util.Objects;
+
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class CheckUsers extends Command {
+public final class CheckUsers extends Command {
     @Inject private RoleUtils roleUtils;
     @Inject private UserUtils userUtils;
 
@@ -21,7 +23,7 @@ public class CheckUsers extends Command {
     @Override
     protected void execute(MessageReceivedEvent e, String[] args) {
         if (roleUtils.isTrustedPlus(e.getMember())) {
-            e.getChannel().sendMessage(userUtils.checkUsers(e.getGuild())).queue();
+            e.getChannel().sendMessage(Objects.requireNonNull(userUtils.checkUsers(e.getGuild()))).queue();
         }
     }
 }

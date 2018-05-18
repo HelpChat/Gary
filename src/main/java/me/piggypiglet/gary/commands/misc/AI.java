@@ -6,7 +6,7 @@ import ai.api.model.AIRequest;
 import ai.api.model.AIResponse;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
-import me.piggypiglet.gary.core.objects.GFile;
+import me.piggypiglet.gary.core.storage.json.GTypes;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -18,7 +18,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 public final class AI extends Command {
 
     @Inject private MessageUtils mutil;
-    @Inject private GFile config;
+    @Inject private GTypes gTypes;
 
     public AI() {
         super("!/!say ", "Speak to gary, or speak through gary.", true);
@@ -30,7 +30,7 @@ public final class AI extends Command {
         MessageChannel channel = e.getChannel();
 
         if (channel.getIdLong() == 339674158596358145L) {
-            AIConfiguration config = new AIConfiguration(this.config.getItem("config", "aitoken"));
+            AIConfiguration config = new AIConfiguration(gTypes.getString("config", "aitoken"));
             AIDataService data = new AIDataService(config);
 
             try {

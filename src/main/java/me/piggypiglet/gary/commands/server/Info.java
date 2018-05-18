@@ -5,7 +5,7 @@ import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.handlers.CommandHandler;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.GFile;
+import me.piggypiglet.gary.core.storage.json.GFile;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Member;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class Info extends Command {
+public final class Info extends Command {
     @Inject private CommandHandler commandHandler;
     @Inject private GFile gFile;
     @Inject private ChatReaction chatReaction;
@@ -54,7 +54,7 @@ public class Info extends Command {
         MessageEmbed.Field gary = new MessageEmbed.Field("Gary:", "Info about gary himself\n\u200C", false);
         MessageEmbed.Field uptime = new MessageEmbed.Field("Uptime:", TimeUnit.MILLISECONDS.toHours(ManagementFactory.getRuntimeMXBean().getUptime()) + " hours uptime.", true);
         MessageEmbed.Field commands = new MessageEmbed.Field("Loaded Commands:", commandHandler.getCommands().size() + " loaded commands.", true);
-        MessageEmbed.Field configs = new MessageEmbed.Field("Loaded Files:", gFile.getgFiles().size() + " loaded files.", true);
+        MessageEmbed.Field configs = new MessageEmbed.Field("Loaded Files:", gFile.getItemMaps().size() + " loaded files.", true);
         MessageEmbed.Field words = new MessageEmbed.Field("Loaded Words:", Objects.requireNonNull(chatReaction.getWords()).size() + " loaded words.", true);
 
         MessageEmbed message = new EmbedBuilder()

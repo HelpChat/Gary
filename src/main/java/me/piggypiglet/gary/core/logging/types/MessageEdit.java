@@ -1,12 +1,13 @@
 package me.piggypiglet.gary.core.logging.types;
 
-import co.aikar.idb.DB;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.logging.Logger;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.enums.LogType;
-import me.piggypiglet.gary.core.storage.tables.Messages;
+import me.piggypiglet.gary.core.objects.enums.EventsEnum;
+import me.piggypiglet.gary.core.storage.mysql.tables.Messages;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Channel;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 
@@ -16,45 +17,44 @@ import java.time.ZonedDateTime;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public class MessageEdit extends Logger {
+public final class MessageEdit extends Logger {
     @Inject private Messages messages;
 
     public MessageEdit() {
-        super(LogType.MESSAGE_EDIT);
+        super(EventsEnum.MESSAGE_EDIT);
     }
 
     @Override
     protected MessageEmbed send() {
-        messages.editMessage(getMessage());
+        if (getOther()[0] instanceof User && getOther()[1] instanceof Channel && getOther()[2] instanceof Message) {
+            User author = (User) getOther()[0];
+            Channel channel = (Channel) getOther()[1];
+            Message message = (Message) getOther()[2];
+            long messageId = message.getIdLong();
 
-        User user = getUser();
-        long message_id = getMessageId();
-        String current_message = getMessage().getContentRaw().length() >= 229 ? getMessage().getContentRaw().substring(0, 229) : getMessage().getContentRaw();
-        String previous_message = "";
+            messages.editMessage(message);
 
-        if (current_message.length() == 229) {
-            current_message = current_message + "...";
-        }
+            String currentMessage = message.getContentRaw().length() >= 229 ? message.getContentRaw().substring(0, 229) : message.getContentRaw();
+            String previousMessage = messages.getPreviousMessage(messageId);
 
-        try {
-            previous_message = (String) DB.getFirstColumnAsync("SELECT `previous_message` FROM `gary_messages` WHERE `message_id`=?", message_id).get();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            if (currentMessage.length() == 229) {
+                currentMessage = currentMessage + "...";
+            }
 
-        if (!previous_message.isEmpty()) {
-            MessageEmbed.Field before = new MessageEmbed.Field("Before", previous_message, false);
-            MessageEmbed.Field after = new MessageEmbed.Field("After", current_message, false);
+            if (!previousMessage.isEmpty()) {
+                MessageEmbed.Field before = new MessageEmbed.Field("Before", previousMessage, false);
+                MessageEmbed.Field after = new MessageEmbed.Field("After", currentMessage, false);
 
-            return new EmbedBuilder()
-                    .setAuthor(user.getName() + "#" + user.getDiscriminator(), null, user.getAvatarUrl())
-                    .setColor(Constants.BLUE)
-                    .setDescription("**Message edited in <#" + getChannel().getIdLong() + ">**")
-                    .addField(before)
-                    .addField(after)
-                    .setFooter("User ID: " + user.getIdLong(), null)
-                    .setTimestamp(ZonedDateTime.now())
-                    .build();
+                return new EmbedBuilder()
+                        .setAuthor(author.getName() + "#" + author.getDiscriminator(), null, author.getAvatarUrl())
+                        .setColor(Constants.BLUE)
+                        .setDescription("**Message edited in <#" + channel.getId() + ">**")
+                        .addField(before)
+                        .addField(after)
+                        .setFooter("User ID: " + author.getId(), null)
+                        .setTimestamp(ZonedDateTime.now())
+                        .build();
+            }
         }
 
         return null;
