@@ -11,6 +11,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +26,15 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class RMSUtils {
-
     @Inject private MessageUtils mutil;
     @Inject private WebUtils wutil;
     @Inject private ServerInfoUtils siutils;
+
+    private Logger logger;
+
+    public RMSUtils() {
+        logger = LoggerFactory.getLogger("RMSUtils");
+    }
 
     private boolean checkMessage(GenericMessageEvent e) {
         User author = null;
@@ -53,7 +60,7 @@ public final class RMSUtils {
             Stream.of("[name]", "[ip]", "[description]").forEach(items::add);
 
             if (mutil.contains(msg, items) || mutil.startsWith(msg, "[REVIEW]")) {
-                System.out.println(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
+                logger.info(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
                 return true;
             } else {
                 message.delete().queue();

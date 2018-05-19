@@ -49,7 +49,7 @@ public final class PaginationHandler extends ListenerAdapter {
                     if (newMessage instanceof String) {
                         message.editMessage((String) newMessage).queue();
                     } else if (newMessage instanceof MessageEmbed) {
-                        message.editMessage((MessageEmbed) message).queue();
+                        message.editMessage((MessageEmbed) newMessage).override(true).queue();
                     }
 
                     e.getReaction().removeReaction(e.getUser()).queue();

@@ -10,19 +10,23 @@ import me.piggypiglet.gary.core.storage.json.GTypes;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet ${year}
 // https://www.piggypiglet.me
 // ------------------------------
 public final class AI extends Command {
-
     @Inject private MessageUtils mutil;
     @Inject private GTypes gTypes;
+
+    private Logger logger;
 
     public AI() {
         super("!/!say ", "Speak to gary, or speak through gary.", true);
         this.delete = false;
+        logger = LoggerFactory.getLogger("AI");
     }
 
     @Override
@@ -46,7 +50,7 @@ public final class AI extends Command {
                         channel.sendMessage(mutil.format(e, response.getResult().getFulfillment().getSpeech())).queue();
                     }
                 } else {
-                    System.out.println(response.getStatus().getErrorDetails());
+                    logger.error(response.getStatus().getErrorDetails());
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();

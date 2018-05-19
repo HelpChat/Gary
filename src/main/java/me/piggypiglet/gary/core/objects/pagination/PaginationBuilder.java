@@ -25,10 +25,8 @@ public final class PaginationBuilder {
         pages = new ArrayList<>();
     }
 
-    public PaginationBuilder addPages(PaginationPage... pages) {
+    public void addPages(PaginationPage... pages) {
         this.pages.addAll(Arrays.asList(pages));
-
-        return this;
     }
 
     public void build(TextChannel channel) {

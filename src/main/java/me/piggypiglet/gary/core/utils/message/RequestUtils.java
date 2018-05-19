@@ -8,6 +8,8 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,12 @@ import java.util.stream.Stream;
 public final class RequestUtils {
     @Inject private MessageUtils mutil;
     @Inject private WebUtils wutil;
+
+    private Logger logger;
+
+    public RequestUtils() {
+        logger = LoggerFactory.getLogger("RequestUtils");
+    }
 
     public void checkMessage(GenericMessageEvent e) {
         User author = null;
@@ -51,7 +59,7 @@ public final class RequestUtils {
             }
 
             if (mutil.contains(msg, items) && mutil.startsWith(msg, "[unpaid]/[paid]")) {
-                System.out.println(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
+                logger.info(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
             } else {
                 message.delete().queue();
                 String requirements = "- You must have '[PAID]' or '[UNPAID]' at the top of your request\n" +

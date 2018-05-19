@@ -21,7 +21,6 @@ import me.piggypiglet.gary.commands.server.help.Help;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.*;
 import me.piggypiglet.gary.core.logging.types.*;
-import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.storage.json.GFile;
 import me.piggypiglet.gary.core.storage.json.GTypes;
 import me.piggypiglet.gary.core.storage.mysql.MySQL;
@@ -50,6 +49,7 @@ public final class GaryBot {
     @Inject private UserUtils userUtils;
     @Inject private ShutdownHandler shutdownHandler;
     @Inject private LoggingHandler loggingHandler;
+    @Inject private PaginationHandler paginationHandler;
 
     @Inject private Skip skip;
     @Inject private ExpansionInfo expansionInfo;
@@ -125,13 +125,13 @@ public final class GaryBot {
                     jda = new JDABuilder(AccountType.BOT)
                             .setToken(gTypes.getString("config", "token"))
                             .setGame(Game.watching("https://garys.life"))
-                            .addEventListener(userHandler, commandHandler, chatHandler, loggingHandler)
+                            .setBulkDeleteSplittingEnabled(false)
+                            .addEventListener(userHandler, commandHandler, chatHandler, loggingHandler, paginationHandler)
                             .buildBlocking();
                     break;
 
                 case "mysql":
                     mysql.connect(jda);
-                    System.out.println(userUtils.syncUsers(jda.getGuildById(Constants.HELP_CHAT), jda));
                     break;
             }
         } catch (Exception e) {

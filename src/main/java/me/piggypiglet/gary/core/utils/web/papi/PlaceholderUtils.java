@@ -82,6 +82,7 @@ public final class PlaceholderUtils {
         return placeholders.toString()
                 .replace("]", "")
                 .replace("[", "")
-                .replace(", ", "\n");
+                .replace(", ", "\n")
+                .replace("_", "\\_");
     }
 }
