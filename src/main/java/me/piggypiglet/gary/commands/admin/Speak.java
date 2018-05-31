@@ -28,7 +28,7 @@ public final class Speak extends Command {
         long channelId;
         int toReplace;
 
-        switch (message.getContentRaw().getCharAt(0)) {
+        switch (message.getContentRaw().charAt(0)) {
             case '1':
                 channelId = Constants.PLUGIN;
                 toReplace = 1;
