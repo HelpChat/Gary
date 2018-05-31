@@ -3,13 +3,8 @@ package me.piggypiglet.gary.core.handlers;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.framework.Command;
-import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
-import me.piggypiglet.gary.core.utils.message.RMSUtils;
-import me.piggypiglet.gary.core.utils.message.RequestUtils;
-import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.ArrayList;
@@ -21,8 +16,6 @@ import java.util.List;
 // ------------------------------
 @Singleton
 public final class CommandHandler extends ListenerAdapter {
-    @Inject private RequestUtils rutil;
-    @Inject private RMSUtils rmsutil;
     @Inject private MessageUtils mutil;
 
     private List<Command> commands;
@@ -52,23 +45,6 @@ public final class CommandHandler extends ListenerAdapter {
                     }
                 }
             }
-            checkMessage(e);
-        }
-    }
-
-    @Override
-    public void onMessageUpdate(MessageUpdateEvent e) {
-        if (!e.getAuthor().isBot()) {
-            checkMessage(e);
-        }
-    }
-
-    private void checkMessage(GenericMessageEvent e) {
-        if (e.getChannel().getIdLong() == Constants.REQUEST) {
-            rutil.checkMessage(e);
-        }
-        if (e.getChannel().getIdLong() == Constants.RMS) {
-            rmsutil.createMessage(e);
         }
     }
 

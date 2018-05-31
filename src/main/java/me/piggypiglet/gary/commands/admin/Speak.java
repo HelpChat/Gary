@@ -28,50 +28,55 @@ public final class Speak extends Command {
         long channelId;
         int toReplace;
 
-        switch (message.getContentRaw().charAt(0)) {
-            case '1':
+        switch (message.getContentRaw().split("(\\d+)")[0]) {
+            case "1":
                 channelId = Constants.PLUGIN;
                 toReplace = 1;
                 break;
 
-            case '2':
+            case "2":
                 channelId = Constants.DEV;
                 toReplace = 2;
                 break;
 
-            case '3':
+            case "3":
                 channelId = Constants.RMS;
                 toReplace = 3;
                 break;
 
-            case '4':
+            case "4":
                 channelId = Constants.IDEAS;
                 toReplace = 4;
                 break;
 
-            case '5':
-                channelId = Constants.REQUEST;
+            case "5":
+                channelId = Constants.REQUEST_FREE;
                 toReplace = 5;
                 break;
 
-            case '6':
-                channelId = Constants.OFFER;
+            case "6":
+                channelId = Constants.REQUEST_PAID;
                 toReplace = 6;
                 break;
 
-            case '7':
-                channelId = Constants.MC;
+            case "7":
+                channelId = Constants.OFFER;
                 toReplace = 7;
                 break;
 
-            case '8':
-                channelId = Constants.OTHER;
+            case "8":
+                channelId = Constants.MC;
                 toReplace = 8;
                 break;
 
-            case '9':
-                channelId = Constants.BOT;
+            case "9":
+                channelId = Constants.OTHER;
                 toReplace = 9;
+                break;
+
+            case "10":
+                channelId = Constants.BOT;
+                toReplace = 10;
                 break;
 
             default:
@@ -79,7 +84,7 @@ public final class Speak extends Command {
         }
 
         Guild guild = e.getGuild();
-        guild.getTextChannelById(channelId).sendMessage(message.getContentRaw().replace(String.valueOf(toReplace) + " ", "")).queue();
+        guild.getTextChannelById(channelId).sendMessage(message.getContentRaw().replace(toReplace + " ", "")).queue();
     }
 
 }

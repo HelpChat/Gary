@@ -5,10 +5,12 @@ import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.storage.mysql.tables.Messages;
 import me.piggypiglet.gary.core.storage.mysql.tables.Stats;
-import me.piggypiglet.gary.core.utils.admin.RoleUtils;
-import me.piggypiglet.gary.core.utils.message.ErrorUtils;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.RMSUtils;
+import me.piggypiglet.gary.core.utils.message.RequestUtils;
+import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 // ------------------------------
@@ -18,10 +20,10 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 public final class ChatHandler extends ListenerAdapter {
     @Inject private ChatReaction cr;
     @Inject private Stats stats;
-    @Inject private MessageUtils messageUtils;
-    @Inject private ErrorUtils errorUtils;
     @Inject private Messages messages;
-    @Inject private RoleUtils roleUtils;
+    @Inject private MessageUtils messageUtils;
+    @Inject private RequestUtils requestUtils;
+    @Inject private RMSUtils rmsUtils;
 
     public void onMessageReceived(MessageReceivedEvent e) {
         if (!e.getAuthor().isBot()) {
@@ -44,15 +46,25 @@ public final class ChatHandler extends ListenerAdapter {
                 }
             }
 
-            if (messageUtils.equalsIgnoreCase(e.getChannel().getName(), Constants.CHANNELS)) {
-                messages.addMessage(e.getMessage());
-            }
+            checkMessage(e);
         }
     }
 
-    private void checkMessage(MessageReceivedEvent e) {
-        if (e.getChannel().getIdLong() == Constants.PLUGIN || e.getChannel().getIdLong() == Constants.DEV || e.getChannel().getIdLong() == Constants.PIG) {
-            errorUtils.checkMessage(e);
+    @Override
+    public void onMessageUpdate(MessageUpdateEvent e) {
+        if (!e.getAuthor().isBot()) {
+            checkMessage(e);
+        }
+    }
+
+    private void checkMessage(GenericMessageEvent e) {
+        long channelId = e.getChannel().getIdLong();
+
+        if (channelId == Constants.REQUEST_FREE || channelId == Constants.REQUEST_PAID) {
+            requestUtils.checkMessage(e, channelId);
+        }
+        if (channelId == Constants.RMS) {
+            rmsUtils.createMessage(e);
         }
     }
 }

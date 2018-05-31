@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.utils.message;
 
 import com.google.inject.Inject;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.web.WebUtils;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -30,7 +31,11 @@ public final class RequestUtils {
         logger = LoggerFactory.getLogger("RequestUtils");
     }
 
-    public void checkMessage(GenericMessageEvent e) {
+    private boolean isPaid(long channelId) {
+        return channelId == Constants.REQUEST_PAID;
+    }
+
+    public void checkMessage(GenericMessageEvent e, long channelId) {
         User author = null;
         Message message = null;
 
@@ -44,7 +49,6 @@ public final class RequestUtils {
             MessageUpdateEvent ev = (MessageUpdateEvent) e;
             author = ev.getAuthor();
             message = ev.getMessage();
-
         }
 
         if (author != null && message != null) {
@@ -52,51 +56,70 @@ public final class RequestUtils {
             String msg = message.getContentStripped();
 
             List<String> items = new ArrayList<>();
-            Stream.of("service:", "what i want:").forEach(items::add);
+            Stream.of("service:", "request:").forEach(items::add);
 
-            if (mutil.startsWith(msg, "[paid]")) {
-                items.add("budget:");
+            boolean isPaid = isPaid(channelId);
+            String paidStr = isPaid ? "[PAID]" : "[UNPAID]";
+
+            if (isPaid) {
+                if (mutil.startsWith(msg, "[paid]")) {
+                    items.add("budget:");
+                } else {
+                    message.delete().queue();
+                    sendHelp(paidStr, author, msg, channel, true);
+                    return;
+                }
             }
 
-            if (mutil.contains(msg, items) && mutil.startsWith(msg, "[unpaid]/[paid]")) {
+            if (mutil.contains(msg, items) && mutil.startsWith(msg, paidStr)) {
                 logger.info(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
             } else {
                 message.delete().queue();
-                String requirements = "- You must have '[PAID]' or '[UNPAID]' at the top of your request\n" +
-                        "- You must have 'Service:' in your request\n" +
-                        "- You must have 'What I want:' in your request\n" +
-                        "- If paid, you must have 'Budget:' in your request";
-                String example = "[PAID]/[UNPAID]\n" +
-                        "Service: plugin development\n" +
-                        "What I want: I need a plugin that spawns llamas all over spawn\n" +
-                        "Budget (Only if paid request): $231.95";
-
-                User finalAuthor = author;
-                author.openPrivateChannel().queue(privateChannel -> {
-                    String string = "Your latest request is not following the requirements for <#297996869173379072>.\n\n" +
-                            "The requirements are as below:\n```" + requirements + "```\nFor example,\n```" + example +
-                            "```\nPlease edit your message below to fit the requirements:\n```" + msg + "```";
-
-                    privateChannel.sendMessage(string).queue(message1 -> {
-                    }, throwable -> {
-                        String hastebin = wutil.hastebin("Your latest request is not following the requirements for <#297996869173379072>.\n\n" +
-                                "The requirements are as below:\n" + requirements + "\n\nFor example,\n\n" + example +
-                                "\n\nPlease edit your message below to fit the requirements:\n\n" + msg);
-
-                        String toSend = !hastebin.equals("fail")
-                                ? "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**\n" + finalAuthor.getAsMention()
-                                + " Your message does not follow the requirements for <#297996869173379072>, "
-                                + "please read this:\n" + hastebin
-                                : "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**\n" + finalAuthor.getAsMention()
-                                + " Your message does not follow the requirements for <#297996869173379072>, "
-                                + "please fix any mistakes.\nhastebin.com is down and you have pm's disabled, "
-                                + "I cannot show you your message, you will have to try remember it.";
-
-                        channel.sendMessage(toSend).queue(message1 -> message1.delete().completeAfter(30, TimeUnit.SECONDS));
-                    });
-                });
+                sendHelp(paidStr, author, msg, channel, isPaid);
             }
         }
     }
 
+    private void sendHelp(String paidStr, User author, String msg, MessageChannel channel, boolean isPaid) {
+        StringBuilder requirements = new StringBuilder();
+        Stream.of(
+                "- You must have '", paidStr, "' at the top of your request\n",
+                "- You must have 'Service:' in your request\n",
+                "- You must have 'Request:' in your request"
+        ).forEach(requirements::append);
+        if (isPaid) requirements.append("\n- You must have 'Budget:' in your request");
+
+        StringBuilder example = new StringBuilder();
+        Stream.of(
+                paidStr, "\n",
+                "Service: plugin development\n",
+                "Request: I need a plugin that spawns llamas all over spawn"
+        ).forEach(example::append);
+        if (isPaid) example.append("\nBudget: $231.95");
+
+        final String channelId = channel.getId();
+        author.openPrivateChannel().queue(privateChannel -> {
+            String string = "Your latest request is not following the requirements for <#" + channelId + ">.\n\n" +
+                    "The requirements are as below:\n```" + requirements + "```\nFor example,\n```" + example +
+                    "```\nPlease edit your message below to fit the requirements:\n```" + msg + "```";
+
+            privateChannel.sendMessage(string).queue(message1 -> {
+            }, throwable -> {
+                String hastebin = wutil.hastebin("Your latest request is not following the requirements for #" + channel.getName() + ".\n\n" +
+                        "The requirements are as below:\n" + requirements + "\n\nFor example,\n\n" + example +
+                        "\n\nPlease edit your message below to fit the requirements:\n\n" + msg);
+
+                String toSend = !hastebin.equals("fail")
+                        ? "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**\n" + author.getAsMention()
+                        + " Your message does not follow the requirements for <#" + channelId + ">, "
+                        + "please read this:\n" + hastebin
+                        : "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**\n" + author.getAsMention()
+                        + " Your message does not follow the requirements for <#" + channelId + ">, "
+                        + "please fix any mistakes.\nhastebin.com is down and you have pm's disabled, "
+                        + "I cannot show you your message, you will have to try remember it.";
+
+                channel.sendMessage(toSend).queue(message1 -> message1.delete().completeAfter(30, TimeUnit.SECONDS));
+            });
+        });
+    }
 }
