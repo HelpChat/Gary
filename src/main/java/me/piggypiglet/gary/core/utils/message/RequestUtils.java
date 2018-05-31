@@ -59,31 +59,21 @@ public final class RequestUtils {
             Stream.of("service:", "request:").forEach(items::add);
 
             boolean isPaid = isPaid(channelId);
-            String paidStr = isPaid ? "[PAID]" : "[UNPAID]";
 
-            if (isPaid) {
-                if (mutil.startsWith(msg, "[paid]")) {
-                    items.add("budget:");
-                } else {
-                    message.delete().queue();
-                    sendHelp(paidStr, author, msg, channel, true);
-                    return;
-                }
-            }
+            if (isPaid) items.add("budget:");
 
-            if (mutil.contains(msg, items) && mutil.startsWith(msg, paidStr)) {
+            if (mutil.contains(msg, items)) {
                 logger.info(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
             } else {
                 message.delete().queue();
-                sendHelp(paidStr, author, msg, channel, isPaid);
+                sendHelp(author, msg, channel, isPaid);
             }
         }
     }
 
-    private void sendHelp(String paidStr, User author, String msg, MessageChannel channel, boolean isPaid) {
+    private void sendHelp(User author, String msg, MessageChannel channel, boolean isPaid) {
         StringBuilder requirements = new StringBuilder();
         Stream.of(
-                "- You must have '", paidStr, "' at the top of your request\n",
                 "- You must have 'Service:' in your request\n",
                 "- You must have 'Request:' in your request"
         ).forEach(requirements::append);
@@ -91,7 +81,6 @@ public final class RequestUtils {
 
         StringBuilder example = new StringBuilder();
         Stream.of(
-                paidStr, "\n",
                 "Service: plugin development\n",
                 "Request: I need a plugin that spawns llamas all over spawn"
         ).forEach(example::append);
