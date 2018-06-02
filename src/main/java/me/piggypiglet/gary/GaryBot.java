@@ -11,6 +11,7 @@ import me.piggypiglet.gary.commands.admin.database.CheckUsers;
 import me.piggypiglet.gary.commands.admin.database.SyncUsers;
 import me.piggypiglet.gary.commands.chatreaction.admin.SetWord;
 import me.piggypiglet.gary.commands.chatreaction.admin.Skip;
+import me.piggypiglet.gary.commands.experimental.Interface;
 import me.piggypiglet.gary.commands.misc.AI;
 import me.piggypiglet.gary.commands.misc.RoleID;
 import me.piggypiglet.gary.commands.misc.Suggestion;
@@ -67,6 +68,7 @@ public final class GaryBot {
     @Inject private Help help;
     @Inject private Commands commands;
     @Inject private Eval eval;
+    @Inject private Interface interfaceCMD;
 
     @Inject private MemberJoin memberJoin;
     @Inject private MemberLeave memberLeave;
@@ -96,7 +98,7 @@ public final class GaryBot {
                 case "commands":
                     Stream.of(
                             skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
-                            checkUsers, syncUsers, setMotd, help, commands, setWord
+                            checkUsers, syncUsers, setMotd, help, commands, setWord, interfaceCMD
                     ).forEach(commandHandler.getCommands()::add);
                     break;
 

@@ -62,4 +62,8 @@ public final class PaginationHandler extends ListenerAdapter {
     public void onGuildMessageDelete(GuildMessageDeleteEvent e) {
         paginations.remove(e.getMessageId());
     }
+
+    public void clearPaginations() {
+        paginations = new HashMap<>();
+    }
 }

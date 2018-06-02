@@ -96,6 +96,18 @@ public final class MessageUtils {
         return msg.trim();
     }
 
+    public boolean contains(String msg, String str) {
+        msg = msg.toLowerCase();
+        str = str.toLowerCase();
+
+        if (str.contains("/")) {
+            String[] contain = str.split("/");
+            return Arrays.stream(contain).allMatch(msg::contains);
+        }
+
+        return msg.contains(str);
+    }
+
     public String arrayToString(String[] array) {
         return Arrays.stream(array).collect(Collectors.joining(" "));
     }

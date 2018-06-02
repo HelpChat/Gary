@@ -52,7 +52,7 @@ public final class ExpansionInfo extends Command {
                 String[] footer = { "Author - " + papiutils.getAuthor(), "https://avatars1.githubusercontent.com/u/37001286?s=200&v=4" };
 
                 List<String> placeholders = Arrays.asList(papiutils.getPlaceholders()
-                        .replaceAll("((.*\\s*\\n\\s*){20})", "$1-SEPARATOR-\n")
+                        .replaceAll("((.*\\s*\\n\\s*){15})", "$1-SEPARATOR-\n")
                         .split("-SEPARATOR-"));
 
                 if (placeholders.size() == 1) {

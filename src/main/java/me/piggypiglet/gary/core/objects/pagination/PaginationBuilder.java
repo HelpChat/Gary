@@ -21,11 +21,11 @@ public final class PaginationBuilder {
 
     private List<PaginationPage> pages;
 
-    public PaginationBuilder() {
-        pages = new ArrayList<>();
-    }
-
     public void addPages(PaginationPage... pages) {
+        if (this.pages == null) {
+            this.pages = new ArrayList<>();
+        }
+
         this.pages.addAll(Arrays.asList(pages));
     }
 
@@ -54,6 +54,12 @@ public final class PaginationBuilder {
             });
 
             paginationHandler.getPaginations().put(Objects.requireNonNull(finalMessage).getId(), paginationSet);
+
+            pages = null;
         }
+    }
+
+    public List<PaginationPage> getPages() {
+        return pages;
     }
 }

@@ -19,6 +19,7 @@ import java.util.List;
 // ------------------------------
 public final class PlaceholderUtils {
     @Inject private JsonParser jsonParser;
+
     private String json;
     private List<String> placeholders;
     private JsonObject jsonObject;
