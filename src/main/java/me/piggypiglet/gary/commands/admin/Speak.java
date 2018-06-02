@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 // ------------------------------
 public final class Speak extends Command {
     public Speak() {
-        super("1 /2 /3 /4 /5 /6 /7 /8 /9 /10", "", false);
+        super("1 /2 /3 /4 /5 /6 /7 /8 /9 ", "", false);
         this.delete = false;
     }
 
@@ -28,56 +28,56 @@ public final class Speak extends Command {
         long channelId;
         int toReplace;
 
-        switch (message.getContentRaw().split("(\\d+)")[0]) {
-            case "1":
+        switch (message.getContentRaw().charAt(0)) {
+            case '1':
                 channelId = Constants.PLUGIN;
                 toReplace = 1;
                 break;
 
-            case "2":
+            case '2':
                 channelId = Constants.DEV;
                 toReplace = 2;
                 break;
 
-            case "3":
+            case '3':
                 channelId = Constants.RMS;
                 toReplace = 3;
                 break;
 
-            case "4":
+            case '4':
                 channelId = Constants.IDEAS;
                 toReplace = 4;
                 break;
 
-            case "5":
+            case '5':
                 channelId = Constants.REQUEST_FREE;
                 toReplace = 5;
                 break;
 
-            case "6":
+            case '6':
                 channelId = Constants.REQUEST_PAID;
                 toReplace = 6;
                 break;
 
-            case "7":
+            case '7':
                 channelId = Constants.OFFER;
                 toReplace = 7;
                 break;
 
-            case "8":
+            case '8':
                 channelId = Constants.MC;
                 toReplace = 8;
                 break;
 
-            case "9":
+            case '9':
                 channelId = Constants.OTHER;
                 toReplace = 9;
                 break;
 
-            case "10":
-                channelId = Constants.BOT;
-                toReplace = 10;
-                break;
+//            case "10":
+//                channelId = Constants.BOT;
+//                toReplace = 10;
+//                break;
 
             default:
                 return;
