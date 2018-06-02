@@ -11,7 +11,6 @@ import me.piggypiglet.gary.commands.admin.database.CheckUsers;
 import me.piggypiglet.gary.commands.admin.database.SyncUsers;
 import me.piggypiglet.gary.commands.chatreaction.admin.SetWord;
 import me.piggypiglet.gary.commands.chatreaction.admin.Skip;
-import me.piggypiglet.gary.commands.experimental.Interface;
 import me.piggypiglet.gary.commands.misc.AI;
 import me.piggypiglet.gary.commands.misc.RoleID;
 import me.piggypiglet.gary.commands.misc.Suggestion;
@@ -19,6 +18,9 @@ import me.piggypiglet.gary.commands.placeholderapi.ExpansionInfo;
 import me.piggypiglet.gary.commands.server.Info;
 import me.piggypiglet.gary.commands.server.help.Commands;
 import me.piggypiglet.gary.commands.server.help.Help;
+import me.piggypiglet.gary.core.ai.InterfaceCommands;
+import me.piggypiglet.gary.core.ai.layers.clear.ClearCommands;
+import me.piggypiglet.gary.core.ai.layers.clear.types.Paginations;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.handlers.*;
 import me.piggypiglet.gary.core.logging.types.*;
@@ -26,7 +28,6 @@ import me.piggypiglet.gary.core.storage.json.GFile;
 import me.piggypiglet.gary.core.storage.json.GTypes;
 import me.piggypiglet.gary.core.storage.mysql.MySQL;
 import me.piggypiglet.gary.core.tasks.RunTasks;
-import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -47,10 +48,11 @@ public final class GaryBot {
     @Inject private GTypes gTypes;
     @Inject private RunTasks runTasks;
     @Inject private MySQL mysql;
-    @Inject private UserUtils userUtils;
     @Inject private ShutdownHandler shutdownHandler;
     @Inject private LoggingHandler loggingHandler;
     @Inject private PaginationHandler paginationHandler;
+    @Inject private InterfaceCommands interfaceCommands;
+    @Inject private InterfaceHandler interfaceHandler;
 
     @Inject private Skip skip;
     @Inject private ExpansionInfo expansionInfo;
@@ -68,7 +70,6 @@ public final class GaryBot {
     @Inject private Help help;
     @Inject private Commands commands;
     @Inject private Eval eval;
-    @Inject private Interface interfaceCMD;
 
     @Inject private MemberJoin memberJoin;
     @Inject private MemberLeave memberLeave;
@@ -78,6 +79,10 @@ public final class GaryBot {
     @Inject private MessageBulkDelete messageBulkDelete;
     @Inject private VoiceJoin voiceJoin;
 
+    @Inject private ClearCommands clearCommands;
+
+    @Inject private Paginations interfacePaginations;
+
     private JDA jda;
 
     private GaryBot() {
@@ -86,7 +91,7 @@ public final class GaryBot {
         injector.injectMembers(this);
 
         Stream.of(
-                "files", "commands", "loggers", "bot", "mysql", "tasks"
+                "files", "interface", "commands", "loggers", "bot", "mysql", "tasks"
         ).forEach(this::register);
 
         Runtime.getRuntime().addShutdownHook(shutdownHandler);
@@ -98,8 +103,23 @@ public final class GaryBot {
                 case "commands":
                     Stream.of(
                             skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
-                            checkUsers, syncUsers, setMotd, help, commands, setWord, interfaceCMD
+                            checkUsers, syncUsers, setMotd, help, commands, setWord
                     ).forEach(commandHandler.getCommands()::add);
+
+                    break;
+
+                case "interface":
+                    // command types, top level
+                    Stream.of(
+                            clearCommands
+                    ).forEach(item -> interfaceHandler.getTopCommands().put(item.getType(), item));
+
+                    // commands
+                    Stream.of(
+                        interfacePaginations
+                    ).forEach(interfaceCommands.getInterfaceAbstractList()::add);
+                    interfaceCommands.sort();
+
                     break;
 
                 case "loggers":
@@ -128,7 +148,7 @@ public final class GaryBot {
                             .setToken(gTypes.getString("config", "token"))
                             .setGame(Game.watching("https://garys.life"))
                             .setBulkDeleteSplittingEnabled(false)
-                            .addEventListener(userHandler, commandHandler, chatHandler, loggingHandler, paginationHandler)
+                            .addEventListener(userHandler, commandHandler, chatHandler, loggingHandler, paginationHandler, interfaceHandler)
                             .buildBlocking();
                     break;
 
