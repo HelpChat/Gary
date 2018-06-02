@@ -9,7 +9,9 @@ Hi! My name is Gary. I'm the bot that helps moderate [clip and funny's help chat
 * And more!
 
 ## For Developers
-If you are looking to contribute to gary, it's super simple! To make a command, add a new class in `me.piggypiglet.gary.commands` extending Command. Layout the class like this:
+Gary has no documentation so you'll be looking around the codebase to find the right functions for things, so honestly, as much as I'd appreciate you contributing, you're probably better off telling me what you want added and waiting for me to add it.
+
+If you have the patience and knowledge to figure out gary for yourself, go ahead and contribute. To make a command, add a new class in `me.piggypiglet.gary.commands` extending Command. Layout the class like this:
 ```java
 package me.piggypiglet.gary.commands;
 
@@ -33,4 +35,4 @@ In Gary, we use google guice for dependency injection. This allows you to get an
 ```java
 @Inject private ClassYouWantToInject classYouWantToInject;
 ```
-Once you've made your command class, go into me.piggypiglet.gary.Gary and add an instance of your command class to the stream under "commands" in the register method.<br/><br/>Be sure to test your new class via your own server before making a pull request. Once you've tested and made the pull request, I'll review over you code and if accepted, your contributions will go live immediately.
+Once you've made your command class, go into me.piggypiglet.gary.Gary and add an instance of your command class to the stream under "commands" in the register method.<br/><br/>Be sure to test your new class via your own server before making a pull request. Once you've tested and made the pull request, I'll review over your code and if accepted, your contributions will go live immediately.
