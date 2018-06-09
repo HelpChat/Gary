@@ -1,6 +1,6 @@
-package me.piggypiglet.gary.core.ai;
+package me.piggypiglet.gary.core.ginterface.layers;
 
-import me.piggypiglet.gary.core.objects.enums.ai.TopEnum;
+import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018

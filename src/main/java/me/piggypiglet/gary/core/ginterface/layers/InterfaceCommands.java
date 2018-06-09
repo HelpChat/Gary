@@ -1,9 +1,9 @@
-package me.piggypiglet.gary.core.ai;
+package me.piggypiglet.gary.core.ginterface.layers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.piggypiglet.gary.core.ai.layers.clear.ClearAbstract;
-import me.piggypiglet.gary.core.ai.layers.clear.ClearCommands;
+import me.piggypiglet.gary.core.ginterface.layers.clear.ClearAbstract;
+import me.piggypiglet.gary.core.ginterface.layers.clear.ClearCommands;
 
 import java.util.ArrayList;
 import java.util.List;

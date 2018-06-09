@@ -1,10 +1,10 @@
-package me.piggypiglet.gary.core.objects.enums.ai.clear;
+package me.piggypiglet.gary.core.objects.enums.ginterface;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 
 // ------------------------------
-public enum ClearType {
-    PAGINATIONS
+public enum TopEnum {
+    CLEAR
 }

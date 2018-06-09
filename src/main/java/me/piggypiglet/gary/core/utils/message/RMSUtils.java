@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.utils.message;
 
 import com.google.inject.Inject;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.mc.ServerInfoUtils;
 import me.piggypiglet.gary.core.utils.web.WebUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -72,6 +73,7 @@ public final class RMSUtils {
 
     public void createMessage(GenericMessageEvent e) {
         if (checkMessage(e)) {
+            logger.info("test");
             Message message = e.getChannel().getMessageById(e.getMessageIdLong()).complete();
             MessageChannel channel = e.getChannel();
             User author = message.getAuthor();
@@ -104,6 +106,8 @@ public final class RMSUtils {
                             break;
                     }
                 }
+
+                logger.info(name + " " + ip + " " + website + " " + description);
 
                 String[] ipSegments = ip.split(":");
 
@@ -151,13 +155,15 @@ public final class RMSUtils {
                     newMessage.setTitle("Rate My Server");
                 }
 
-//                Message rmsMessage = channel.sendMessage(newMessage.build()).complete();
-//                Stream.of(
-//                        424527592507310081L, 424527593036054549L, 424527594042687490L, 424527582411751424L, 424527593342107649L
-//                ).forEach(item -> rmsMessage.addReaction(rmsMessage.getJDA().getEmoteById(item)).queue());
-//                rmsMessage.addReaction("❌").queue();
-
                 message.delete().queue();
+
+                channel.sendMessage(newMessage.build()).queue(msg -> Stream.of(
+                        Constants.STAR_1,
+                        Constants.STAR_2,
+                        Constants.STAR_3,
+                        Constants.STAR_4,
+                        Constants.STAR_5
+                ).forEach(em -> msg.addReaction(e.getGuild().getEmoteById(em)).queue()));
             }
         }
     }

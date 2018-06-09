@@ -1,10 +1,10 @@
-package me.piggypiglet.gary.core.ai.layers.clear;
+package me.piggypiglet.gary.core.ginterface.layers.clear;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.piggypiglet.gary.core.ai.Top;
-import me.piggypiglet.gary.core.objects.enums.ai.TopEnum;
-import me.piggypiglet.gary.core.objects.enums.ai.clear.ClearType;
+import me.piggypiglet.gary.core.ginterface.Top;
+import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
+import me.piggypiglet.gary.core.objects.enums.ginterface.clear.ClearType;
 import me.piggypiglet.gary.core.utils.message.MessageUtils;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 

@@ -1,9 +1,9 @@
-package me.piggypiglet.gary.core.ai.layers.clear.types;
+package me.piggypiglet.gary.core.ginterface.layers.clear.types;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.ai.layers.clear.ClearAbstract;
+import me.piggypiglet.gary.core.ginterface.layers.clear.ClearAbstract;
 import me.piggypiglet.gary.core.handlers.PaginationHandler;
-import me.piggypiglet.gary.core.objects.enums.ai.clear.ClearType;
+import me.piggypiglet.gary.core.objects.enums.ginterface.clear.ClearType;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 // ------------------------------
