@@ -66,6 +66,14 @@ public final class Giveaways {
         DB.executeUpdateAsync("DELETE * FROM `gary_giveaways_users` WHERE (message_id=?) and (user_id=?);", messageId, userId);
     }
 
+    public boolean containsUser(long messageId, long userId) {
+        try {
+            return db.getFirstColumn("SELECT * FROM `gary_giveaways_users` " + "WHERE message_id = ? AND user_id = ? LIMIT 1", messageId, userId) != null;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
     public List<Long> getUsers(long messageId) {
         List<Long> results = new ArrayList<>();
 
