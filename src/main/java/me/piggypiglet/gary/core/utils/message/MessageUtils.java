@@ -28,7 +28,7 @@ public final class MessageUtils {
                 .replace("%time%", tutil.getTime());
     }
 
-    boolean contains(String msg, List<String> contain) {
+    public boolean contains(String msg, List<String> contain) {
         return contain.parallelStream().allMatch(msg.toLowerCase()::contains);
     }
 

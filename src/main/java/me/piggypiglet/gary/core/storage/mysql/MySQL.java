@@ -10,7 +10,6 @@ import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.storage.json.GTypes;
 import me.piggypiglet.gary.core.storage.mysql.tables.Users;
 import net.dv8tion.jda.core.JDA;
-import org.intellij.lang.annotations.Language;
 import org.slf4j.LoggerFactory;
 
 import java.util.stream.Stream;
@@ -38,16 +37,9 @@ public final class MySQL {
 
             try {
                 if (DB.getFirstRow("SHOW TABLES LIKE 'gary_users'") == null) {
-                    @Language("MySQL")
-                    String users = gTypes.getString("users", "file-content");
-                    String stats = gTypes.getString("stats", "file-content");
-                    String messages = gTypes.getString("messages", "file-content");
-
                     Stream.of(
-                            users,
-                            stats,
-                            messages
-                    ).forEach(DB::executeUpdateAsync);
+                            "users", "stats", "messages", "giveaways", "giveaways_users"
+                    ).forEach(str -> DB.executeUpdateAsync(gTypes.getString(str, "file-content")));
 
                     jda.getGuildById(Constants.HELP_CHAT).getMembers().forEach(member -> this.users.addUser(member.getUser()));
                 }

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '3.0.4.0'
+version = '3.1.0.0'
 mainClassName = 'me.piggypiglet.gary.GaryBot'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -15,6 +15,9 @@ repositories {
     mavenCentral()
     jcenter()
     maven {
+        url = 'https://jitpack.io'
+    }
+    maven {
         url = 'https://repo.aikar.co/content/groups/aikar/'
     }
 }
@@ -22,6 +25,7 @@ repositories {
 dependencies {
     compile 'ai.api:libai:+'
     compile 'net.dv8tion:JDA:+'
+    compile 'com.github.PiggyPiglet:TimeAPI:1.2'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
     compile 'org.apache.commons:commons-lang3:+'

@@ -1,10 +1,9 @@
-package me.piggypiglet.gary.core.objects.enums.ginterface;
+package me.piggypiglet.gary.core.objects.enums.ginterface.clear;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
-
 // ------------------------------
-public enum TopEnum {
-    CLEAR, ADD
+public enum AddType {
+    REACTION
 }

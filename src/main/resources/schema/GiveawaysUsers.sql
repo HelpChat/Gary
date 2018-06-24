@@ -1,0 +1,8 @@
+CREATE TABLE `gary_giveaways_users` (
+	`id` SMALLINT(6) NOT NULL AUTO_INCREMENT,
+	`giveaway_id` SMALLINT(6) NULL DEFAULT NULL,
+	`user_id` BIGINT(20) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)
+ENGINE=MyISAM
+;

@@ -1,0 +1,9 @@
+CREATE TABLE `gary_giveaways` (
+	`id` TINYINT(4) NOT NULL AUTO_INCREMENT,
+	`message_id` BIGINT(20) NULL DEFAULT NULL,
+	`time` MEDIUMINT(9) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=MyISAM
+;

@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
+import java.time.ZonedDateTime;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -30,6 +31,7 @@ public final class Eval extends Command {
         if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET && args.length == 1) {
             ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("Nashorn");
             scriptEngine.put("e", e);
+            scriptEngine.put("zn", ZonedDateTime.now());
             scriptEngine.put("db", DB.getGlobalDatabase());
 
             try {

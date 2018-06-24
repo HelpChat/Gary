@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import me.piggypiglet.gary.commands.admin.BanCheck;
 import me.piggypiglet.gary.commands.admin.Eval;
+import me.piggypiglet.gary.commands.admin.Giveaway;
 import me.piggypiglet.gary.commands.admin.Speak;
 import me.piggypiglet.gary.commands.admin.channel.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.channel.SetMotd;
@@ -20,10 +21,13 @@ import me.piggypiglet.gary.commands.server.help.Commands;
 import me.piggypiglet.gary.commands.server.help.Help;
 import me.piggypiglet.gary.core.framework.BinderModule;
 import me.piggypiglet.gary.core.ginterface.layers.InterfaceCommands;
+import me.piggypiglet.gary.core.ginterface.layers.add.AddCommands;
+import me.piggypiglet.gary.core.ginterface.layers.add.types.Reaction;
 import me.piggypiglet.gary.core.ginterface.layers.clear.ClearCommands;
 import me.piggypiglet.gary.core.ginterface.layers.clear.types.Paginations;
 import me.piggypiglet.gary.core.handlers.*;
 import me.piggypiglet.gary.core.logging.types.*;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.storage.json.GFile;
 import me.piggypiglet.gary.core.storage.json.GTypes;
 import me.piggypiglet.gary.core.storage.mysql.MySQL;
@@ -58,6 +62,7 @@ public final class GaryBot {
     @Inject private InterfaceCommands interfaceCommands;
     @Inject private InterfaceHandler interfaceHandler;
     @Inject private ShowcaseHandler showcaseHandler;
+    @Inject private GiveawayHandler giveawayHandler;
 
     @Inject private Skip skip;
     @Inject private ExpansionInfo expansionInfo;
@@ -75,6 +80,7 @@ public final class GaryBot {
     @Inject private Help help;
     @Inject private Commands commands;
     @Inject private Eval eval;
+    @Inject private Giveaway giveaway;
 
     @Inject private MemberJoin memberJoin;
     @Inject private MemberLeave memberLeave;
@@ -85,8 +91,11 @@ public final class GaryBot {
     @Inject private VoiceJoin voiceJoin;
 
     @Inject private ClearCommands clearCommands;
+    @Inject private AddCommands addCommands;
 
     @Inject private Paginations interfacePaginations;
+
+    @Inject private Reaction interfaceReaction;
 
     private JDA jda;
 
@@ -112,6 +121,8 @@ public final class GaryBot {
                     files.make("users", "schema/Users.sql", "/schema/Users.sql");
                     files.make("stats", "schema/Stats.sql", "/schema/Stats.sql");
                     files.make("messages", "schema/Messages.sql", "/schema/Messages.sql");
+                    files.make("giveaways", "schema/Giveaways.sql", "/schema/Giveaways.sql");
+                    files.make("giveaways_users", "schema/GiveawaysUsers.sql", "/schema/GiveawaysUsers.sql");
                     chatReaction.loadWords();
 
                     break;
@@ -119,12 +130,12 @@ public final class GaryBot {
                 case "interface":
                     // command types, top level
                     Stream.of(
-                            clearCommands
+                            clearCommands, addCommands
                     ).forEach(item -> interfaceHandler.getTopCommands().put(item.getType(), item));
 
                     // commands
                     Stream.of(
-                            interfacePaginations
+                            interfacePaginations, interfaceReaction
                     ).forEach(interfaceCommands.getInterfaceAbstractList()::add);
                     interfaceCommands.sort();
 
@@ -133,7 +144,7 @@ public final class GaryBot {
                 case "commands":
                     Stream.of(
                             skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
-                            checkUsers, syncUsers, setMotd, help, commands, setWord
+                            checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway
                     ).forEach(commandHandler.getCommands()::add);
 
                     break;
@@ -152,7 +163,7 @@ public final class GaryBot {
                             .setBulkDeleteSplittingEnabled(false)
                             .addEventListener(
                                     userHandler, commandHandler, chatHandler, loggingHandler, paginationHandler, interfaceHandler,
-                                    showcaseHandler
+                                    showcaseHandler, giveawayHandler
                             )
                             .buildBlocking();
                     // We build on the main thread to prevent synchronization issues (in other words i'm lazy).
@@ -168,6 +179,7 @@ public final class GaryBot {
                     // As much as I love guice, it basically ruins the idea of using a constructor so I'm stuck with these lame ass setup methods you'll see nearly everywhere.
                     runTasks.setup(jda);
                     runTasks.runTasks();
+                    giveawayHandler.update(jda.getTextChannelById(Constants.GIVEAWAY_CHANNEL));
 
                     break;
             }

@@ -2,6 +2,8 @@ package me.piggypiglet.gary.core.ginterface.layers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.piggypiglet.gary.core.ginterface.layers.add.AddAbstract;
+import me.piggypiglet.gary.core.ginterface.layers.add.AddCommands;
 import me.piggypiglet.gary.core.ginterface.layers.clear.ClearAbstract;
 import me.piggypiglet.gary.core.ginterface.layers.clear.ClearCommands;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @Singleton
 public final class InterfaceCommands {
     @Inject private ClearCommands clearCommands;
+    @Inject private AddCommands addCommands;
 
     private List<InterfaceAbstract> interfaceAbstractList;
 
@@ -33,8 +36,13 @@ public final class InterfaceCommands {
                     case CLEAR:
                         clearCommands.getClearTypes().add((ClearAbstract) interfaceAbstract);
                         break;
+                    case ADD:
+                        addCommands.getAddTypes().add((AddAbstract) interfaceAbstract);
+                        break;
                 }
             }
+
+
         }
     }
 }
