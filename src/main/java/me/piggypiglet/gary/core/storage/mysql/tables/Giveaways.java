@@ -68,7 +68,7 @@ public final class Giveaways {
 
     public boolean containsUser(long messageId, long userId) {
         try {
-            return db.getFirstColumn("SELECT * FROM `gary_giveaways_users` " + "WHERE message_id = ? AND user_id = ? LIMIT 1", messageId, userId) != null;
+            return DB.getFirstColumn("SELECT * FROM `gary_giveaways_users` " + "WHERE message_id = ? AND user_id = ? LIMIT 1", messageId, userId) != null;
         } catch (SQLException e) {
             return false;
         }
