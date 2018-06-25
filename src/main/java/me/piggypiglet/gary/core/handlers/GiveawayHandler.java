@@ -64,7 +64,10 @@ public final class GiveawayHandler extends ListenerAdapter {
 
                 if (!user.isBot()) {
                     if (giveawaysMap.containsKey(messageId)) {
-                        giveaways.addUser(messageId, user.getIdLong());
+                        // only add the user if they have not been added before
+                        if (!giveaways.containsUser(messageId, user.getIdLong())) {
+                            giveaways.addUser(messageId, user.getIdLong());
+                        }
                     }
                 }
             }
