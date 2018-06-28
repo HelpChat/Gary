@@ -31,12 +31,12 @@ public final class Giveaways {
     }
 
     @SuppressWarnings("unchecked")
-    public void newGiveaway(TextChannel channel, Long messageId, Long time, String user, GiveawayTask giveawayTask) {
+    public void newGiveaway(TextChannel channel, Long messageId, Long time, String user, String prize, GiveawayTask giveawayTask) {
         AbstractMap.Entry entry = new AbstractMap.SimpleEntry<>(giveawayTask, time);
 
         Thread thread = new Thread(() -> {
             try {
-                DB.executeInsert("INSERT INTO `gary_giveaways` (`id`, `message_id`, `time`) VALUES ('0', ?, ?);", messageId, time);
+                DB.executeInsert("INSERT INTO `gary_giveaways` (`id`, `message_id`, `time`, `prize`) VALUES ('0', ?, ?, ?);", messageId, time, prize);
                 giveawayIds.put(messageId, DB.getFirstColumn("SELECT `id` FROM `gary_giveaways` WHERE message_id=?;", messageId));
             } catch (Exception e) {
                 e.printStackTrace();
@@ -63,13 +63,13 @@ public final class Giveaways {
     }
 
     public void removeUser(long messageId, long userId) {
-        DB.executeUpdateAsync("DELETE * FROM `gary_giveaways_users` WHERE (message_id=?) and (user_id=?);", messageId, userId);
+        DB.executeUpdateAsync("DELETE FROM `gary_giveaways_users` WHERE (message_id=?) AND (user_id=?);", messageId, userId);
     }
 
     public boolean containsUser(long messageId, long userId) {
         try {
-            return DB.getFirstColumn("SELECT * FROM `gary_giveaways_users` " + "WHERE message_id = ? AND user_id = ? LIMIT 1", messageId, userId) != null;
-        } catch (SQLException e) {
+            return DB.getFirstRowAsync("SELECT * FROM `gary_giveaways_users` WHERE (message_id=?) AND (user_id=?);", messageId, userId).get() != null;
+        } catch (Exception e) {
             return false;
         }
     }
@@ -113,8 +113,14 @@ public final class Giveaways {
         giveawayHandler.removeGiveaway(messageId);
         runTasks.killTask(task);
 
-        DB.executeUpdateAsync("DELETE * FROM `gary_giveaways_users` WHERE giveaway_id=?;", giveawayIds.get(messageId));
-        DB.executeUpdateAsync("DELETE * FROM `gary_giveaways` WHERE message_id=?;", messageId);
+        System.out.println(giveawayIds.get(messageId));
+
+        try {
+            DB.executeUpdate("DELETE FROM `gary_giveaways_users` WHERE giveaway_id=?;", giveawayIds.get(messageId));
+            DB.executeUpdate("DELETE FROM `gary_giveaways` WHERE message_id=?;", messageId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         channel.getMessageById(messageId).complete().delete().queue();
     }

@@ -33,8 +33,11 @@ public final class GiveawayTask extends TimerTask {
         Random random = new Random();
         List<Long> users = giveaways.getUsers(messageId);
 
-        long user = users.get(random.nextInt(users.size()));
-        channel.sendMessage("<@" + user + "> has won " + prize).queue();
+        if (users.size() != 0) {
+            long user = users.get(random.nextInt(users.size()));
+            channel.sendMessage("<@" + user + "> has won " + prize).queue();
+        }
+
         giveaways.cancelGiveaway(this, messageId, channel);
     }
 }

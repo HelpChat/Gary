@@ -78,6 +78,7 @@ public final class Giveaway extends Command {
                         giveaway,
                         giveawayBuilder.getTime().getMilliseconds(),
                         user.getName() + "#" + user.getDiscriminator(),
+                        prize,
                         new GiveawayTask(giveaways, giveaway, channel, prize)
                 );
             }
