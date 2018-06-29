@@ -28,7 +28,7 @@ public final class Info extends Command {
     @Inject private ChatReaction chatReaction;
 
     public Info() {
-        super("?info/?serverinfo", "Get info about the discord server.", true);
+        super("?info/?serverinfo/?stats", "Get info about the discord server.", true);
     }
 
     @Override
@@ -49,7 +49,7 @@ public final class Info extends Command {
         String bots = botsOnlineList.size() + "/" + botsList.size();
 
         MessageEmbed.Field helpchat = new MessageEmbed.Field("HelpChat:", "Info regarding the discord server\n\u200C", false);
-        MessageEmbed.Field users = new MessageEmbed.Field("Users online:", "Total: " + total + "\n\u200CMembers: " + members + "\n\u200C\u200CBots: " + bots + "\nu200C", true);
+        MessageEmbed.Field users = new MessageEmbed.Field("Users online:", "Total: " + total + "\n\u200CMembers: " + members + "\n\u200C\u200CBots: " + bots + "\n\u200C", true);
 
         MessageEmbed.Field gary = new MessageEmbed.Field("Gary:", "Info about gary himself\n\u200C", false);
         MessageEmbed.Field uptime = new MessageEmbed.Field("Uptime:", TimeUnit.MILLISECONDS.toHours(ManagementFactory.getRuntimeMXBean().getUptime()) + " hours uptime.", true);
