@@ -4,6 +4,7 @@ import me.piggypiglet.gary.core.objects.Constants;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.managers.RoleManager;
 import sh.okx.timeapi.TimeAPI;
 
 import java.util.ArrayList;
@@ -65,8 +66,12 @@ public final class GiveawayBuilder {
                 "\nReact to this message to enter the giveaway."
         ).forEach(str -> builder.append("\n").append(str));
 
+        RoleManager manager = jda.getGuildById(Constants.HELP_CHAT).getRoleById(Constants.GIVEAWAY_ROLE).getManager();
+        manager.setMentionable(true).queue();
+
         Message message = jda.getTextChannelById(Constants.GIVEAWAY_CHANNEL)
                 .sendMessage(builder.toString()).complete();
+        manager.setMentionable(false).queue();
         if (emote != null) {
             message.addReaction(emote).queue();
         } else if (unicode != null) {
