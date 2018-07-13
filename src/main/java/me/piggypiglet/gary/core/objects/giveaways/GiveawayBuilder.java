@@ -72,6 +72,7 @@ public final class GiveawayBuilder {
         Message message = jda.getTextChannelById(Constants.GIVEAWAY_CHANNEL)
                 .sendMessage(builder.toString()).complete();
         manager.setMentionable(false).queue();
+
         if (emote != null) {
             message.addReaction(emote).queue();
         } else if (unicode != null) {

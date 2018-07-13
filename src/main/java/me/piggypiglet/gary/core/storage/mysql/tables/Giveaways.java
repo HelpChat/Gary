@@ -113,8 +113,6 @@ public final class Giveaways {
         giveawayHandler.removeGiveaway(messageId);
         runTasks.killTask(task);
 
-        System.out.println(giveawayIds.get(messageId));
-
         try {
             DB.executeUpdate("DELETE FROM `gary_giveaways_users` WHERE giveaway_id=?;", giveawayIds.get(messageId));
             DB.executeUpdate("DELETE FROM `gary_giveaways` WHERE message_id=?;", messageId);
