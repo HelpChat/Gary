@@ -85,6 +85,7 @@ public final class EventHandler implements EventListener {
                 GuildMessageReactionAddEvent e5 = (GuildMessageReactionAddEvent) event;
 
                 if (!e5.getUser().isBot()) {
+                    giveawayHandler.add(e5);
                     paginationHandler.add(e5);
                 }
 
