@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -23,7 +24,7 @@ public final class InsultHandler {
                 ThreadLocalRandom random = ThreadLocalRandom.current();
                 String shame = String.format(Constants.SHAMES[random.nextInt(4)], e.getUser().getAsMention());
 
-                e.getGuild().getTextChannelById(Constants.OTHER).sendMessage(shame).queue();
+                e.getGuild().getTextChannelById(Constants.OTHER).sendMessage(shame).complete().delete().queueAfter(1, TimeUnit.MINUTES);
             }
         }
     }
