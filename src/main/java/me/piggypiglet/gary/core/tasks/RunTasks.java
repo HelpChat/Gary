@@ -31,7 +31,7 @@ public final class RunTasks {
         Timer timer = new Timer();
 
         long timeCR = TimeUnit.MINUTES.toMillis(7);
-        timer.schedule(wc, TimeUnit.SECONDS.toMillis(1), timeCR);
+        timer.schedule(wc, TimeUnit.SECONDS.toMillis(5), timeCR);
         logger.info("Task - ChatReaction started");
     }
 

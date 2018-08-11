@@ -31,4 +31,11 @@ public final class Constants {
 
     public static final long STAR_1 = 424527592507310081L, STAR_2 = 424527593036054549L, STAR_3 = 424527594042687490L;
     public static final long STAR_4 = 424527582411751424L, STAR_5 = 424527593342107649L;
+
+    public static final String[] SHAMES = {
+            "Shame on %s, they seem to think they're the top stuff, rating their own server 5 stars.",
+            "I believe %s clicked the wrong button, the 1 star button is the one with 1 star, not 5 stars.",
+            "I know you really want a 5 star, but not all wishes come true %s",
+            "System must have been faulty, %s pressed the 1 star, but it ended up being 5 stars."
+    };
 }

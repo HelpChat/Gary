@@ -41,7 +41,7 @@ public final class WordChanger extends TimerTask {
                 .setTitle("Word Update")
                 .setDescription(StringUtils.bigLetters(scrambled))
                 .setColor(Constants.ROLE_COLOR)
-                .setFooter("Gary v" + Constants.VERSION, "https://cdn.discordapp.com/avatars/332142935380459520/2d2b0a78ec3ab461f23721a51a292a3e.png")
+                .setFooter("Gary v" + Constants.VERSION, Constants.AVATAR)
                 .build();
 
         msg = channel.sendMessage(message).complete();

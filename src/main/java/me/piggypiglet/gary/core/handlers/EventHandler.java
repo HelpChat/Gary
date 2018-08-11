@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.handlers.chat.*;
 import me.piggypiglet.gary.core.handlers.misc.GiveawayHandler;
+import me.piggypiglet.gary.core.handlers.misc.InsultHandler;
 import me.piggypiglet.gary.core.handlers.misc.LoggingHandler;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import me.piggypiglet.gary.core.objects.Constants;
@@ -34,6 +35,7 @@ public final class EventHandler implements EventListener {
     @Inject private PaginationHandler paginationHandler;
     @Inject private InterfaceHandler interfaceHandler;
     @Inject private GiveawayHandler giveawayHandler;
+    @Inject private InsultHandler insultHandler;
 
     @Inject private Users users;
     @Inject private Messages messages;
@@ -87,6 +89,7 @@ public final class EventHandler implements EventListener {
                 if (!e5.getUser().isBot()) {
                     giveawayHandler.add(e5);
                     paginationHandler.add(e5);
+                    insultHandler.check(e5);
                 }
 
                 break;
