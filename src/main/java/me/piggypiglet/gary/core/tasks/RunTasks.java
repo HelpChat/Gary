@@ -2,7 +2,6 @@ package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.dv8tion.jda.core.JDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,10 +25,6 @@ public final class RunTasks {
     public RunTasks() {
         logger = LoggerFactory.getLogger("Tasks");
         taskTimerMap = new HashMap<>();
-    }
-
-    public void setup(JDA jda) {
-        wc.setup(jda);
     }
 
     public void runTasks() {

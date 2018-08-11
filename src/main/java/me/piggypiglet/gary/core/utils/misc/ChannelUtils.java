@@ -29,7 +29,7 @@ public final class ChannelUtils {
         }
 
         StringBuilder message = new StringBuilder();
-        messages.forEach(msg -> message.append(msg.getContentRaw()).append("\n\n")); // testing, will be removed after next month if successful.
+        messages.forEach(msg -> message.append(msg.getContentRaw()).append("\n\n"));
 
         MessageEmbed.Field field = new MessageEmbed.Field("URL:", webUtils.hastebin(message.toString()), false);
         MessageEmbed msg = new EmbedBuilder()
@@ -39,11 +39,7 @@ public final class ChannelUtils {
                 .addField(field)
                 .build();
 
-        jda.getTextChannelById(Constants.PIG).sendMessage(msg).queue();
+        jda.getTextChannelById(Constants.LOG).sendMessage(msg).queue();
         channel.deleteMessages(messages).queue();
-    }
-
-    public TextChannel getTextChannel(JDA jda, String id) {
-        return jda.getTextChannelById(id);
     }
 }

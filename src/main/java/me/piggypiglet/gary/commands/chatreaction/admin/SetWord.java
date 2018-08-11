@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -19,7 +19,7 @@ public final class SetWord extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (roleUtils.isStaff(e.getMember())) {
             if (args.length >= 1) {
                 chatReaction.setWord(args[0].contains("\"") ? args[0].split(" ")[0].replace("\"", "") : args[0]);

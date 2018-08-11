@@ -1,6 +1,6 @@
 package me.piggypiglet.gary.core.framework;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet ${year}
@@ -23,9 +23,9 @@ public abstract class Command {
         this.help = help;
     }
 
-    protected abstract void execute(MessageReceivedEvent e, String[] args);
+    protected abstract void execute(GuildMessageReceivedEvent e, String[] args);
 
-    public void run(MessageReceivedEvent e, String[] args) {
+    public void run(GuildMessageReceivedEvent e, String[] args) {
         execute(e, args);
     }
 

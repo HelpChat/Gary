@@ -24,7 +24,7 @@ public final class CommandClass extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         // code
     }
 

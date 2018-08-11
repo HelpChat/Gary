@@ -5,7 +5,7 @@ import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -20,7 +20,7 @@ public final class RoleID extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (args.length == 1) {
             Role role = rutil.getRole(e.getGuild(), args[0]);
             MessageChannel channel = e.getChannel();

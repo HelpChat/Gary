@@ -6,10 +6,10 @@ import co.aikar.idb.DatabaseOptions;
 import co.aikar.idb.PooledDatabaseOptions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.storage.json.GTypes;
 import me.piggypiglet.gary.core.storage.mysql.tables.Users;
-import net.dv8tion.jda.core.JDA;
 import org.slf4j.LoggerFactory;
 
 import java.util.stream.Stream;
@@ -22,8 +22,9 @@ import java.util.stream.Stream;
 public final class MySQL {
     @Inject private GTypes gTypes;
     @Inject private Users users;
+    @Inject private GaryBot garyBot;
 
-    public void connect(JDA jda) {
+    public void connect() {
         Thread thread = new Thread(() -> {
             DatabaseOptions options = DatabaseOptions.builder().mysql(
                     gTypes.getString("config", "mysql-username"),
@@ -41,7 +42,7 @@ public final class MySQL {
                             "users", "stats", "messages", "giveaways", "giveaways_users"
                     ).forEach(str -> DB.executeUpdateAsync(gTypes.getString(str, "file-content")));
 
-                    jda.getGuildById(Constants.HELP_CHAT).getMembers().forEach(member -> this.users.addUser(member.getUser()));
+                    garyBot.getJda().getGuildById(Constants.HELP_CHAT).getMembers().forEach(member -> this.users.addUser(member.getUser()));
                 }
 
                 LoggerFactory.getLogger("MySQL").info("database successfully loaded.");

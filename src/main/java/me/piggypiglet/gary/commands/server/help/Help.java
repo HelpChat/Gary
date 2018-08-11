@@ -4,7 +4,7 @@ import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,7 +15,7 @@ public final class Help extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         String help = "Welcome to Gary's help menu. Useful things are found here.\n\n" +
                 "**Commands** - `?commands`\n" +
                 "**Bug reports/suggestions** - https://github.com/help-chat/Gary/issues\n" +

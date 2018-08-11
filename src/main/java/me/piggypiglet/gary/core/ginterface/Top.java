@@ -1,7 +1,7 @@
 package me.piggypiglet.gary.core.ginterface;
 
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -19,9 +19,9 @@ public abstract class Top {
         this.type = type;
     }
 
-    protected abstract void execute(MessageReceivedEvent e);
+    protected abstract void execute(GuildMessageReceivedEvent e);
 
-    public void run(MessageReceivedEvent e) {
+    public void run(GuildMessageReceivedEvent e) {
         execute(e);
     }
 
