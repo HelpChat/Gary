@@ -138,7 +138,7 @@ public final class GaryBot {
 
                 case COMMANDS:
                     Stream.of(
-                            skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
+                            skip, expansionInfo, /*ai,*/ banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
                             checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway
                     ).forEach(commandHandler.getCommands()::add);
 
