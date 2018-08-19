@@ -14,12 +14,10 @@ import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 // ------------------------------
@@ -67,6 +65,28 @@ public final class Giveaway extends Command {
                     }
                 }
 
+                TextChannel channel = e.getChannel();
+
+                List<String> mentions = new ArrayList<>();
+                Guild guild = e.getGuild();
+                guild.getMembersWithRoles(guild.getRoleById(Constants.GIVEAWAY_ROLE)).forEach(member -> mentions.add(member.getAsMention()));
+
+                int i = 0;
+                StringBuilder builder = new StringBuilder();
+
+                for (String mention : mentions) {
+                    if (i == 15 || mention.equals(mentions.get(mentions.size() - 1))) {
+                        channel.sendMessage(builder.toString()).complete().delete().queueAfter(3, TimeUnit.SECONDS);
+
+                        builder = new StringBuilder();
+                        i = 0;
+                    }
+
+                    builder.append(mention).append(" ");
+
+                    i++;
+                }
+
                 GiveawayBuilder giveawayBuilder = new GiveawayBuilder()
                         .setJDA(e.getJDA())
                         .setPrize(prize)
@@ -74,12 +94,6 @@ public final class Giveaway extends Command {
                         .setEmoji(emoji);
 
                 long giveaway = giveawayBuilder.build().getIdLong();
-                TextChannel channel = e.getChannel();
-
-                List<String> mentions = new ArrayList<>();
-                Guild guild = e.getGuild();
-                guild.getMembersWithRoles(guild.getRoleById(Constants.GIVEAWAY_ROLE)).forEach(member -> mentions.add(member.getAsMention()));
-                channel.sendMessage(Arrays.stream(mentions.toArray(new String[]{})).collect(Collectors.joining(" "))).complete().delete().queueAfter(3, TimeUnit.SECONDS);
 
                 giveaways.newGiveaway(
                         channel,

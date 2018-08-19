@@ -14,17 +14,20 @@ import java.util.concurrent.TimeUnit;
 public final class InsultHandler {
     public void check(GuildMessageReactionAddEvent e) {
         Message message = e.getChannel().getMessageById(e.getMessageIdLong()).complete();
-        String footer = message.getEmbeds().get(0).getFooter().getIconUrl().split("/")[4];
-        boolean emote = e.getReactionEmote().getIdLong() == 424527593342107649L;
 
-        if (e.getChannel().getIdLong() == Constants.RMS && e.getUser().getId().equals(footer)) {
-            e.getReaction().removeReaction(e.getUser()).queue();
+        if (message.getEmbeds().size() >= 1) {
+            String footer = message.getEmbeds().get(0).getFooter().getIconUrl().split("/")[4];
+            boolean emote = e.getReactionEmote().getIdLong() == 424527593342107649L;
 
-            if (emote) {
-                ThreadLocalRandom random = ThreadLocalRandom.current();
-                String shame = String.format(Constants.SHAMES[random.nextInt(4)], e.getUser().getAsMention());
+            if (e.getChannel().getIdLong() == Constants.RMS && e.getUser().getId().equals(footer)) {
+                e.getReaction().removeReaction(e.getUser()).queue();
 
-                e.getGuild().getTextChannelById(Constants.OTHER).sendMessage(shame).complete().delete().queueAfter(1, TimeUnit.MINUTES);
+                if (emote) {
+                    ThreadLocalRandom random = ThreadLocalRandom.current();
+                    String shame = String.format(Constants.SHAMES[random.nextInt(4)], e.getUser().getAsMention());
+
+                    e.getGuild().getTextChannelById(Constants.OTHER).sendMessage(shame).complete().delete().queueAfter(1, TimeUnit.MINUTES);
+                }
             }
         }
     }
