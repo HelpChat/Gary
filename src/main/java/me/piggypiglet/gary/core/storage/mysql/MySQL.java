@@ -39,7 +39,7 @@ public final class MySQL {
             try {
                 if (DB.getFirstRow("SHOW TABLES LIKE 'gary_users'") == null) {
                     Stream.of(
-                            "users", "stats", "messages", "giveaways", "giveaways_users"
+                            "users", "stats", "messages", "giveaways", "giveaways_users", "faq"
                     ).forEach(str -> DB.executeUpdateAsync(gTypes.getString(str, "file-content")));
 
                     garyBot.getJda().getGuildById(Constants.HELP_CHAT).getMembers().forEach(member -> this.users.addUser(member.getUser()));

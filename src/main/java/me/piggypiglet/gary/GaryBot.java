@@ -9,6 +9,9 @@ import me.piggypiglet.gary.commands.admin.channel.PurgeChannel;
 import me.piggypiglet.gary.commands.admin.channel.SetMotd;
 import me.piggypiglet.gary.commands.admin.database.CheckUsers;
 import me.piggypiglet.gary.commands.admin.database.SyncUsers;
+import me.piggypiglet.gary.commands.admin.responses.AddResponse;
+import me.piggypiglet.gary.commands.admin.responses.GetResponse;
+import me.piggypiglet.gary.commands.admin.responses.RemoveResponse;
 import me.piggypiglet.gary.commands.chatreaction.admin.SetWord;
 import me.piggypiglet.gary.commands.chatreaction.admin.Skip;
 import me.piggypiglet.gary.commands.misc.AI;
@@ -83,6 +86,9 @@ public final class GaryBot {
     @Inject private Commands commands;
     @Inject private Eval eval;
     @Inject private Giveaway giveaway;
+    @Inject private AddResponse addResponse;
+    @Inject private RemoveResponse removeResponse;
+    @Inject private GetResponse getResponse;
 
     @Inject private MemberJoin memberJoin;
     @Inject private MemberLeave memberLeave;
@@ -118,6 +124,7 @@ public final class GaryBot {
                     files.make("messages", "schema/Messages.sql", "/schema/Messages.sql");
                     files.make("giveaways", "schema/Giveaways.sql", "/schema/Giveaways.sql");
                     files.make("giveaways_users", "schema/GiveawaysUsers.sql", "/schema/GiveawaysUsers.sql");
+                    files.make("faq", "schema/Faq.sql", "/schema/Faq.sql");
                     chatReaction.loadWords();
 
                     break;
@@ -139,7 +146,7 @@ public final class GaryBot {
                 case COMMANDS:
                     Stream.of(
                             skip, expansionInfo, /*ai,*/ banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
-                            checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway
+                            checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway, addResponse, removeResponse, getResponse
                     ).forEach(commandHandler.getCommands()::add);
 
                     break;
