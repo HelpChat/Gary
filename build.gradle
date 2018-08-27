@@ -6,8 +6,8 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '3.2.2.0'
-mainClassName = 'me.piggypiglet.gary.GaryBot'
+version = '3.2.2.1'
+mainClassName = 'me.piggypiglet.gary.GaryBootstrap'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
