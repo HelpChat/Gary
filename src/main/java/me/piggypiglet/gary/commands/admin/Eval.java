@@ -4,9 +4,10 @@ import co.aikar.idb.DB;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.utils.message.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.StringUtils;
 import me.piggypiglet.gary.core.utils.web.WebUtils;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -19,7 +20,7 @@ import java.time.ZonedDateTime;
 public final class Eval extends Command {
     @Inject private ScriptEngineManager scriptEngineManager;
     @Inject private WebUtils webUtils;
-    @Inject private MessageUtils messageUtils;
+    @Inject private StringUtils stringUtils;
 
     public Eval() {
         super("?eval", "Admin command.", false);
@@ -27,17 +28,19 @@ public final class Eval extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET && args.length == 1) {
             ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("Nashorn");
+            TextChannel channel = e.getChannel();
+
             scriptEngine.put("e", e);
             scriptEngine.put("zn", ZonedDateTime.now());
             scriptEngine.put("db", DB.getGlobalDatabase());
 
             try {
-                e.getChannel().sendMessage("Eval: ```\n" + scriptEngine.eval(e.getMessage().getContentRaw().replace("?eval ", "")) + "```").queue();
+                channel.sendMessage("Eval: ```\n" + scriptEngine.eval(e.getMessage().getContentRaw().replace("?eval ", "")) + "```").queue();
             } catch (Exception ex) {
-                e.getChannel().sendMessage("An exception was thrown: " + webUtils.hastebin(ex.getMessage())).queue();
+                channel.sendMessage("An exception was thrown: " + webUtils.hastebin(ex.getMessage())).queue();
             }
         }
     }

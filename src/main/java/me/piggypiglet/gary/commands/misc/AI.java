@@ -7,9 +7,9 @@ import ai.api.model.AIResponse;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.storage.json.GTypes;
-import me.piggypiglet.gary.core.utils.message.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.StringUtils;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class AI extends Command {
-    @Inject private MessageUtils mutil;
+    @Inject private StringUtils stringUtils;
     @Inject private GTypes gTypes;
 
     private Logger logger;
@@ -30,7 +30,7 @@ public final class AI extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         MessageChannel channel = e.getChannel();
 
         if (channel.getIdLong() == 339674158596358145L) {
@@ -44,10 +44,10 @@ public final class AI extends Command {
 
                 if (response.getStatus().getCode() == 200) {
                     if (e.getMessage().getContentRaw().startsWith("!say ")) {
-                        channel.sendMessage(mutil.format(e, e.getMessage().getContentRaw()
+                        channel.sendMessage(stringUtils.format(e, e.getMessage().getContentRaw()
                         .replace("!say ", ""))).queue();
                     } else {
-                        channel.sendMessage(mutil.format(e, response.getResult().getFulfillment().getSpeech())).queue();
+                        channel.sendMessage(stringUtils.format(e, response.getResult().getFulfillment().getSpeech())).queue();
                     }
                 } else {
                     logger.error(response.getStatus().getErrorDetails());

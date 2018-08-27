@@ -1,29 +1,29 @@
-package me.piggypiglet.gary.commands.admin.database;
+package me.piggypiglet.gary.commands.admin.responses;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.storage.mysql.tables.Faq;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
-import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-
-import java.util.Objects;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class SyncUsers extends Command {
+public final class AddResponse extends Command {
     @Inject private RoleUtils roleUtils;
-    @Inject private UserUtils userUtils;
+    @Inject private Faq faq;
 
-    public SyncUsers() {
-        super("?syncusers", "", false);
+    public AddResponse() {
+        super("?setfaq", "Set a faq", false);
     }
 
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
-        if (roleUtils.isTrustedPlus(e.getMember())) {
-            e.getChannel().sendMessage(Objects.requireNonNull(userUtils.syncUsers(e.getGuild(), e.getJDA()))).queue();
+        if (roleUtils.isStaff(e.getMember())) {
+            if (args.length == 2) {
+                faq.addFaq(args[0], args[1].replace("\"", ""), e.getAuthor().getIdLong());
+            }
         }
     }
 }

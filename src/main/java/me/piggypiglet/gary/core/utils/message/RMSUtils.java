@@ -9,9 +9,9 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.GenericMessageEvent;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
+import net.dv8tion.jda.core.events.message.guild.GenericGuildMessageEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +27,6 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class RMSUtils {
-    @Inject private MessageUtils mutil;
     @Inject private WebUtils wutil;
     @Inject private ServerInfoUtils siutils;
 
@@ -37,18 +36,18 @@ public final class RMSUtils {
         logger = LoggerFactory.getLogger("RMSUtils");
     }
 
-    private boolean checkMessage(GenericMessageEvent e) {
+    private boolean checkMessage(GenericGuildMessageEvent e) {
         User author = null;
         Message message = null;
 
-        if (e instanceof MessageReceivedEvent) {
-            MessageReceivedEvent ev = (MessageReceivedEvent) e;
+        if (e instanceof GuildMessageReceivedEvent) {
+            GuildMessageReceivedEvent ev = (GuildMessageReceivedEvent) e;
             author = ev.getAuthor();
             message = ev.getMessage();
         }
 
-        if (e instanceof MessageUpdateEvent) {
-            MessageUpdateEvent ev = (MessageUpdateEvent) e;
+        if (e instanceof GuildMessageUpdateEvent) {
+            GuildMessageUpdateEvent ev = (GuildMessageUpdateEvent) e;
             author = ev.getAuthor();
             message = ev.getMessage();
         }
@@ -60,7 +59,7 @@ public final class RMSUtils {
             List<String> items = new ArrayList<>();
             Stream.of("[name]", "[ip]", "[description]").forEach(items::add);
 
-            if (mutil.contains(msg, items) || mutil.startsWith(msg, "[REVIEW]")) {
+            if (StringUtils.contains(msg, items) || StringUtils.startsWith(msg, "[REVIEW]")) {
                 logger.info(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
                 return true;
             } else {
@@ -71,14 +70,14 @@ public final class RMSUtils {
         return false;
     }
 
-    public void createMessage(GenericMessageEvent e) {
+    public void createMessage(GenericGuildMessageEvent e) {
         if (checkMessage(e)) {
             logger.info("test");
             Message message = e.getChannel().getMessageById(e.getMessageIdLong()).complete();
             MessageChannel channel = e.getChannel();
             User author = message.getAuthor();
 
-            if (!mutil.startsWith(message.getContentRaw(), "[review]")) {
+            if (!StringUtils.startsWith(message.getContentRaw(), "[review]")) {
                 String name = "";
                 String ip = "";
                 String description = "";
@@ -144,12 +143,12 @@ public final class RMSUtils {
                         .addField(extraField)
                         .setFooter(author.getName() + "#" + author.getDiscriminator(), message.getAuthor().getAvatarUrl());
 
-                if (!website.equals("") && !mutil.startsWith(website, "https:/http:")) {
+                if (!website.equals("") && !StringUtils.startsWith(website, "https:/http:")) {
                     message.delete().queue();
                     channel.sendMessage(author.getAsMention() + " the website you've provided is invalid.").complete().delete().queueAfter(30, TimeUnit.SECONDS);
                     sendHelp(author, channel, message.getContentRaw());
                     return;
-                } else if (!website.equals("") && mutil.startsWith(website, "https:/http:")) {
+                } else if (!website.equals("") && StringUtils.startsWith(website, "https:/http:")) {
                     newMessage.setTitle("Rate My Server", website);
                 } else {
                     newMessage.setTitle("Rate My Server");

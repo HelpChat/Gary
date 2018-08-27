@@ -3,7 +3,7 @@ package me.piggypiglet.gary.core.utils.message;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.utils.misc.TimeUtils;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.util.ArrayList;
@@ -15,10 +15,10 @@ import java.util.stream.Collectors;
 // Copyright (c) PiggyPiglet ${year}
 // https://www.piggypiglet.me
 // ------------------------------
-public final class MessageUtils {
+public final class StringUtils {
     @Inject private TimeUtils tutil;
 
-    public String format(MessageReceivedEvent e, String str) {
+    public String format(GuildMessageReceivedEvent e, String str) {
         User author = e.getAuthor();
         return str
                 .replace("%n%", "\n")
@@ -28,11 +28,11 @@ public final class MessageUtils {
                 .replace("%time%", tutil.getTime());
     }
 
-    public boolean contains(String msg, List<String> contain) {
+    public static boolean contains(String msg, List<String> contain) {
         return contain.parallelStream().allMatch(msg.toLowerCase()::contains);
     }
 
-    public String bigLetters(String word) {
+    public static String bigLetters(String word) {
         List<String> letters = Arrays.asList(word.split(""));
         List<String> newLetters = new ArrayList<>();
         letters.forEach(letter -> newLetters.add(letter.equals("_") ? "**_** " : letter.equals(".") ? "**.** " : NumberUtils.isCreatable(letter) ? convertNumToEmoji(Integer.valueOf(letter)) : ":regional_indicator_" + letter +  ": "));
@@ -43,7 +43,7 @@ public final class MessageUtils {
                 .toLowerCase();
     }
 
-    private String convertNumToEmoji(int num) {
+    private static String convertNumToEmoji(int num) {
         switch (num) {
             case 1:
                 return ":one: ";
@@ -67,49 +67,60 @@ public final class MessageUtils {
         return null;
     }
 
-    public boolean startsWith(String msg, String str) {
-        if (str.contains("/")) {
-            String[] contain = str.toLowerCase().split("/");
-            return Arrays.stream(contain).anyMatch(msg.toLowerCase()::startsWith);
+    public static boolean startsWith(String str, String check) {
+        str = str.toLowerCase();
+        check = check.toLowerCase();
+
+        if (check.contains("/")) {
+            String[] contain = check.split("/");
+            return Arrays.stream(contain).anyMatch(str::startsWith);
         }
-        return msg.toLowerCase().startsWith(str.toLowerCase());
+        return str.startsWith(check);
     }
 
-    public boolean equalsIgnoreCase(String msg, String str) {
-        if (str.contains("/")) {
-            String[] equals = str.split("/");
-            return Arrays.stream(equals).anyMatch(msg.toLowerCase()::equalsIgnoreCase);
+    public static boolean equalsIgnoreCase(String str, String check) {
+        if (check.contains("/")) {
+            String[] equals = check.split("/");
+            return Arrays.stream(equals).anyMatch(str::equalsIgnoreCase);
         }
-        return msg.equalsIgnoreCase(str);
+
+        return str.equalsIgnoreCase(check);
     }
 
-    public boolean hasWord(String msg, String str) {
+    public static boolean hasWord(String str, String word) {
+        str = str.trim();
+
+        return str.contains(" " + word + " ") || str.startsWith(word + " ") || str.endsWith(" " + word) || str.equalsIgnoreCase(word);
+    }
+
+    public static String getFirst(String msg) {
         msg = msg.trim();
-        return msg.contains(" " + str + " ") || msg.startsWith(str + " ") || msg.endsWith(" " + str) || msg.equalsIgnoreCase(str);
-    }
 
-    public String getFirst(String msg) {
         if (msg.contains("/")) {
             String[] split = msg.split("/");
-            return split.length >= 1 ? split[0].trim() : msg.trim();
+            return split.length >= 1 ? split[0].trim() : msg;
         }
+
         return msg.trim();
     }
 
-    public boolean contains(String msg, String str) {
-        msg = msg.toLowerCase();
+    public static boolean contains(String str, String contain) {
         str = str.toLowerCase();
+        contain = contain.toLowerCase();
 
-        if (str.contains("/")) {
-            String[] contain = str.split("/");
-            return Arrays.stream(contain).allMatch(msg::contains);
+        if (contain.contains("/")) {
+            String[] split = contain.split("/");
+            return Arrays.stream(split).allMatch(str::contains);
         }
 
-        return msg.contains(str);
+        return str.contains(contain);
     }
 
-    public String arrayToString(String[] array) {
-        return Arrays.stream(array).collect(Collectors.joining(" "));
+    public static String arrayToString(String[] array, String delimiter) {
+        return Arrays.stream(array).collect(Collectors.joining(delimiter));
     }
 
+    public static String listToString(List<String> list, String delimiter) {
+        return arrayToString(list.toArray(new String[]{}), delimiter);
+    }
 }

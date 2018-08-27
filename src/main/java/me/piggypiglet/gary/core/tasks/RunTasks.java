@@ -2,7 +2,6 @@ package me.piggypiglet.gary.core.tasks;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import net.dv8tion.jda.core.JDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,15 +27,11 @@ public final class RunTasks {
         taskTimerMap = new HashMap<>();
     }
 
-    public void setup(JDA jda) {
-        wc.setup(jda);
-    }
-
     public void runTasks() {
         Timer timer = new Timer();
 
         long timeCR = TimeUnit.MINUTES.toMillis(7);
-        timer.schedule(wc, TimeUnit.SECONDS.toMillis(1), timeCR);
+        timer.schedule(wc, TimeUnit.SECONDS.toMillis(5), timeCR);
         logger.info("Task - ChatReaction started");
     }
 

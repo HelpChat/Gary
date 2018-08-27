@@ -1,12 +1,11 @@
 package me.piggypiglet.gary.core.ginterface.layers.clear;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.ginterface.Top;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 import me.piggypiglet.gary.core.objects.enums.ginterface.clear.ClearType;
-import me.piggypiglet.gary.core.utils.message.MessageUtils;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import me.piggypiglet.gary.core.utils.message.StringUtils;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +16,6 @@ import java.util.List;
 // ------------------------------
 @Singleton
 public final class ClearCommands extends Top {
-    @Inject private MessageUtils messageUtils;
-
     private List<ClearAbstract> clearTypes;
 
     public ClearCommands() {
@@ -31,19 +28,19 @@ public final class ClearCommands extends Top {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e) {
+    protected void execute(GuildMessageReceivedEvent e) {
         String message = e.getMessage().getContentStripped();
 
         for (ClearType value : ClearType.values()) {
             String strValue = value.toString().toLowerCase();
 
-            if (messageUtils.contains(message, strValue)) {
+            if (StringUtils.contains(message, strValue)) {
                 executeClear(value, e);
             }
         }
     }
 
-    private void executeClear(ClearType type, MessageReceivedEvent e) {
+    private void executeClear(ClearType type, GuildMessageReceivedEvent e) {
         for (ClearAbstract clearAbstract : clearTypes) {
             if (clearAbstract.getType() == type) {
                 clearAbstract.run(e);

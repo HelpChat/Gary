@@ -3,7 +3,7 @@ package me.piggypiglet.gary.core.ginterface.layers.add;
 import me.piggypiglet.gary.core.ginterface.layers.InterfaceAbstract;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 import me.piggypiglet.gary.core.objects.enums.ginterface.clear.AddType;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -21,9 +21,9 @@ public abstract class AddAbstract extends InterfaceAbstract {
         this.type = type;
     }
 
-    protected abstract void execute(MessageReceivedEvent e);
+    protected abstract void execute(GuildMessageReceivedEvent e);
 
-    void run(MessageReceivedEvent e) {
+    void run(GuildMessageReceivedEvent e) {
         execute(e);
     }
 

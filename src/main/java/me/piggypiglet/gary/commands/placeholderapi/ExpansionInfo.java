@@ -8,7 +8,7 @@ import me.piggypiglet.gary.core.utils.web.papi.PlaceholderUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ public final class ExpansionInfo extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (args.length != 3) {
             e.getChannel().sendMessage("Incorrect usage: ?papi placeholders <expansion-name>").queue();
             return;
@@ -82,7 +82,7 @@ public final class ExpansionInfo extends Command {
                         paginationBuilder.addPages(page);
                     });
 
-                    paginationBuilder.build(e.getTextChannel());
+                    paginationBuilder.build(e.getChannel());
                 }
 
                 break;

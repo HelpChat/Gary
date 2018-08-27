@@ -5,7 +5,7 @@ import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 
 // ------------------------------
@@ -21,7 +21,7 @@ public final class Skip extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (e.getChannel().getIdLong() == Constants.CR) {
             if (roleUtils.isStaff(e.getMember())) {
                 e.getChannel().sendMessage(chatReaction.getCurrentWord()).queue();

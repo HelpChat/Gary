@@ -4,7 +4,7 @@ import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import me.piggypiglet.gary.core.handlers.GiveawayHandler;
+import me.piggypiglet.gary.core.handlers.misc.GiveawayHandler;
 import me.piggypiglet.gary.core.tasks.GiveawayTask;
 import me.piggypiglet.gary.core.tasks.RunTasks;
 import net.dv8tion.jda.core.entities.TextChannel;

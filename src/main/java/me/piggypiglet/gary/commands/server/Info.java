@@ -3,14 +3,14 @@ package me.piggypiglet.gary.commands.server;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.ChatReaction;
 import me.piggypiglet.gary.core.framework.Command;
-import me.piggypiglet.gary.core.handlers.CommandHandler;
+import me.piggypiglet.gary.core.handlers.chat.CommandHandler;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.storage.json.GFile;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ public final class Info extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         List<Member> totalOnlineList = new ArrayList<>(), membersList = new ArrayList<>(), membersOnlineList = new ArrayList<>();
         List<Member> botsList = new ArrayList<>(), botsOnlineList = new ArrayList<>();
 

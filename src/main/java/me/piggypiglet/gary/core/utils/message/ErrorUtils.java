@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class ErrorUtils {
-    @Inject private MessageUtils messageUtils;
     @Inject private WebUtils webUtils;
 
     public void checkMessage(MessageReceivedEvent e) {
@@ -38,7 +37,7 @@ public final class ErrorUtils {
         List<String> items = new ArrayList<>();
         Stream.of("[", "]", "java.lang").forEach(items::add);
 
-        return str.split("at").length > 5 && messageUtils.contains(str, items);
+        return str.split("at").length > 5 && StringUtils.contains(str, items);
     }
 
     private List<String> separateErrors(String message, String item) {

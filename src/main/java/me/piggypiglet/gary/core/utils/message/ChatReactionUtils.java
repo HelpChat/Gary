@@ -13,7 +13,7 @@ import java.util.concurrent.ThreadLocalRandom;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class CRRandomUtils {
+public final class ChatReactionUtils {
     @Inject private ChatReaction cr;
 
     public String getRandomWord() {

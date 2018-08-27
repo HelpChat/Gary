@@ -9,6 +9,8 @@ import net.dv8tion.jda.core.events.message.MessageBulkDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
+import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionRemoveEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -23,6 +25,8 @@ public enum EventsEnum {
     MESSAGE_DELETE(GuildMessageDeleteEvent.class),
     MESSAGE_BULK_DELETE(MessageBulkDeleteEvent.class),
     VOICE_JOIN(GuildVoiceJoinEvent.class),
+    REACTION_ADD(GuildMessageReactionAddEvent.class),
+    REACTION_REMOVE(GuildMessageReactionRemoveEvent.class),
     UNKNOWN(null);
 
     private final Class<? extends Event> event;

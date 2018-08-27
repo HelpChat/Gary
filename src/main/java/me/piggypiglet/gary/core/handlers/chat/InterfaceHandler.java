@@ -1,13 +1,11 @@
-package me.piggypiglet.gary.core.handlers;
+package me.piggypiglet.gary.core.handlers.chat;
 
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.ginterface.Top;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
-import me.piggypiglet.gary.core.utils.message.MessageUtils;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import me.piggypiglet.gary.core.utils.message.StringUtils;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +15,7 @@ import java.util.Map;
 // https://www.piggypiglet.me
 // ------------------------------
 @Singleton
-public final class InterfaceHandler extends ListenerAdapter {
-    @Inject private MessageUtils messageUtils;
-
+public final class InterfaceHandler {
     private Map<TopEnum, Top> topCommands;
 
     public InterfaceHandler() {
@@ -30,14 +26,13 @@ public final class InterfaceHandler extends ListenerAdapter {
         return topCommands;
     }
 
-    @Override
-    public void onMessageReceived(MessageReceivedEvent e) {
+    public void run(GuildMessageReceivedEvent e) {
         if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET) {
             String message = e.getMessage().getContentStripped();
 
-            if (messageUtils.startsWith(message, "gary, /gary ")) {
+            if (StringUtils.startsWith(message, "gary, /gary ")) {
                 for (TopEnum type : TopEnum.values()) {
-                    if (messageUtils.contains(message, type.toString())) {
+                    if (StringUtils.contains(message, type.toString())) {
                         topCommands.get(type).run(e);
                     }
                 }

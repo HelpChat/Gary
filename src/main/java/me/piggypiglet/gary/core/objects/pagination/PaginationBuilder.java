@@ -1,7 +1,7 @@
 package me.piggypiglet.gary.core.objects.pagination;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.handlers.PaginationHandler;
+import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
