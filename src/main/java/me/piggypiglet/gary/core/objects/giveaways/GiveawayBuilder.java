@@ -60,7 +60,6 @@ public final class GiveawayBuilder {
         StringBuilder builder = new StringBuilder();
 
         Stream.of(
-                "<@&457243404485525515>",
                 "Prize: " + prize,
                 "Time: " + time.getOgTime(),
                 "\nReact to this message to enter the giveaway."

@@ -6,9 +6,9 @@ import me.piggypiglet.gary.core.utils.web.WebUtils;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.GenericMessageEvent;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.core.events.message.MessageUpdateEvent;
+import net.dv8tion.jda.core.events.message.guild.GenericGuildMessageEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class RequestUtils {
-    @Inject private MessageUtils mutil;
     @Inject private WebUtils wutil;
 
     private Logger logger;
@@ -35,18 +34,18 @@ public final class RequestUtils {
         return channelId == Constants.REQUEST_PAID;
     }
 
-    public void checkMessage(GenericMessageEvent e, long channelId) {
+    public void checkMessage(GenericGuildMessageEvent e, long channelId) {
         User author = null;
         Message message = null;
 
-        if (e instanceof MessageReceivedEvent) {
-            MessageReceivedEvent ev = (MessageReceivedEvent) e;
+        if (e instanceof GuildMessageReceivedEvent) {
+            GuildMessageReceivedEvent ev = (GuildMessageReceivedEvent) e;
             author = ev.getAuthor();
             message = ev.getMessage();
         }
 
-        if (e instanceof MessageUpdateEvent) {
-            MessageUpdateEvent ev = (MessageUpdateEvent) e;
+        if (e instanceof GuildMessageUpdateEvent) {
+            GuildMessageUpdateEvent ev = (GuildMessageUpdateEvent) e;
             author = ev.getAuthor();
             message = ev.getMessage();
         }
@@ -62,7 +61,7 @@ public final class RequestUtils {
 
             if (isPaid) items.add("budget:");
 
-            if (mutil.contains(msg, items)) {
+            if (StringUtils.contains(msg, items)) {
                 logger.info(author.getName() + "#" + author.getDiscriminator() + " has successfully created a request.");
             } else {
                 message.delete().queue();

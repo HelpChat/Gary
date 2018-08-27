@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.handlers;
+package me.piggypiglet.gary.core.handlers.misc;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -11,7 +11,6 @@ import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionRemoveEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 import java.util.*;
 
@@ -20,9 +19,9 @@ import java.util.*;
 // https://www.piggypiglet.me
 // ------------------------------
 @Singleton
-public final class GiveawayHandler extends ListenerAdapter {
-    @Inject private RunTasks runTasks;
+public final class GiveawayHandler {
     @Inject private Giveaways giveaways;
+    @Inject private RunTasks runTasks;
 
     private Map<Long, AbstractMap.Entry<GiveawayTask, Long>> giveawaysMap;
     private List<GiveawayTask> liveTasks;
@@ -34,6 +33,45 @@ public final class GiveawayHandler extends ListenerAdapter {
 
     public Map<Long, AbstractMap.Entry<GiveawayTask, Long>> getGiveaways() {
         return giveawaysMap;
+    }
+
+    public void add(GuildMessageReactionAddEvent e) {
+        if (e.getChannel().getIdLong() == Constants.GIVEAWAY_CHANNEL) {
+            long messageId = e.getMessageIdLong();
+
+            if (messageId == Constants.GIVEAWAY_MESSAGE) {
+                Guild guild = e.getGuild();
+
+                guild.getController().addSingleRoleToMember(e.getMember(), guild.getRoleById(Constants.GIVEAWAY_ROLE)).queue();
+            } else {
+                User user = e.getUser();
+
+                if (giveawaysMap.containsKey(messageId)) {
+                    // only add the user if they have not been added before
+                    if (!giveaways.containsUser(messageId, user.getIdLong())) {
+                        giveaways.addUser(messageId, user.getIdLong());
+                    }
+                }
+            }
+        }
+    }
+
+    public void remove(GuildMessageReactionRemoveEvent e) {
+        if (e.getChannel().getIdLong() == Constants.GIVEAWAY_CHANNEL) {
+            long messageId = e.getMessageIdLong();
+
+            if (messageId == Constants.GIVEAWAY_MESSAGE) {
+                Guild guild = e.getGuild();
+
+                guild.getController().removeSingleRoleFromMember(e.getMember(), guild.getRoleById(Constants.GIVEAWAY_ROLE)).queue();
+            } else {
+                User user = e.getUser();
+
+                if (giveawaysMap.containsKey(messageId)) {
+                    giveaways.removeUser(messageId, user.getIdLong());
+                }
+            }
+        }
     }
 
     public void removeGiveaway(long messageId) {
@@ -48,51 +86,6 @@ public final class GiveawayHandler extends ListenerAdapter {
         }
 
         liveTasks.removeAll(removeableItems);
-    }
-
-    @Override
-    public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent e) {
-        if (e.getChannel().getIdLong() == Constants.GIVEAWAY_CHANNEL) {
-            long messageId = e.getMessageIdLong();
-
-            if (messageId == Constants.GIVEAWAY_MESSAGE) {
-                Guild guild = e.getGuild();
-
-                guild.getController().addSingleRoleToMember(e.getMember(), guild.getRoleById(Constants.GIVEAWAY_ROLE)).queue();
-            } else {
-                User user = e.getUser();
-
-                if (!user.isBot()) {
-                    if (giveawaysMap.containsKey(messageId)) {
-                        // only add the user if they have not been added before
-                        if (!giveaways.containsUser(messageId, user.getIdLong())) {
-                            giveaways.addUser(messageId, user.getIdLong());
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public void onGuildMessageReactionRemove(GuildMessageReactionRemoveEvent e) {
-        if (e.getChannel().getIdLong() == Constants.GIVEAWAY_CHANNEL) {
-            long messageId = e.getMessageIdLong();
-
-            if (messageId == Constants.GIVEAWAY_MESSAGE) {
-                Guild guild = e.getGuild();
-
-                guild.getController().removeSingleRoleFromMember(e.getMember(), guild.getRoleById(Constants.GIVEAWAY_ROLE)).queue();
-            } else {
-                User user = e.getUser();
-
-                if (!user.isBot()) {
-                    if (giveawaysMap.containsKey(messageId)) {
-                        giveaways.removeUser(messageId, user.getIdLong());
-                    }
-                }
-            }
-        }
     }
 
     public void update(TextChannel channel) {

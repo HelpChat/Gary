@@ -1,8 +1,7 @@
 package me.piggypiglet.gary.core.storage.mysql.tables;
 
 import co.aikar.idb.DB;
-import com.google.inject.Inject;
-import me.piggypiglet.gary.core.utils.message.MessageUtils;
+import me.piggypiglet.gary.core.utils.message.StringUtils;
 import net.dv8tion.jda.core.entities.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,8 +11,6 @@ import org.slf4j.LoggerFactory;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class Stats {
-    @Inject private MessageUtils messageUtils;
-
     private Logger logger;
 
     public Stats() {
@@ -23,7 +20,7 @@ public final class Stats {
     public void add(String column, User user) {
         long discord_id = user.getIdLong();
 
-        if (!messageUtils.equalsIgnoreCase(column, "win/o/bro")) return;
+        if (!StringUtils.equalsIgnoreCase(column, "win/o/bro")) return;
 
         try {
             int newValue = (int) DB.getFirstColumnAsync("SELECT " + column + " FROM `gary_stats` WHERE `discord_id`=?", discord_id).get() + 1;

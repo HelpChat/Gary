@@ -5,7 +5,7 @@ import me.piggypiglet.gary.core.framework.Command;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +24,7 @@ public final class BanCheck extends Command {
     }
 
     @Override
-    protected void execute(MessageReceivedEvent e, String[] args) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (rutil.isStaff(e.getMember())) {
             if (args.length != 1) {
                 return;
