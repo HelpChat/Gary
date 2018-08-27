@@ -42,7 +42,7 @@ public final class Plugin extends Command {
                 author = utils.getText(doc, "#resourceInfo > div > div.pairsJustified > dl.author > dd > a");
                 category = utils.getText(doc, "#resourceInfo > div > div.pairsJustified > dl.resourceCategory > dd > a");
                 lvd = utils.getText(doc, "#versionInfo > div > div > dl.versionDownloadCount > dd");
-                lvr = utils.getText(doc, "#versionInfo > div > div > dl.versionReleaseDate > dd > span");
+                lvr = utils.getText(doc, "#versionInfo > div > div > dl.versionReleaseDate > dd");
                 lvn = utils.getText(doc, "#content > div > div > div.uix_contentFix > div > div > div.resourceInfo > h1 > span");
                 releaseDate = utils.getText(doc, "#resourceInfo > div > div.pairsJustified > dl.firstRelease > dd > span");
                 contributors = utils.getText(doc, ".customResourceFieldcontributors > dd");
