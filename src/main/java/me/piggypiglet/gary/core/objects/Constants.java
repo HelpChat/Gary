@@ -21,7 +21,7 @@ public final class Constants {
 
     public static final long PIGGYPIGLET = 181675431362035712L, GARY = 332142935380459520L;
 
-    public static final String VERSION = "3.1.0.3", AVATAR = "https://cdn.discordapp.com/avatars/332142935380459520/f23353adc09ca55871f00c04f68a5b5b.png";
+    public static final String VERSION = "3.2.2.0", AVATAR = "https://cdn.discordapp.com/avatars/332142935380459520/f23353adc09ca55871f00c04f68a5b5b.png";
     public static final Color ROLE_COLOR = new Color(32, 102, 148);
 
     public static final Color RED = new Color(255, 71, 15), BLUE = new Color(17, 126, 166), GREEN = new Color(35, 209, 96);
