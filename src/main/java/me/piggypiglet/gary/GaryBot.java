@@ -15,6 +15,7 @@ import me.piggypiglet.gary.commands.admin.responses.RemoveResponse;
 import me.piggypiglet.gary.commands.chatreaction.admin.SetWord;
 import me.piggypiglet.gary.commands.chatreaction.admin.Skip;
 import me.piggypiglet.gary.commands.misc.AI;
+import me.piggypiglet.gary.commands.misc.Plugin;
 import me.piggypiglet.gary.commands.misc.RoleID;
 import me.piggypiglet.gary.commands.misc.Suggestion;
 import me.piggypiglet.gary.commands.placeholderapi.ExpansionInfo;
@@ -86,6 +87,7 @@ public final class GaryBot {
     @Inject private Commands commands;
     @Inject private Eval eval;
     @Inject private Giveaway giveaway;
+    @Inject private Plugin plugin;
     @Inject private AddResponse addResponse;
     @Inject private RemoveResponse removeResponse;
     @Inject private GetResponse getResponse;
@@ -145,6 +147,8 @@ public final class GaryBot {
 
                 case COMMANDS:
                     Stream.of(
+                            skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
+                            checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway, plugin,
                             skip, expansionInfo, /*ai,*/ banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
                             checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway, addResponse, removeResponse, getResponse
                     ).forEach(commandHandler.getCommands()::add);
