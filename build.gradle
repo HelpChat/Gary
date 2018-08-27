@@ -35,6 +35,7 @@ dependencies {
     compile 'mysql:mysql-connector-java:5.1.33'
     compile 'co.aikar:idb-core:1.0.0-SNAPSHOT'
     compile 'com.zaxxer:HikariCP:2.4.1'
+    compile 'org.jsoup:jsoup:1.11.3'
 }
 
 task replaceTokensFirst {
