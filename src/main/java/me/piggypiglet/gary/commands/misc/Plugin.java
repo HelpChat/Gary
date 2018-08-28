@@ -23,7 +23,8 @@ public final class Plugin extends Command {
     String url, downloads, name,
     tag, iconURL, author, category, releaseDate,
     lvn, lvr, lvd, downloadURL, contributors,
-    languages, versions;
+    languages, versions, versionNumber, updateURL;
+    String[] split;
 
     public Plugin() {
         super("?plugin", "Get plugin information from Spigot", true);
@@ -51,6 +52,9 @@ public final class Plugin extends Command {
 
                 Element download = doc.selectFirst("#content > div > div > div.uix_contentFix > div > div > div.resourceInfo > ul > li > label > a");
                 downloadURL = download.absUrl("href");
+                split = downloadURL.split("=");
+                versionNumber = split[1];
+                updateURL = "https://www.spigotmc.org/resources/" + url + "/download?version=" + versionNumber;
                 Element icon = doc.selectFirst("#content > div > div > div.uix_contentFix > div > div > div.resourceInfo > div > img");
                 iconURL = icon.absUrl("src");
                 EmbedBuilder builder = new EmbedBuilder();
@@ -68,7 +72,7 @@ public final class Plugin extends Command {
                 builder.addField("Version", lvn, true);
                 builder.addField("Release Date", lvr, true);
                 builder.addField("Downloads", lvd, true);
-                builder.addField("Download Latest Version", downloadURL, false);
+                builder.addField("Download Latest Version", updateURL, false);
                 builder.setThumbnail(iconURL);
                 e.getChannel().sendMessage(builder.build()).queue();
             } catch (IOException ex) {
