@@ -23,7 +23,7 @@ public final class Plugin extends Command {
     String url, downloads, name,
     tag, iconURL, author, category, releaseDate,
     lvn, lvr, lvd, downloadURL, contributors,
-    languages, versions, versionNumber, updateURL;
+    languages, versions, versionNumber, updateURL, updateVersions;
     String[] split;
 
     public Plugin() {
@@ -54,6 +54,7 @@ public final class Plugin extends Command {
                 downloadURL = download.absUrl("href");
                 split = downloadURL.split("=");
                 versionNumber = split[1];
+                updateVersions = versions.replace(" ", ", ");
                 updateURL = "https://www.spigotmc.org/resources/" + url + "/download?version=" + versionNumber;
                 Element icon = doc.selectFirst("#content > div > div > div.uix_contentFix > div > div > div.resourceInfo > div > img");
                 iconURL = icon.absUrl("src");
@@ -67,7 +68,7 @@ public final class Plugin extends Command {
                 builder.addField("Initial Release", releaseDate, true);
                 builder.addField("Contributors", contributors, true);
                 builder.addField("Supported Languages", languages, true);
-                builder.addField("Tested Minecraft Versions", versions, true);
+                builder.addField("Tested Minecraft Versions", updateVersions, true);
                 builder.addField("\uD83D\uDCC1 Latest Version Information", "", false);
                 builder.addField("Version", lvn, true);
                 builder.addField("Release Date", lvr, true);
