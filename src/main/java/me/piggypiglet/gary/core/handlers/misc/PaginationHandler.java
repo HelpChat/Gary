@@ -7,6 +7,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
 
+import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,6 +15,7 @@ import java.util.Map;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
+@Singleton
 public final class PaginationHandler {
     private Map<String, PaginationSet> paginations;
 

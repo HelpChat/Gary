@@ -2,6 +2,7 @@ package me.piggypiglet.gary.core.handlers.misc;
 
 import me.piggypiglet.gary.core.objects.Constants;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
 
 import java.util.concurrent.ThreadLocalRandom;
@@ -13,13 +14,14 @@ import java.util.concurrent.TimeUnit;
 // ------------------------------
 public final class InsultHandler {
     public void check(GuildMessageReactionAddEvent e) {
-        Message message = e.getChannel().getMessageById(e.getMessageIdLong()).complete();
+        TextChannel channel = e.getChannel();
+        Message message = channel.getMessageById(e.getMessageIdLong()).complete();
 
-        if (message.getEmbeds().size() >= 1) {
+        if (message.getEmbeds().size() >= 1 && channel.getIdLong() == Constants.RMS) {
             String footer = message.getEmbeds().get(0).getFooter().getIconUrl().split("/")[4];
             boolean emote = e.getReactionEmote().getIdLong() == 424527593342107649L;
 
-            if (e.getChannel().getIdLong() == Constants.RMS && e.getUser().getId().equals(footer)) {
+            if (e.getUser().getId().equals(footer)) {
                 e.getReaction().removeReaction(e.getUser()).queue();
 
                 if (emote) {
