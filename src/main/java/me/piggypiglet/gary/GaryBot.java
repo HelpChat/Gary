@@ -13,7 +13,15 @@ import java.util.stream.Stream;
 // ------------------------------
 public final class GaryBot {
     void start() {
+        Logger logger = LoggerFactory.getLogger("test");
 
+        Task.async((e) -> {
+            logger.info(Thread.currentThread().getName());
+        }, "test");
+
+        Task.async((e) -> {
+            logger.info(Thread.currentThread().getName());
+        }, "test2");
     }
 
     private void register(Registerables registerable) {

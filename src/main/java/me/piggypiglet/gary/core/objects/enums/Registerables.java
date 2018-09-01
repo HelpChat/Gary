@@ -5,4 +5,10 @@ package me.piggypiglet.gary.core.objects.enums;
 // https://www.piggypiglet.me
 // ------------------------------
 public enum Registerables {
+    FILES,
+    INTERFACE,
+    COMMANDS,
+    LOGGERS,
+    MYSQL,
+    BOT
 }
