@@ -2,5 +2,6 @@
 .idea/
 src/test/
 build/
+rewrite/
 Gary.iml
 out/

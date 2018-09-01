@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '3.2.2.5'
+version = '4.0.0.0'
 mainClassName = 'me.piggypiglet.gary.GaryBootstrap'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -38,30 +38,31 @@ dependencies {
     compile 'org.jsoup:jsoup:1.11.3'
 }
 
-task replaceTokensFirst {
-    ant.replace(
-            file: "src/main/java/me/piggypiglet/gary/core/objects/Constants.java",
-            token: "@version@",
-            value: version
-    )
-}
-
-task replaceTokensLast {
-    doLast {
-        ant.replace(
-                file: "src/main/java/me/piggypiglet/gary/core/objects/Constants.java",
-                token: version,
-                value: "@version@"
-        )
-    }
-}
+//task replaceTokensFirst {
+//    ant.replace(
+//            file: "src/main/java/me/piggypiglet/gary/core/objects/Constants.java",
+//            token: "@version@",
+//            value: version
+//    )
+//}
+//
+//task replaceTokensLast {
+//    doLast {
+//        ant.replace(
+//                file: "src/main/java/me/piggypiglet/gary/core/objects/Constants.java",
+//                token: version,
+//                value: "@version@"
+//        )
+//    }
+//}
 
 shadowJar {
-    dependsOn replaceTokensFirst
+//    dependsOn replaceTokensFirst
     exclude 'META-INF/*.SF'
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'
     relocate 'co.aikar.commands', 'me.piggypiglet.gary.idb'
+    destinationDir = file("$rootDir/rewrite")
 }
 
 compileJava.options.encoding = 'UTF-8'
