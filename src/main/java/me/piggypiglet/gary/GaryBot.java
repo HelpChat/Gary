@@ -11,7 +11,6 @@ import me.piggypiglet.gary.commands.admin.database.CheckUsers;
 import me.piggypiglet.gary.commands.admin.database.SyncUsers;
 import me.piggypiglet.gary.commands.admin.responses.AddResponse;
 import me.piggypiglet.gary.commands.admin.responses.GetResponse;
-import me.piggypiglet.gary.commands.admin.responses.ListResponses;
 import me.piggypiglet.gary.commands.admin.responses.RemoveResponse;
 import me.piggypiglet.gary.commands.chatreaction.admin.SetWord;
 import me.piggypiglet.gary.commands.chatreaction.admin.Skip;
@@ -92,7 +91,7 @@ public final class GaryBot {
     @Inject private AddResponse addResponse;
     @Inject private RemoveResponse removeResponse;
     @Inject private GetResponse getResponse;
-    @Inject private ListResponses listResponses;
+//    @Inject private ListResponses listResponses;
 
     @Inject private MemberJoin memberJoin;
     @Inject private MemberLeave memberLeave;
@@ -152,8 +151,8 @@ public final class GaryBot {
                             skip, expansionInfo, ai, banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
                             checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway, plugin,
                             skip, expansionInfo, /*ai,*/ banCheck, roleID, speak, suggestion, purgeChannel, serverInfo, eval,
-                            checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway, addResponse, removeResponse, getResponse,
-                            listResponses
+                            checkUsers, syncUsers, setMotd, help, commands, setWord, giveaway, addResponse, removeResponse, getResponse
+//                            listResponses
                     ).forEach(commandHandler.getCommands()::add);
 
                     break;
