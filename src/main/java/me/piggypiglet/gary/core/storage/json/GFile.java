@@ -1,5 +1,9 @@
 package me.piggypiglet.gary.core.storage.json;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.GaryBootstrap;
@@ -10,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -18,6 +23,7 @@ import java.util.Map;
 @Singleton
 public final class GFile {
     @Inject private me.piggypiglet.gary.core.utils.file.FileUtils fileUtils;
+    @Inject private Gson gson;
 
     private Map<String, Map<String, Object>> itemMaps;
     private Logger logger;
@@ -63,6 +69,7 @@ public final class GFile {
         return file.getPath().endsWith(".json");
     }
 
+    @SuppressWarnings("unchecked")
     private void insertIntoMap(String name, File file) {
         // We need to populate the map in-case the file isn't json.
         Map<String, Object> tempMap = new HashMap<>();
@@ -72,12 +79,7 @@ public final class GFile {
             String fileContent = FileUtils.readFileToString(file, "UTF-8");
 
             if (isJson(file)) {
-                //todo: create a json version of bukkits fileconfiguration
-
-                FileConfiguration fileConfiguration = new YamlConfiguration();
-                fileConfiguration.load(file);
-
-                itemMaps.get(name).put("file-configuration", fileConfiguration);
+                itemMaps.get(name).put("file-configuration", new FileConfiguration(gson.fromJson(fileContent, LinkedTreeMap.class)));
             } else {
                 itemMaps.get(name).put("file-content", fileContent);
             }
@@ -95,18 +97,18 @@ public final class GFile {
             return (FileConfiguration) item;
         }
 
-        return new YamlConfiguration();
+        return null;
     }
-
-    public void save(String name) {
-        try {
-            Object file = itemMaps.get(name).get("file");
-
-            if (file instanceof File) {
-                getFileConfiguration(name).save((File) file);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//
+//    public void save(String name) {
+//        try {
+//            Object file = itemMaps.get(name).get("file");
+//
+//            if (file instanceof File) {
+//                getFileConfiguration(name).save((File) file);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

@@ -1,6 +1,8 @@
 package me.piggypiglet.gary;
 
+import com.google.inject.Inject;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
+import me.piggypiglet.gary.core.storage.json.GFile;
 
 import java.util.stream.Stream;
 
@@ -11,16 +13,22 @@ import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
 // https://www.piggypiglet.me
 // ------------------------------
 final class GaryBot {
+    @Inject private GFile gFile;
+
     void start() {
         Stream.of(
                 FILES, INTERFACE, COMMANDS, LOGGERS, MYSQL, BOT
         ).forEach(this::register);
+
+
+        //fix "possible" not possible npe
+        System.out.println(gFile.getFileConfiguration("test").get("oof", "test"));
     }
 
     private void register(Registerables registerable) {
         switch (registerable) {
             case FILES:
-
+                gFile.make("test", "./test.json", "/test.json");
                 break;
 
             case INTERFACE:
