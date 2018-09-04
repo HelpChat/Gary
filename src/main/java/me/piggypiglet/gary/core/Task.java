@@ -15,7 +15,7 @@ public final class Task {
             }
         });
 
-        if (threadName.length <= 1) {
+        if (threadName.length >= 1) {
             thread.setName(threadName[0]);
         }
 

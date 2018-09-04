@@ -99,16 +99,16 @@ public final class GFile {
 
         return null;
     }
-//
-//    public void save(String name) {
-//        try {
-//            Object file = itemMaps.get(name).get("file");
-//
-//            if (file instanceof File) {
-//                getFileConfiguration(name).save((File) file);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+    public void save(String name) {
+        try {
+            Object file = itemMaps.get(name).get("file");
+
+            if (file instanceof File) {
+                getFileConfiguration(name).save((File) file);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

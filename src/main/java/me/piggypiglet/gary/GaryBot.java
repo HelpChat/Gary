@@ -1,6 +1,7 @@
 package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
+import me.piggypiglet.gary.core.Task;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.storage.json.GFile;
 
@@ -19,10 +20,6 @@ final class GaryBot {
         Stream.of(
                 FILES, INTERFACE, COMMANDS, LOGGERS, MYSQL, BOT
         ).forEach(this::register);
-
-
-        //fix "possible" not possible npe
-        System.out.println(gFile.getFileConfiguration("test").get("oof", "test"));
     }
 
     private void register(Registerables registerable) {
@@ -32,6 +29,24 @@ final class GaryBot {
                 break;
 
             case INTERFACE:
+                Task.async((e) -> {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    System.out.println(gFile.getFileConfiguration("test").getInt("item.test"));
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
+
+                    gFile.save("test");
+                });
+
                 break;
 
             case COMMANDS:
