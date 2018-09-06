@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.internal.LinkedTreeMap;
 import me.piggypiglet.gary.core.Task;
 import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.util.Arrays;
@@ -22,23 +23,21 @@ public final class FileConfiguration {
     private static final int NULL_INT = 0;
 
     private Map<String, Object> itemMap;
-    private Gson gson;
 
     public FileConfiguration(Map<String, Object> itemMap) {
         this.itemMap = itemMap;
-        gson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     @SuppressWarnings("unchecked")
     public Object get(String path, Object... def) {
         Object object = null;
 
-        if (path.contains(".")) {
+        if (path.contains(".") && !path.startsWith(".") && !path.endsWith(".")) {
             String[] areas = path.split("\\.");
             object = itemMap.getOrDefault(areas[0], null);
 
             if (areas.length >= 2 && object != null) {
-                return getBuriedObject(areas);
+                object = getBuriedObject(areas);
             }
         }
 
@@ -75,21 +74,6 @@ public final class FileConfiguration {
         }
 
         return def.length >= 1 ? def[0] : NULL_INT;
-    }
-
-    public void setInt(String path) {
-        if (path.contains(".")) {
-            //todo: code
-        }
-    }
-
-    // WARNING! Not comment compatible, comments will be removed when using this method
-    public void save(File file) {
-        try {
-            FileUtils.write(file, gson.toJson(gson.toJsonTree(itemMap).getAsJsonObject()), "UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @SuppressWarnings("unchecked")

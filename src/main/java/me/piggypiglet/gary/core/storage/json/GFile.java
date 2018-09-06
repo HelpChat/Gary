@@ -97,18 +97,6 @@ public final class GFile {
             return (FileConfiguration) item;
         }
 
-        return null;
-    }
-
-    public void save(String name) {
-        try {
-            Object file = itemMaps.get(name).get("file");
-
-            if (file instanceof File) {
-                getFileConfiguration(name).save((File) file);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        return new FileConfiguration(new HashMap<>());
     }
 }

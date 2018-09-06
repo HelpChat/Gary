@@ -4,6 +4,8 @@ import com.google.inject.Inject;
 import me.piggypiglet.gary.core.Task;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.storage.json.GFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.stream.Stream;
 
@@ -22,6 +24,10 @@ final class GaryBot {
         ).forEach(this::register);
     }
 
+    private String test(String test) {
+        return null;
+    }
+
     private void register(Registerables registerable) {
         switch (registerable) {
             case FILES:
@@ -29,22 +35,11 @@ final class GaryBot {
                 break;
 
             case INTERFACE:
+                gFile.getFileConfiguration("test").get("");
+
                 Task.async((e) -> {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-
+                    e.sleep(2000);
                     System.out.println(gFile.getFileConfiguration("test").getInt("item.test"));
-
-                    try {
-                        Thread.sleep(1000);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-
-                    gFile.save("test");
                 });
 
                 break;
