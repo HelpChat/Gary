@@ -6,9 +6,11 @@ package me.piggypiglet.gary.core.objects.enums;
 // ------------------------------
 public enum Registerables {
     FILES,
+    EVENTS,
     INTERFACE,
     COMMANDS,
     LOGGERS,
     MYSQL,
-    BOT
+    BOT,
+    SHUTDOWN
 }

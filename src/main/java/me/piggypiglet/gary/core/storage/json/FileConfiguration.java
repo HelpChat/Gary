@@ -1,16 +1,7 @@
 package me.piggypiglet.gary.core.storage.json;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.internal.LinkedTreeMap;
-import me.piggypiglet.gary.core.Task;
-import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -20,7 +11,7 @@ import java.util.Set;
 // ------------------------------
 public final class FileConfiguration {
     private static final String NULL_STRING = "null";
-    private static final int NULL_INT = 0;
+    private static final int NULL_NUM = 0;
 
     private Map<String, Object> itemMap;
 
@@ -30,7 +21,7 @@ public final class FileConfiguration {
 
     @SuppressWarnings("unchecked")
     public Object get(String path, Object... def) {
-        Object object = null;
+        Object object = itemMap.getOrDefault(path, null);
 
         if (path.contains(".") && !path.startsWith(".") && !path.endsWith(".")) {
             String[] areas = path.split("\\.");
@@ -61,19 +52,33 @@ public final class FileConfiguration {
     }
 
     public int getInt(String path, Integer... def) {
+        Double[] doubleDef = new Double[def.length];
+        for (int i = 0; i < doubleDef.length; ++i) doubleDef[i] = (double) def[i];
+
+        return (int) getDouble(path, doubleDef);
+    }
+
+    public long getLong(String path, Long... def) {
+        Double[] doubleDef = new Double[def.length];
+        for (int i = 0; i < doubleDef.length; ++i) doubleDef[i] = (double) def[i];
+
+        return (long) getDouble(path, doubleDef);
+    }
+
+    public double getDouble(String path, Double... def) {
         Object object;
 
         try {
             object = get(path, (Object[]) def);
         } catch (Exception e) {
-            return NULL_INT;
+            return NULL_NUM;
         }
 
         if (object instanceof Double) {
-            return (int) ((double) object);
+            return (double) object;
         }
 
-        return def.length >= 1 ? def[0] : NULL_INT;
+        return def.length >= 1 ? def[0] : NULL_NUM;
     }
 
     @SuppressWarnings("unchecked")
