@@ -33,7 +33,7 @@ public final class InterfaceCommands {
         if (!interfaceAbstractList.isEmpty()) {
             for (InterfaceAbstract interfaceAbstract : interfaceAbstractList) {
                 switch (interfaceAbstract.getTopType()) {
-                    case CLEAR:
+                    case CLEAR_REMOVE:
                         clearCommands.getClearTypes().add((ClearAbstract) interfaceAbstract);
                         break;
 

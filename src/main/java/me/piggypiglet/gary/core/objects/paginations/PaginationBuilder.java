@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.objects.paginations;
 
 import com.google.inject.Inject;
+import lombok.Getter;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Message;
@@ -19,13 +20,13 @@ import java.util.Objects;
 public final class PaginationBuilder {
     @Inject private PaginationHandler paginationHandler;
 
-    private List<PaginationPage> pages;
+    @Getter private List<PaginationPage> pages;
+
+    public PaginationBuilder() {
+        pages = new ArrayList<>();
+    }
 
     public void addPages(PaginationPage... pages) {
-        if (this.pages == null) {
-            this.pages = new ArrayList<>();
-        }
-
         this.pages.addAll(Arrays.asList(pages));
     }
 
@@ -57,9 +58,5 @@ public final class PaginationBuilder {
 
             pages = null;
         }
-    }
-
-    public List<PaginationPage> getPages() {
-        return pages;
     }
 }

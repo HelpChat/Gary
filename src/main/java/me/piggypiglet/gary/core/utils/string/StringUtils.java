@@ -19,25 +19,15 @@ public final class StringUtils {
         return msg.startsWith(str);
     }
 
-    public static boolean contains(String str, String str2) {
+    public static boolean contains(String str, String contain) {
         str = str.toLowerCase();
-        str2 = str2.toLowerCase();
+        contain = contain.toLowerCase();
 
-        if (str.contains("/")) {
-            String[] contain = str.split("/");
-            String[] spaces = str.split(" ");
-
-            if (spaces.length >= 2) {
-                for (int i = 0; i < contain.length; ++i) {
-                    contain[i] = contain[i] + " ";
-                }
-
-                return Arrays.stream(contain).anyMatch(str::endsWith);
-            }
-
-            return Arrays.stream(contain).anyMatch(str::contains);
+        if (contain.contains("/")) {
+            String[] split = contain.split("/");
+            return Arrays.stream(split).anyMatch(str::contains);
         }
 
-        return str.contains(str2);
+        return str.contains(contain);
     }
 }

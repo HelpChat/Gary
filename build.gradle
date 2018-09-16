@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'application'
+    id 'io.franzbecker.gradle-lombok' version '1.14'
     id 'com.github.johnrengelman.shadow' version '2.0.2'
 }
 
@@ -20,12 +21,15 @@ repositories {
     maven {
         url = 'https://repo.aikar.co/content/groups/aikar/'
     }
+    maven {
+        url = 'https://repo.minepos.net/libs-snapshot'
+    }
 }
 
 dependencies {
     compile 'ai.api:libai:+'
     compile 'net.dv8tion:JDA:+'
-    compile 'com.github.PiggyPiglet:TimeAPI:1.2'
+    compile 'me.piggypiglet:TimeAPI:+'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
     compile 'org.apache.commons:commons-lang3:+'
@@ -36,6 +40,12 @@ dependencies {
     compile 'co.aikar:idb-core:1.0.0-SNAPSHOT'
     compile 'com.zaxxer:HikariCP:2.4.1'
     compile 'org.jsoup:jsoup:1.11.3'
+    compile 'com.kcthota:emoji4j:5.0'
+}
+
+lombok {
+    version = '1.18.2'
+    sha256 = ""
 }
 
 shadowJar {

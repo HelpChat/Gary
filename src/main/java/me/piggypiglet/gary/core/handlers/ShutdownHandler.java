@@ -2,6 +2,7 @@ package me.piggypiglet.gary.core.handlers;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
+import me.piggypiglet.gary.core.objects.tasks.Task;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -13,5 +14,6 @@ public final class ShutdownHandler extends Thread {
     @Override
     public void run() {
         garyBot.getJDA().shutdownNow();
+        Task.shutdown();
     }
 }

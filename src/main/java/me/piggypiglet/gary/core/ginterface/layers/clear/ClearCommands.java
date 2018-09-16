@@ -19,7 +19,7 @@ public final class ClearCommands extends Top {
     private List<ClearAbstract> clearTypes;
 
     public ClearCommands() {
-        super(TopEnum.CLEAR);
+        super(TopEnum.CLEAR_REMOVE);
         clearTypes = new ArrayList<>();
     }
 
@@ -41,8 +41,6 @@ public final class ClearCommands extends Top {
     }
 
     private void executeClear(ClearType type, GuildMessageReceivedEvent e) {
-        System.out.println(clearTypes);
-
         for (ClearAbstract clearAbstract : clearTypes) {
             if (clearAbstract.getType() == type) {
                 clearAbstract.run(e);

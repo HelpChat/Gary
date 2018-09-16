@@ -5,5 +5,5 @@ package me.piggypiglet.gary.core.objects.enums.ginterface;
 // https://www.piggypiglet.me
 // ------------------------------
 public enum TopEnum {
-    CLEAR, ADD
+    CLEAR_REMOVE, ADD
 }

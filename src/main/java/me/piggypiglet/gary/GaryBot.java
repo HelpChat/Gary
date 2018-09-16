@@ -1,7 +1,6 @@
 package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.Task;
 import me.piggypiglet.gary.core.ginterface.layers.InterfaceCommands;
 import me.piggypiglet.gary.core.ginterface.layers.add.AddCommands;
 import me.piggypiglet.gary.core.ginterface.layers.clear.ClearCommands;
@@ -11,6 +10,8 @@ import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
+import me.piggypiglet.gary.core.objects.tasks.GRunnable;
+import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.storage.json.FileConfiguration;
 import me.piggypiglet.gary.core.storage.json.GFile;
 import net.dv8tion.jda.core.AccountType;
@@ -19,6 +20,8 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 
 import java.util.Scanner;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Stream;
 
 import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
@@ -42,12 +45,21 @@ public final class GaryBot {
 
     @Inject private Paginations clearPaginations;
 
+    private BlockingQueue<GRunnable> queue;
     private JDA jda;
 
     void start() {
-        Stream.of(
+        queue = new LinkedBlockingQueue<>();
+
+        Task.async((g) -> Stream.of(
                 FILES, EVENTS, INTERFACE, COMMANDS, LOGGERS, MYSQL, BOT, SHUTDOWN
-        ).forEach(this::register);
+        ).forEach(GaryBot.this::register), "Gary");
+
+        try {
+            while (true) queue.take().run();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void register(Registerables registerable) {
@@ -113,7 +125,7 @@ public final class GaryBot {
                     if (input.nextLine().equalsIgnoreCase("stop")) {
                         System.exit(0);
                     }
-                });
+                }, "Console Command Monitor");
 
                 break;
         }
@@ -121,5 +133,9 @@ public final class GaryBot {
 
     public JDA getJDA() {
         return jda;
+    }
+
+    public void queue(GRunnable gRunnable) {
+        queue.add(gRunnable);
     }
 }

@@ -17,7 +17,7 @@ public abstract class ClearAbstract extends InterfaceAbstract {
     }
 
     protected ClearAbstract(ClearType type) {
-        super(TopEnum.CLEAR);
+        super(TopEnum.CLEAR_REMOVE);
         this.type = type;
     }
 

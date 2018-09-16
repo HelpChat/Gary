@@ -40,7 +40,7 @@ public final class InterfaceHandler extends GEvent {
 
             if (StringUtils.startsWith(message, "gary, /gary /!")) {
                 for (TopEnum type : TopEnum.values()) {
-                    if (StringUtils.contains(message, type.toString().replace("_", " /"))) {
+                    if (StringUtils.contains(message, type.toString().replace("_", "/"))) {
                         topCommands.get(type).run(e);
                     }
                 }
