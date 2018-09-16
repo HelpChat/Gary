@@ -10,6 +10,8 @@ import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
+import me.piggypiglet.gary.core.objects.questionnaire.Question;
+import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.storage.json.FileConfiguration;
@@ -52,10 +54,12 @@ public final class GaryBot {
         queue = new LinkedBlockingQueue<>();
 
         Task.async((g) -> Stream.of(
-                FILES, EVENTS, INTERFACE, COMMANDS, LOGGERS, MYSQL, BOT, SHUTDOWN
+                FILES, EVENTS, INTERFACE, COMMANDS, LOGGERS, MYSQL, BOT, SHUTDOWN, TEST
         ).forEach(GaryBot.this::register), "Gary");
 
+        // sacrifice the main thread.
         try {
+            //noinspection InfiniteLoopStatement
             while (true) queue.take().run();
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,6 +130,18 @@ public final class GaryBot {
                         System.exit(0);
                     }
                 }, "Console Command Monitor");
+
+                break;
+
+            case TEST:
+                Task.async((e) -> {
+                    e.sleep(5000);
+
+                    QuestionnaireBuilder builder = new QuestionnaireBuilder().addQuestions(new Question("test", "string"), new Question("test", "\uD83D\uDC37", "\uD83D\uDC16"));
+                    builder.build(jda.getGuildById(164280494874165248L).getMemberById(181675431362035712L), jda.getTextChannelById(411094432402636802L));
+
+                    System.out.println(builder.getResponses());
+                });
 
                 break;
         }

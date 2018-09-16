@@ -12,5 +12,6 @@ public enum Registerables {
     LOGGERS,
     MYSQL,
     BOT,
-    SHUTDOWN
+    SHUTDOWN,
+    TEST
 }

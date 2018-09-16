@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.objects.paginations;
 
+import lombok.Getter;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 
@@ -8,8 +9,8 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class PaginationPage {
-    private Object message;
-    private Object emote;
+    @Getter private Object message;
+    @Getter private Object emote;
 
     public PaginationPage(String message, Emote emote) {
         this.message = message;
@@ -29,13 +30,5 @@ public final class PaginationPage {
     public PaginationPage(MessageEmbed message, String emote) {
         this.message = message;
         this.emote = emote;
-    }
-
-    public Object getMessage() {
-        return message;
-    }
-
-    public Object getEmote() {
-        return emote;
     }
 }
