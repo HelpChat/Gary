@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.ginterface.layers.clear;
 
 import com.google.inject.Singleton;
+import lombok.Getter;
 import me.piggypiglet.gary.core.ginterface.Top;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 import me.piggypiglet.gary.core.objects.enums.ginterface.types.ClearType;
@@ -16,15 +17,11 @@ import java.util.List;
 // ------------------------------
 @Singleton
 public final class ClearCommands extends Top {
-    private List<ClearAbstract> clearTypes;
+    @Getter private List<ClearAbstract> clearTypes;
 
     public ClearCommands() {
         super(TopEnum.CLEAR_REMOVE);
         clearTypes = new ArrayList<>();
-    }
-
-    public List<ClearAbstract> getClearTypes() {
-        return clearTypes;
     }
 
     @Override

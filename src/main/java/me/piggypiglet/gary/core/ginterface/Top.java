@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.ginterface;
 
+import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
@@ -8,7 +9,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 // https://www.piggypiglet.me
 // ------------------------------
 public abstract class Top {
-    private final TopEnum type;
+    @Getter private final TopEnum type;
 
     protected Top() {
         this(null);
@@ -22,9 +23,5 @@ public abstract class Top {
 
     public void run(GuildMessageReceivedEvent e) {
         execute(e);
-    }
-
-    public TopEnum getType() {
-        return type;
     }
 }

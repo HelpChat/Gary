@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.objects.questionnaire;
 
 import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageReaction;
 
@@ -11,37 +12,32 @@ import java.util.concurrent.Future;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class Response {
-    @Getter private Future<MessageReaction.ReactionEmote> reactionEmote;
-    @Getter private Future<Message> message;
+    @Getter private final String key;
+    @Setter @Getter private Future<MessageReaction> reaction;
+    @Setter @Getter private Future<Message> message;
 
-    public Response setReactionEmote(Future<MessageReaction.ReactionEmote> reactionEmote) {
-        this.reactionEmote = reactionEmote;
-        return this;
-    }
-
-    public Response setMessage(Future<Message> message) {
-        this.message = message;
-        return this;
+    public Response(String key) {
+        this.key = key;
     }
 
     @Override
     public String toString() {
         try {
-            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder("[");
 
-            if (reactionEmote != null && reactionEmote.isDone()) {
-                stringBuilder.append("unicode: ").append(reactionEmote.get()).append(", ");
+            if (reaction != null && reaction.isDone()) {
+                stringBuilder.append("unicode:(").append(reaction.get()).append(")");
             }
 
             if (message != null && message.isDone()) {
-                stringBuilder.append("message: ").append(message.get().getContentRaw());
+                stringBuilder.append("message:(").append(message.get().getContentRaw()).append(")");
             }
 
-            return stringBuilder.toString();
+            return stringBuilder.append("]").toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "null";
+        return "[null]";
     }
 }

@@ -2,6 +2,7 @@ package me.piggypiglet.gary.core.ginterface.layers;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import lombok.Getter;
 import me.piggypiglet.gary.core.ginterface.layers.add.AddAbstract;
 import me.piggypiglet.gary.core.ginterface.layers.add.AddCommands;
 import me.piggypiglet.gary.core.ginterface.layers.clear.ClearAbstract;
@@ -19,14 +20,10 @@ public final class InterfaceCommands {
     @Inject private ClearCommands clearCommands;
     @Inject private AddCommands addCommands;
 
-    private List<InterfaceAbstract> interfaceAbstractList;
+    @Getter private List<InterfaceAbstract> interfaceAbstractList;
 
     public InterfaceCommands() {
         interfaceAbstractList = new ArrayList<>();
-    }
-
-    public List<InterfaceAbstract> getInterfaceAbstractList() {
-        return interfaceAbstractList;
     }
 
     public void sort() {

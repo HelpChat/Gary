@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.handlers.chat;
 
 import com.google.inject.Singleton;
+import lombok.Getter;
 import me.piggypiglet.gary.core.ginterface.Top;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
@@ -19,16 +20,12 @@ import static me.piggypiglet.gary.core.objects.enums.EventsEnum.MESSAGE_CREATE;
 // ------------------------------
 @Singleton
 public final class InterfaceHandler extends GEvent {
-    private Map<TopEnum, Top> topCommands;
+    @Getter private Map<TopEnum, Top> topCommands;
 
     public InterfaceHandler() {
         super(MESSAGE_CREATE);
 
         topCommands = new HashMap<>();
-    }
-
-    public Map<TopEnum, Top> getTopCommands() {
-        return topCommands;
     }
 
     @Override

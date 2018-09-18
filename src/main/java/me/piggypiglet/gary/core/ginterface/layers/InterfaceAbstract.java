@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.ginterface.layers;
 
+import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 
 // ------------------------------
@@ -7,7 +8,7 @@ import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 // https://www.piggypiglet.me
 // ------------------------------
 public abstract class InterfaceAbstract {
-    private final TopEnum topType;
+    @Getter private final TopEnum topType;
 
     protected InterfaceAbstract() {
         this(null);
@@ -15,9 +16,5 @@ public abstract class InterfaceAbstract {
 
     protected InterfaceAbstract(TopEnum topType) {
         this.topType = topType;
-    }
-
-    TopEnum getTopType() {
-        return topType;
     }
 }

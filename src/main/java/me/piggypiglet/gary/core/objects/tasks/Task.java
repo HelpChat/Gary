@@ -14,7 +14,7 @@ public final class Task {
     private static ExecutorService executor;
 
     private Task() {
-        executor = Executors.newFixedThreadPool(50);
+        executor = Executors.newFixedThreadPool(10);
     }
 
     public static void async(final Consumer<GRunnable> task, String... threadName) {

@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.handlers;
 
 import com.google.inject.Singleton;
+import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 import net.dv8tion.jda.core.events.Event;
@@ -16,15 +17,10 @@ import java.util.List;
 // ------------------------------
 @Singleton
 public final class EventHandler implements EventListener {
-    private List<GEvent> events;
-    private Event current;
+    @Getter private List<GEvent> events;
 
     public EventHandler() {
         events = new ArrayList<>();
-    }
-
-    public List<GEvent> getEvents() {
-        return events;
     }
 
     @Override

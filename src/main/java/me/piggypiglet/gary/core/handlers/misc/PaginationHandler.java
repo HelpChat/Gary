@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.core.handlers.misc;
 
 import com.google.inject.Singleton;
+import lombok.Getter;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.objects.paginations.PaginationPage;
@@ -24,16 +25,12 @@ import static me.piggypiglet.gary.core.objects.enums.EventsEnum.MESSAGE_REACTION
 // ------------------------------
 @Singleton
 public final class PaginationHandler extends GEvent {
-    private Map<String, PaginationSet> paginations;
+    @Getter private Map<String, PaginationSet> paginations;
 
     public PaginationHandler() {
         super(MESSAGE_REACTION_ADD, MESSAGE_DELETE);
 
         paginations = new HashMap<>();
-    }
-
-    public Map<String, PaginationSet> getPaginations() {
-        return paginations;
     }
 
     @Override

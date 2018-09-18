@@ -19,8 +19,6 @@ public final class Paginations extends ClearAbstract {
 
     @Override
     protected void execute(GuildMessageReceivedEvent e) {
-        System.out.println("test");
-
         paginationHandler.getPaginations().clear();
         e.getChannel().sendMessage("All paginations successfully cleared from memory.").queue();
     }

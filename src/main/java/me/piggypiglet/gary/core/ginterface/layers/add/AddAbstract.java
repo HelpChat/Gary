@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.ginterface.layers.add;
 
+import lombok.Getter;
 import me.piggypiglet.gary.core.ginterface.layers.InterfaceAbstract;
 import me.piggypiglet.gary.core.objects.enums.ginterface.TopEnum;
 import me.piggypiglet.gary.core.objects.enums.ginterface.types.AddType;
@@ -10,7 +11,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 // https://www.piggypiglet.me
 // ------------------------------
 public abstract class AddAbstract extends InterfaceAbstract {
-    private final AddType type;
+    @Getter private final AddType type;
 
     protected AddAbstract() {
         this(null);
@@ -25,9 +26,5 @@ public abstract class AddAbstract extends InterfaceAbstract {
 
     void run(GuildMessageReceivedEvent e) {
         execute(e);
-    }
-
-    AddType getType() {
-        return type;
     }
 }

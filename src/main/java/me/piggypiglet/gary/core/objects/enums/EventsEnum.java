@@ -17,7 +17,6 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageUpdateEvent;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionRemoveEvent;
-import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.events.role.RoleCreateEvent;
 import net.dv8tion.jda.core.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.core.events.role.update.RoleUpdateColorEvent;
@@ -37,7 +36,6 @@ public enum EventsEnum {
     MESSAGE_BULK_DELETE(MessageBulkDeleteEvent.class),
     MESSAGE_REACTION_ADD(GuildMessageReactionAddEvent.class),
     MESSAGE_REACTION_REMOVE(GuildMessageReactionRemoveEvent.class),
-    REACTION_ADD(MessageReactionAddEvent.class),
     TEXT_CHANNEL_CREATE(TextChannelCreateEvent.class),
     TEXT_CHANNEL_DELETE(TextChannelDeleteEvent.class),
     VOICE_CHANNEL_CREATE(VoiceChannelCreateEvent.class),

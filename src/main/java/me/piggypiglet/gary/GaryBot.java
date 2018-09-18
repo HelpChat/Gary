@@ -20,7 +20,10 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.core.entities.Guild;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -127,6 +130,10 @@ public final class GaryBot {
 
                 Task.async((e) -> {
                     if (input.nextLine().equalsIgnoreCase("stop")) {
+                        List<String> threads = new ArrayList<>();
+                        new ArrayList<>(Thread.getAllStackTraces().keySet()).stream().map(Thread::getName).forEach(threads::add);
+                        System.out.println(threads);
+
                         System.exit(0);
                     }
                 }, "Console Command Monitor");
@@ -137,10 +144,16 @@ public final class GaryBot {
                 Task.async((e) -> {
                     e.sleep(5000);
 
-                    QuestionnaireBuilder builder = new QuestionnaireBuilder().addQuestions(new Question("test", "string"), new Question("test", "\uD83D\uDC37", "\uD83D\uDC16"));
-                    builder.build(jda.getGuildById(164280494874165248L).getMemberById(181675431362035712L), jda.getTextChannelById(411094432402636802L));
+                    Guild guild = jda.getGuildById(164280494874165248L);
 
-                    System.out.println(builder.getResponses());
+                    QuestionnaireBuilder builder = new QuestionnaireBuilder(guild.getMemberById(181675431362035712L), jda.getTextChannelById(411094432402636802L)).addQuestions(
+                            new Question("food", "What's your favourite food?", "string"),
+                            new Question("pigs", ":pig: or :pig2:?", "\uD83D\uDC37", "\uD83D\uDC16"),
+                            new Question("testplugins", "<:TestPlugins:263994827979489290> or <:TestPlugins2:375139686542213120>?", guild.getEmoteById(263994827979489290L), guild.getEmoteById(375139686542213120L))
+                    );
+
+                    jda.getTextChannelById(411094432402636802L).sendMessage("```\n" + builder.build().getResponses().toString() + "```").queue();
+
                 });
 
                 break;

@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.handlers;
 
+import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.core.events.Event;
 
@@ -8,15 +9,11 @@ import net.dv8tion.jda.core.events.Event;
 // https://www.piggypiglet.me
 // ------------------------------
 public abstract class GEvent {
-    private EventsEnum[] events;
+    @Getter private EventsEnum[] events;
 
     protected GEvent(EventsEnum... events) {
         this.events = events;
     }
 
     protected abstract void execute(Event event);
-
-    public EventsEnum[] getEvents() {
-        return events;
-    }
 }

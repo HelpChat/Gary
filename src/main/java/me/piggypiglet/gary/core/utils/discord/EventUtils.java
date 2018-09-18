@@ -10,6 +10,8 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.core.hooks.EventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
@@ -21,6 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 // ------------------------------
 public final class EventUtils {
     private static Event pullEvent(EventsEnum event, JDA jda) {
+        final Logger logger = LoggerFactory.getLogger("Event Puller");
         final AtomicReference<Event> pulledEvent = new AtomicReference<>();
 
         EventListener listener = l -> {
@@ -29,6 +32,7 @@ public final class EventUtils {
             }
         };
 
+        logger.info("Adding temporary event listener for " + event.name());
         jda.addEventListener(listener);
 
         while (pulledEvent.get() == null) try {
@@ -38,33 +42,34 @@ public final class EventUtils {
         }
 
         jda.removeEventListener(listener);
+        logger.info("Removing temporary event listener for " + event.name());
 
         return pulledEvent.get();
     }
 
     public static Future<Message> pullMessage(TextChannel channel, User user) {
         CompletableFuture<Message> future = new CompletableFuture<>();
-        final AtomicReference<GuildMessageReceivedEvent> e = new AtomicReference<>((GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA()));
+        GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
 
-            while (e.get().getChannel() != channel && e.get().getAuthor() != user) {
-                e.set((GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA()));
-            }
+        while (e.getChannel() != channel && e.getAuthor() != user) {
+            e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
+        }
 
-            future.complete(e.get().getMessage());
+        future.complete(e.getMessage());
 
         return future;
     }
 
-    public static Future<MessageReaction.ReactionEmote> pullReaction(Message message, User user) {
+    public static Future<MessageReaction> pullReaction(Message message, User user) {
         JDA jda = message.getJDA();
-        CompletableFuture<MessageReaction.ReactionEmote> future = new CompletableFuture<>();
-        final AtomicReference<GuildMessageReactionAddEvent> e = new AtomicReference<>((GuildMessageReactionAddEvent) pullEvent(EventsEnum.REACTION_ADD, jda));
+        CompletableFuture<MessageReaction> future = new CompletableFuture<>();
+        GuildMessageReactionAddEvent e = (GuildMessageReactionAddEvent) pullEvent(EventsEnum.MESSAGE_REACTION_ADD, jda);
 
-            while (message.getChannel().getMessageById(e.get().getMessageId()).complete() != message && e.get().getUser() != user) {
-                e.set((GuildMessageReactionAddEvent) pullEvent(EventsEnum.REACTION_ADD, jda));
-            }
+        while (message.getChannel().getMessageById(e.getMessageId()).complete() != message && e.getUser() != user) {
+            e = (GuildMessageReactionAddEvent) pullEvent(EventsEnum.MESSAGE_REACTION_ADD, jda);
+        }
 
-            future.complete(e.get().getReactionEmote());
+        future.complete(e.getReaction());
 
         return future;
     }

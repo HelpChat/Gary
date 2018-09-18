@@ -1,11 +1,10 @@
 package me.piggypiglet.gary.core.storage.json;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.internal.LinkedTreeMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import lombok.Getter;
 import me.piggypiglet.gary.GaryBootstrap;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -25,16 +23,12 @@ public final class GFile {
     @Inject private me.piggypiglet.gary.core.utils.file.FileUtils fileUtils;
     @Inject private Gson gson;
 
-    private Map<String, Map<String, Object>> itemMaps;
+    @Getter private Map<String, Map<String, Object>> itemMaps;
     private Logger logger;
 
     public GFile() {
         itemMaps = new HashMap<>();
         logger = LoggerFactory.getLogger("GFile");
-    }
-
-    public Map<String, Map<String, Object>> getItemMaps() {
-        return itemMaps;
     }
 
     public void make(String name, String externalPath, String internalPath) {
@@ -71,23 +65,22 @@ public final class GFile {
 
     @SuppressWarnings("unchecked")
     private void insertIntoMap(String name, File file) {
-        // We need to populate the map in-case the file isn't json.
-        Map<String, Object> tempMap = new HashMap<>();
-        itemMaps.put(name, tempMap);
+        Map<String, Object> populatorMap = new HashMap<>();
 
         try {
             String fileContent = FileUtils.readFileToString(file, "UTF-8");
 
             if (isJson(file)) {
-                itemMaps.get(name).put("file-configuration", new FileConfiguration(gson.fromJson(fileContent, LinkedTreeMap.class)));
+                populatorMap.put("file-configuration", new FileConfiguration(gson.fromJson(fileContent, LinkedTreeMap.class)));
             } else {
-                itemMaps.get(name).put("file-content", fileContent);
+                populatorMap.put("file-content", fileContent);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        itemMaps.get(name).put("file", file);
+        populatorMap.put("file", file);
+        itemMaps.put(name, populatorMap);
     }
 
     public FileConfiguration getFileConfiguration(String name) {
