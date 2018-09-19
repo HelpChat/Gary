@@ -5,5 +5,5 @@ package me.piggypiglet.gary.core.objects.enums.ginterface.types;
 // https://www.piggypiglet.me
 // ------------------------------
 public enum AddType {
-    REACTION
+    QUESTIONNAIRE
 }

@@ -20,7 +20,7 @@ public final class AddCommands extends Top {
     @Getter private List<AddAbstract> addTypes;
 
     public AddCommands() {
-        super(TopEnum.ADD);
+        super(TopEnum.ADD_MAKE_CREATE);
         addTypes = new ArrayList<>();
     }
 

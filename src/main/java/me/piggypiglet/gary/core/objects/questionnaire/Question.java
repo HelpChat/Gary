@@ -12,6 +12,7 @@ public final class Question {
     @Getter private Object[] acceptableAnswers;
 
     public Question(String key, String question, Object... acceptableAnswers) {
+        this.key = key;
         this.question = question;
         this.acceptableAnswers = acceptableAnswers;
     }

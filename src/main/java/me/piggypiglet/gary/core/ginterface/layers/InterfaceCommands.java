@@ -34,7 +34,7 @@ public final class InterfaceCommands {
                         clearCommands.getClearTypes().add((ClearAbstract) interfaceAbstract);
                         break;
 
-                    case ADD:
+                    case ADD_MAKE_CREATE:
                         addCommands.getAddTypes().add((AddAbstract) interfaceAbstract);
                         break;
                 }

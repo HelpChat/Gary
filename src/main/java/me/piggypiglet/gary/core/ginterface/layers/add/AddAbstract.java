@@ -18,7 +18,7 @@ public abstract class AddAbstract extends InterfaceAbstract {
     }
 
     protected AddAbstract(AddType type) {
-        super(TopEnum.ADD);
+        super(TopEnum.ADD_MAKE_CREATE);
         this.type = type;
     }
 

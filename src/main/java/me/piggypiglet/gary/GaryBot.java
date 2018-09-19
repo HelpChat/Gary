@@ -1,6 +1,7 @@
 package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import me.piggypiglet.gary.core.ginterface.layers.InterfaceCommands;
 import me.piggypiglet.gary.core.ginterface.layers.add.AddCommands;
 import me.piggypiglet.gary.core.ginterface.layers.clear.ClearCommands;
@@ -22,10 +23,10 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Stream;
 
@@ -35,7 +36,10 @@ import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
+@Singleton
 public final class GaryBot {
+    private Map<String, QuestionnaireBuilder.Questionnaire> questionnaires;
+
     @Inject private GFile gFile;
 
     @Inject private EventHandler eventHandler;
@@ -54,6 +58,7 @@ public final class GaryBot {
     private JDA jda;
 
     void start() {
+        questionnaires = new ConcurrentHashMap<>();
         queue = new LinkedBlockingQueue<>();
 
         Task.async((g) -> Stream.of(
@@ -130,10 +135,6 @@ public final class GaryBot {
 
                 Task.async((e) -> {
                     if (input.nextLine().equalsIgnoreCase("stop")) {
-                        List<String> threads = new ArrayList<>();
-                        new ArrayList<>(Thread.getAllStackTraces().keySet()).stream().map(Thread::getName).forEach(threads::add);
-                        System.out.println(threads);
-
                         System.exit(0);
                     }
                 }, "Console Command Monitor");
