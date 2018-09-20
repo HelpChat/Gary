@@ -13,7 +13,7 @@ public final class ShutdownHandler extends Thread {
 
     @Override
     public void run() {
-        garyBot.getJDA().shutdownNow();
+        garyBot.getJda().shutdownNow();
         Task.shutdown();
     }
 }

@@ -2,10 +2,14 @@ package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import lombok.Getter;
 import me.piggypiglet.gary.core.ginterface.layers.InterfaceCommands;
 import me.piggypiglet.gary.core.ginterface.layers.add.AddCommands;
+import me.piggypiglet.gary.core.ginterface.layers.add.types.AddQuestionnaire;
 import me.piggypiglet.gary.core.ginterface.layers.clear.ClearCommands;
 import me.piggypiglet.gary.core.ginterface.layers.clear.types.Paginations;
+import me.piggypiglet.gary.core.ginterface.layers.run.RunCommands;
+import me.piggypiglet.gary.core.ginterface.layers.run.types.RunQuestionnaire;
 import me.piggypiglet.gary.core.handlers.EventHandler;
 import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
@@ -38,7 +42,7 @@ import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
 // ------------------------------
 @Singleton
 public final class GaryBot {
-    private Map<String, QuestionnaireBuilder.Questionnaire> questionnaires;
+    @Getter private Map<String, QuestionnaireBuilder> questionnaires;
 
     @Inject private GFile gFile;
 
@@ -51,11 +55,16 @@ public final class GaryBot {
 
     @Inject private ClearCommands clearCommands;
     @Inject private AddCommands addCommands;
+    @Inject private RunCommands runCommands;
 
     @Inject private Paginations clearPaginations;
 
+    @Inject private AddQuestionnaire addQuestionnaire;
+
+    @Inject private RunQuestionnaire runQuestionnaire;
+
     private BlockingQueue<GRunnable> queue;
-    private JDA jda;
+    @Getter private JDA jda;
 
     void start() {
         questionnaires = new ConcurrentHashMap<>();
@@ -93,12 +102,12 @@ public final class GaryBot {
             case INTERFACE:
                 // command types
                 Stream.of(
-                        clearCommands, addCommands
+                        clearCommands, addCommands, runCommands
                 ).forEach(commands -> interfaceHandler.getTopCommands().put(commands.getType(), commands));
 
                 // commands
                 Stream.of(
-                        clearPaginations
+                        clearPaginations, addQuestionnaire, runQuestionnaire
                 ).forEach(interfaceCommands.getInterfaceAbstractList()::add);
                 interfaceCommands.sort();
 
@@ -147,22 +156,18 @@ public final class GaryBot {
 
                     Guild guild = jda.getGuildById(164280494874165248L);
 
-                    QuestionnaireBuilder builder = new QuestionnaireBuilder(guild.getMemberById(181675431362035712L), jda.getTextChannelById(411094432402636802L)).addQuestions(
+                    questionnaires.put("test", new QuestionnaireBuilder(guild.getMemberById(181675431362035712L), jda.getTextChannelById(411094432402636802L)).addQuestions(
                             new Question("food", "What's your favourite food?", "string"),
                             new Question("pigs", ":pig: or :pig2:?", "\uD83D\uDC37", "\uD83D\uDC16"),
                             new Question("testplugins", "<:TestPlugins:263994827979489290> or <:TestPlugins2:375139686542213120>?", guild.getEmoteById(263994827979489290L), guild.getEmoteById(375139686542213120L))
-                    );
+                    ));
 
-                    jda.getTextChannelById(411094432402636802L).sendMessage("```\n" + builder.build().getResponses().toString() + "```").queue();
+//                    jda.getTextChannelById(411094432402636802L).sendMessage("```\n" + builder.build().getResponses().toString() + "```").queue();
 
                 });
 
                 break;
         }
-    }
-
-    public JDA getJDA() {
-        return jda;
     }
 
     public void queue(GRunnable gRunnable) {
