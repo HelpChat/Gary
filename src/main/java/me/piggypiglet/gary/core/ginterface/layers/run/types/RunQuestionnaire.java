@@ -29,12 +29,9 @@ public final class RunQuestionnaire extends RunAbstract {
                     new Question("questionnaire", "What questionnaire would you like to run?", "str")
             );
 
-            Map<String, Response> responses = builder.build().getResponses();
+            Map<String, Response> responses = garyBot.getQuestionnaires().get(builder.build().getResponses().get("questionnaire").getMessage().getContentRaw()).build().getResponses();
 
-            Map<String, Response> responses_ = garyBot.getQuestionnaires().get(responses.get("questionnaire").getMessage().get().getContentRaw()).build().getResponses();
-
-            e.getChannel().sendMessage(responses_.values().toString()).queue();
-//            e.getChannel().sendMessage(garyBot.getQuestionnaires().get(responses.get("questionnaire").getMessage().get().getContentRaw()).build().getResponses().toString()).queue();
+            e.getChannel().sendMessage(responses.values().toString()).queue();
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -51,7 +51,8 @@ public final class EventUtils {
         CompletableFuture<Message> future = new CompletableFuture<>();
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
 
-        while (e.getChannel() != channel && e.getAuthor() != user) {
+        // Have to add the extra isbot check for some reason
+        while (e.getChannel() != channel && e.getAuthor() != user && !e.getAuthor().isBot()) {
             e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
         }
 

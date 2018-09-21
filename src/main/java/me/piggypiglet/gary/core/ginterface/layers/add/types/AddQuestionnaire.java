@@ -40,7 +40,7 @@ public final class AddQuestionnaire extends AddAbstract {
             );
 
             Map<String, Response> info = builder.build().getResponses();
-            int iterations = Integer.parseInt(info.get("questions").getMessage().get().getContentRaw());
+            int iterations = Integer.parseInt(info.get("questions").getMessage().getContentRaw());
             List<Question> questions = new ArrayList<>();
 
             for (int i = 0; i < iterations; ++i) {
@@ -53,14 +53,14 @@ public final class AddQuestionnaire extends AddAbstract {
                 QuestionnaireBuilder.Questionnaire questionBuilderQuestionnaire = questionBuilder.build();
                 Map<String, Response> questionBuilderResponses = questionBuilderQuestionnaire.getResponses();
 
-                String question = questionBuilderResponses.get("question").getMessage().get().getContentRaw();
-                String key = questionBuilderResponses.get("key").getMessage().get().getContentRaw();
-                Object[] acceptableAnswers = questionBuilderResponses.get("acceptable answers").getMessage().get().getContentRaw().split("\\|");
+                String question = questionBuilderResponses.get("question").getMessage().getContentRaw();
+                String key = questionBuilderResponses.get("key").getMessage().getContentRaw();
+                Object[] acceptableAnswers = questionBuilderResponses.get("acceptable answers").getMessage().getContentRaw().split("\\|");
 
                 questions.add(new Question(key, question, acceptableAnswers));
             }
 
-            garyBot.getQuestionnaires().put(info.get("name").getMessage().get().getContentRaw(), new QuestionnaireBuilder(member, channel).addQuestions(questions.toArray(new Question[]{})));
+            garyBot.getQuestionnaires().put(info.get("name").getMessage().getContentRaw(), new QuestionnaireBuilder(member, channel).addQuestions(questions.toArray(new Question[]{})));
             e.getChannel().sendMessage("Questionnaire successfully made.").queue();
         } catch (Exception ex) {
             ex.printStackTrace();

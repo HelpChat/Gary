@@ -21,15 +21,15 @@ repositories {
     maven {
         url = 'https://repo.aikar.co/content/groups/aikar/'
     }
-    maven {
-        url = 'https://repo.minepos.net/libs-snapshot'
-    }
+//    maven {
+//        url = 'https://repo.minepos.net/libs-snapshot'
+//    }
 }
 
 dependencies {
     compile 'ai.api:libai:+'
     compile 'net.dv8tion:JDA:+'
-    compile 'me.piggypiglet:TimeAPI:+'
+//    compile 'me.piggypiglet:TimeAPI:+'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
     compile 'org.apache.commons:commons-lang3:+'
