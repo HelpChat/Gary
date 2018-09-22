@@ -32,7 +32,7 @@ public final class Question {
 
     public Emote[] getEmotes(JDA jda) {
         if (emotes instanceof Emote[]) {
-
+            //change
         }
     }
 }
