@@ -7,6 +7,5 @@ package me.piggypiglet.gary.core.objects.enums;
 public enum QuestionType {
     STRING,
     EMOTE,
-    MESSAGE,
     INT
 }

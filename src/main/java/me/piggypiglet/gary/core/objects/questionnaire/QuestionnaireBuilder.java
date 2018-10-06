@@ -1,19 +1,14 @@
 package me.piggypiglet.gary.core.objects.questionnaire;
 
-import emoji4j.EmojiUtils;
 import lombok.Getter;
+import me.piggypiglet.gary.core.objects.enums.QuestionType;
+import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.utils.discord.EventUtils;
-import net.dv8tion.jda.core.entities.Emote;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -41,7 +36,6 @@ public final class QuestionnaireBuilder {
 
     public QuestionnaireBuilder addQuestions(Question... questions) {
         Arrays.asList(questions).forEach(question -> this.questions.put(question.getKey(), question));
-
         return this;
     }
 
@@ -61,7 +55,6 @@ public final class QuestionnaireBuilder {
 
     public QuestionnaireBuilder setResponse(String key, Response newResponse) {
         responses.put(key, newResponse);
-
         return this;
     }
 
@@ -74,42 +67,64 @@ public final class QuestionnaireBuilder {
         return this;
     }
 
-    public Questionnaire build() {
-        questions.values().forEach(question -> {
-            Object[] acceptableAnswers = question.getAcceptableAnswers();
-            Message message = channel.sendMessage(question.getQuestion()).complete();
-            final AtomicBoolean continueOn = new AtomicBoolean(true);
-            final AtomicBoolean stringInstance = new AtomicBoolean(false);
-            Response response = new Response(question.getKey());
+    public Questionnaire build(@Nonnull String questionnaireName) {
+        CompletableFuture<Questionnaire> questionnaire = new CompletableFuture<>();
 
-            Arrays.stream(acceptableAnswers).forEach(acceptableAnswer -> {
-                if (acceptableAnswer instanceof String) stringInstance.set(true);
+        Task.async(r -> {
+            questions.values().forEach(question -> {
+                List<Object> emotes = question.getEmotes();
+                Message message = channel.sendMessage(question.getQuestion()).complete();
+                QuestionType questionType = question.getQuestionType();
+                Response response = new Response(question.getKey());
 
-                if (acceptableAnswer instanceof String && EmojiUtils.isEmoji((String) acceptableAnswer)) {
-                    message.addReaction((String) acceptableAnswer).queue();
-                    continueOn.set(false);
+                if (emotes != null && questionType == QuestionType.EMOTE) {
+                    emotes.forEach(e -> {
+                        if (e instanceof String) {
+                            message.addReaction((String) e).queue();
+                        }
+
+                        if (e instanceof Emote) {
+                            message.addReaction((Emote) e).queue();
+                        }
+                    });
+                } else if (questionType == QuestionType.EMOTE) {
+                    channel.sendMessage("Whoever made this questionnaire fucked up and forgot to add acceptable answers for this question. I'm cancelling this questionnaire.").queue();
+                    channel.getGuild().getTextChannelById(411094432402636802L).sendMessage("Whoever made the questionnaire: `" + questionnaireName + "` forgot to add acceptable emotes for question: `" + question.getKey() + "`. Please fix this ASAP.").queue();
+                    return;
                 }
 
-                if (acceptableAnswer instanceof Emote) {
-                    message.addReaction((Emote) acceptableAnswer).queue();
-                    continueOn.set(false);
+                User user = member.getUser();
+
+                switch (questionType) {
+                    case STRING:
+                        response.setMessage(EventUtils.pullMessage(channel, user));
+                        break;
+
+                    case EMOTE:
+                        response.setReaction(EventUtils.pullReaction(message, user));
+                        break;
+
+                    case INT:
+                        response.setInt(EventUtils.pullInt(channel, user));
+                        break;
                 }
+
+                responses.put(question.getKey(), response);
             });
 
-            if (continueOn.get() && stringInstance.get()) {
-                response.setMessage(EventUtils.pullMessage(channel, member.getUser()));
-            } else {
-                response.setReaction(EventUtils.pullReaction(message, member.getUser()));
-            }
-
-            try {
-                responses.put(question.getKey(), response);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            questionnaire.complete(new Questionnaire(questions, responses, QuestionnaireBuilder.this));
         });
 
-        return new Questionnaire(questions, responses, this);
+        //noinspection StatementWithEmptyBody
+        while (!questionnaire.isDone()) {}
+
+        try {
+            return questionnaire.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new Questionnaire(questions, new HashMap<>(), this);
     }
 
     public final class Questionnaire {

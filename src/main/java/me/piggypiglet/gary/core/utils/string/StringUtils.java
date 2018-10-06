@@ -7,27 +7,11 @@ import java.util.Arrays;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class StringUtils {
-    public static boolean startsWith(String msg, String str) {
-        msg = msg.toLowerCase();
-        str = str.toLowerCase();
-
-        if (str.contains("/")) {
-            String[] contain = str.split("/");
-            return Arrays.stream(contain).anyMatch(msg::startsWith);
-        }
-
-        return msg.startsWith(str);
+    public static boolean startsWith(String str, String contain) {
+        return Arrays.stream(contain.toLowerCase().split("/")).parallel().anyMatch(str.toLowerCase()::startsWith);
     }
 
     public static boolean contains(String str, String contain) {
-        str = str.toLowerCase();
-        contain = contain.toLowerCase();
-
-        if (contain.contains("/")) {
-            String[] split = contain.split("/");
-            return Arrays.stream(split).anyMatch(str::contains);
-        }
-
-        return str.contains(contain);
+        return Arrays.stream(contain.toLowerCase().split("/")).parallel().anyMatch(str.toLowerCase()::contains);
     }
 }

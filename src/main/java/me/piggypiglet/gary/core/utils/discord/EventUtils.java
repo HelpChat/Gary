@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.utils.discord;
 
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Message;
@@ -35,11 +36,10 @@ public final class EventUtils {
         logger.info("Adding temporary event listener for " + event.name());
         jda.addEventListener(listener);
 
+        // exception will only be thrown on gary shutdown, no point in printing stack trace.
         while (pulledEvent.get() == null) try {
             Thread.sleep(100);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception ignored) {}
 
         jda.removeEventListener(listener);
         logger.info("Removing temporary event listener for " + event.name());
@@ -71,6 +71,31 @@ public final class EventUtils {
         }
 
         future.complete(e.getReaction());
+
+        return future;
+    }
+
+    public static Future<Integer> pullInt(TextChannel channel, User user) {
+        CompletableFuture<Integer> future = new CompletableFuture<>();
+        GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
+        boolean integer = false;
+
+        // Have to add the extra isbot check for some reason
+        while (e.getChannel() != channel && e.getAuthor() != user && !e.getAuthor().isBot() && !integer) {
+            e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
+
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                Integer.parseInt(e.getMessage().getContentRaw());
+            } catch (Exception ex) {
+                channel.sendMessage(Constants.INT_ERROR).queue();
+                continue;
+            }
+
+            integer = true;
+        }
+
+        future.complete(Integer.parseInt(e.getMessage().getContentRaw()));
 
         return future;
     }

@@ -10,10 +10,12 @@ import java.util.concurrent.Future;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
+@SuppressWarnings("StatementWithEmptyBody")
 public final class Response {
     @Getter private final String key;
     @Getter private MessageReaction reaction;
     @Getter private Message message;
+    @Getter private int integer = 0;
 
     public Response(String key) {
         this.key = key;
@@ -39,6 +41,16 @@ public final class Response {
         }
     }
 
+    public void setInt(Future<Integer> integer) {
+        while (!integer.isDone());
+
+        try {
+            this.integer = integer.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public String toString() {
         try {
@@ -50,6 +62,10 @@ public final class Response {
 
             if (message != null) {
                 stringBuilder.append("message:(").append(message.getContentRaw()).append(")");
+            }
+
+            if (integer != 0) {
+                stringBuilder.append("integer:(").append(integer).append(")");
             }
 
             return stringBuilder.append("]").toString();

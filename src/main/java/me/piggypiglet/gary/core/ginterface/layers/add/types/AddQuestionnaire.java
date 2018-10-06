@@ -3,6 +3,7 @@ package me.piggypiglet.gary.core.ginterface.layers.add.types;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.ginterface.layers.add.AddAbstract;
+import me.piggypiglet.gary.core.objects.enums.QuestionType;
 import me.piggypiglet.gary.core.objects.enums.ginterface.types.AddType;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
@@ -28,42 +29,44 @@ public final class AddQuestionnaire extends AddAbstract {
 
     @Override
     protected void execute(GuildMessageReceivedEvent e) {
-        //todo cleanup this class
+        Member member = e.getMember();
+        TextChannel channel = e.getChannel();
 
-        try {
-            Member member = e.getMember();
-            TextChannel channel = e.getChannel();
+        QuestionnaireBuilder builder = new QuestionnaireBuilder(member, channel).addQuestions(
+                new Question("name", "What do you want to name this questionnaire?", QuestionType.STRING),
+                new Question("questions", "How many questions do you want?", QuestionType.INT)
+        );
 
-            QuestionnaireBuilder builder = new QuestionnaireBuilder(member, channel).addQuestions(
-                    new Question("name", "What do you want to name this questionnaire?", "str"),
-                    new Question("questions", "How many questions do you want?", "str")
+        Map<String, Response> info = builder.build("temp-questionnaire builder").getResponses();
+        List<Question> questions = new ArrayList<>();
+        int iterations = info.get("questions").getInteger();
+
+        for (int i = 0; i < iterations; ++i) {
+            QuestionnaireBuilder questionBuilder = new QuestionnaireBuilder(member, channel).addQuestions(
+                    new Question("question", "What question would you like to ask?", QuestionType.STRING),
+                    new Question("key", "What identifier would you like to use for this question?", QuestionType.STRING),
+                    new Question("answer", "What do you want users to respond with (string, emote, int)?", QuestionType.STRING)
             );
 
-            Map<String, Response> info = builder.build().getResponses();
-            int iterations = Integer.parseInt(info.get("questions").getMessage().getContentRaw());
-            List<Question> questions = new ArrayList<>();
+            Map<String, Response> questionBuilderResponses = questionBuilder.build("temp-question-builder").getResponses();
 
-            for (int i = 0; i < iterations; ++i) {
-                QuestionnaireBuilder questionBuilder = new QuestionnaireBuilder(member, channel).addQuestions(
-                        new Question("question", "What question would you like to ask?", "str"),
-                        new Question("key", "What identifier would you like to use for this question?", "str"),
-                        new Question("acceptable answers", "What do you want users to respond with (`str` or list emotes, split with |.)?", "str")
+            String question = questionBuilderResponses.get("question").getMessage().getContentRaw();
+            String key = questionBuilderResponses.get("key").getMessage().getContentRaw();
+            QuestionType acceptableAnswer = QuestionType.valueOf(questionBuilderResponses.get("answer").getMessage().getContentRaw().toUpperCase());
+            Question questionObj = new Question(key, question, acceptableAnswer);
+
+            if (acceptableAnswer == QuestionType.EMOTE) {
+                QuestionnaireBuilder emotes = new QuestionnaireBuilder(member, channel).addQuestions(
+                        new Question("emotes", "What emotes do you want the user to pick from (Split emotes with |)?", QuestionType.STRING)
                 );
 
-                QuestionnaireBuilder.Questionnaire questionBuilderQuestionnaire = questionBuilder.build();
-                Map<String, Response> questionBuilderResponses = questionBuilderQuestionnaire.getResponses();
-
-                String question = questionBuilderResponses.get("question").getMessage().getContentRaw();
-                String key = questionBuilderResponses.get("key").getMessage().getContentRaw();
-                Object[] acceptableAnswers = questionBuilderResponses.get("acceptable answers").getMessage().getContentRaw().split("\\|");
-
-                questions.add(new Question(key, question, acceptableAnswers));
+                questionObj.setEmotes(channel.getJDA(), (Object[]) emotes.build("temp-emotes").getResponses().get("emotes").getMessage().getContentRaw().split("\\|"));
             }
 
-            garyBot.getQuestionnaires().put(info.get("name").getMessage().getContentRaw(), new QuestionnaireBuilder(member, channel).addQuestions(questions.toArray(new Question[]{})));
-            e.getChannel().sendMessage("Questionnaire successfully made.").queue();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            questions.add(questionObj);
         }
+
+        garyBot.getQuestionnaires().put(info.get("name").getMessage().getContentRaw(), new QuestionnaireBuilder(member, channel).addQuestions(questions.toArray(new Question[]{})));
+        e.getChannel().sendMessage("Questionnaire successfully made.").queue();
     }
 }

@@ -35,7 +35,7 @@ public final class InterfaceHandler extends GEvent {
         if (e.getAuthor().getIdLong() == 181675431362035712L) {
             String message = e.getMessage().getContentStripped();
 
-            if (StringUtils.startsWith(message, "gary, /gary /!")) {
+            if (StringUtils.startsWith(message, "gary,/gary/!")) {
                 for (TopEnum type : TopEnum.values()) {
                     if (StringUtils.contains(message, type.toString().replace("_", "/"))) {
                         topCommands.get(type).run(e);
