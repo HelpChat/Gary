@@ -21,6 +21,7 @@ public abstract class Top {
 
     protected abstract void execute(GuildMessageReceivedEvent e);
 
+
     public void run(GuildMessageReceivedEvent e) {
         execute(e);
     }

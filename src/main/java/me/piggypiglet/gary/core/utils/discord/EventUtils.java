@@ -51,13 +51,11 @@ public final class EventUtils {
         CompletableFuture<Message> future = new CompletableFuture<>();
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
 
-        // Have to add the extra isbot check for some reason
-        while (e.getChannel() != channel && e.getAuthor() != user && !e.getAuthor().isBot()) {
+        while (e.getChannel() != channel && e.getAuthor() != user) {
             e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
         }
 
         future.complete(e.getMessage());
-
         return future;
     }
 
@@ -71,7 +69,6 @@ public final class EventUtils {
         }
 
         future.complete(e.getReaction());
-
         return future;
     }
 
@@ -80,8 +77,7 @@ public final class EventUtils {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
         boolean integer = false;
 
-        // Have to add the extra isbot check for some reason
-        while (e.getChannel() != channel && e.getAuthor() != user && !e.getAuthor().isBot() && !integer) {
+        while (e.getChannel() != channel && e.getAuthor() != user && !integer) {
             e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
 
             try {
@@ -96,7 +92,6 @@ public final class EventUtils {
         }
 
         future.complete(Integer.parseInt(e.getMessage().getContentRaw()));
-
         return future;
     }
 }

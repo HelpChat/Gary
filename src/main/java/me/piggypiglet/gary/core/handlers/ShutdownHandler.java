@@ -11,6 +11,9 @@ import me.piggypiglet.gary.core.objects.tasks.Task;
 public final class ShutdownHandler extends Thread {
     @Inject private GaryBot garyBot;
 
+    /**
+     * Disconnects JDA from Discord, then shuts down all threads in the thread pool. Program then exits.
+     */
     @Override
     public void run() {
         garyBot.getJda().shutdownNow();

@@ -13,6 +13,7 @@ import me.piggypiglet.gary.core.ginterface.layers.run.types.RunQuestionnaire;
 import me.piggypiglet.gary.core.handlers.EventHandler;
 import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
+import me.piggypiglet.gary.core.handlers.chat.ServiceHandler;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
@@ -48,6 +49,7 @@ public final class GaryBot {
     @Inject private ShutdownHandler shutdownHandler;
     @Inject private PaginationHandler paginationHandler;
     @Inject private InterfaceHandler interfaceHandler;
+    @Inject private ServiceHandler serviceHandler;
 
     @Inject private InterfaceCommands interfaceCommands;
 
@@ -92,7 +94,7 @@ public final class GaryBot {
 
             case EVENTS:
                 Stream.of(
-                        paginationHandler, interfaceHandler
+                        paginationHandler, interfaceHandler, serviceHandler
                 ).forEach(eventHandler.getEvents()::add);
 
                 break;
@@ -149,23 +151,15 @@ public final class GaryBot {
                 break;
 
             case TEST:
-//                Task.async((e) -> {
-//                    e.sleep(5000);
-//
-//                    Guild guild = jda.getGuildById(Constants.GUILD);
-//                    Emote tp1 = guild.getEmoteById("495977680454549516"), tp2 = guild.getEmoteById("263994827979489290");
-//
-//                    questionnaires.put("test", new QuestionnaireBuilder(guild.getMemberById(181675431362035712L), jda.getTextChannelById(411094432402636802L)).addQuestions(
-//                            new Question("food", "What's your favourite food?", QuestionType.STRING),
-//                            new Question("pigs", ":pig: or :pig2:?", QuestionType.EMOTE).setEmotes(jda, "\uD83D\uDC37", "\uD83D\uDC16"),
-//                            new Question("testplugins", tp1.getAsMention() + " or " + tp2.getAsMention() + "?", QuestionType.EMOTE).setEmotes(jda, tp1, tp2)
-//                    ));
-//                });
-
                 break;
         }
     }
 
+    /**
+     * Queues a runnable to be ran on the main thread.<br/>
+     * <i>This will not block the program if a thread blocking runnable is executed</i>
+     * @param gRunnable The runnable to be queued.
+     */
     public void queue(GRunnable gRunnable) {
         queue.add(gRunnable);
     }

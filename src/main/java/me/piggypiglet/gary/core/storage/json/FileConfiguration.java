@@ -19,6 +19,12 @@ public final class FileConfiguration {
         this.itemMap = itemMap;
     }
 
+    /**
+     * Retrieve an Object from the path specified in the loaded json file.
+     * @param path The path to retrieve the object from.
+     * @param def Optional object that will be supplied if the path doesn't exist.
+     * @return Returns an object at the path specified.
+     */
     @SuppressWarnings("unchecked")
     public Object get(String path, Object... def) {
         Object object = itemMap.getOrDefault(path, null);
@@ -35,6 +41,12 @@ public final class FileConfiguration {
         return object == null ? (def.length >= 1 ? def[0] : null) : object;
     }
 
+    /**
+     * Retrieve a String from the path specified in the loaded json file.
+     * @param path The path to retrieve the string from.
+     * @param def Optional string that will be supplied if the path doesn't exist.
+     * @return Returns a string at the path specified.
+     */
     public String getString(String path, String... def) {
         Object object;
 
@@ -51,6 +63,12 @@ public final class FileConfiguration {
         return def.length >= 1 ? def[0] : NULL_STRING;
     }
 
+    /**
+     * Retrieve an Integer from the path specified in the loaded json file.
+     * @param path The path to retrieve the integer from.
+     * @param def Optional integer that will be supplied if the path doesn't exist.
+     * @return Returns an integer at the path specified.
+     */
     public int getInt(String path, Integer... def) {
         Double[] doubleDef = new Double[def.length];
         for (int i = 0; i < doubleDef.length; ++i) doubleDef[i] = (double) def[i];
@@ -58,6 +76,12 @@ public final class FileConfiguration {
         return (int) getDouble(path, doubleDef);
     }
 
+    /**
+     * Retrieve a Long from the path specified in the loaded json file.
+     * @param path The path to retrieve the long from.
+     * @param def Optional long that will be supplied if the path doesn't exist.
+     * @return Returns a long at the path specified.
+     */
     public long getLong(String path, Long... def) {
         Double[] doubleDef = new Double[def.length];
         for (int i = 0; i < doubleDef.length; ++i) doubleDef[i] = (double) def[i];
@@ -65,6 +89,12 @@ public final class FileConfiguration {
         return (long) getDouble(path, doubleDef);
     }
 
+    /**
+     * Retrieve a Double from the path specified in the loaded json file.
+     * @param path The path to retrieve the double from.
+     * @param def Optional double that will be supplied if the path doesn't exist.
+     * @return Returns a double at the path specified.
+     */
     public double getDouble(String path, Double... def) {
         Object object;
 

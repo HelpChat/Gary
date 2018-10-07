@@ -26,10 +26,18 @@ public final class PaginationBuilder {
         pages = new ArrayList<>();
     }
 
+    /**
+     * Add pages to the pagination.
+     * @param pages Pages to be added.
+     */
     public void addPages(PaginationPage... pages) {
         this.pages.addAll(Arrays.asList(pages));
     }
 
+    /**
+     * Build a pagination and post it in a channel.
+     * @param channel The channel the pagination will be posted in.
+     */
     public void build(TextChannel channel) {
         if (!pages.isEmpty()) {
             List<Object> emotes = new ArrayList<>();

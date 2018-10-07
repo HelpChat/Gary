@@ -21,6 +21,10 @@ public final class Response {
         this.key = key;
     }
 
+    /**
+     * Sets the user's reaction.
+     * @param reaction The user's reaction.
+     */
     public void setReaction(Future<MessageReaction> reaction) {
         while (!reaction.isDone());
 
@@ -31,6 +35,10 @@ public final class Response {
         }
     }
 
+    /**
+     * Set the user's message.
+     * @param message The user's message.
+     */
     public void setMessage(Future<Message> message) {
         while (!message.isDone());
 
@@ -41,6 +49,10 @@ public final class Response {
         }
     }
 
+    /**
+     * Set the user's integer.
+     * @param integer The user's integer.
+     */
     public void setInt(Future<Integer> integer) {
         while (!integer.isDone());
 
@@ -51,6 +63,10 @@ public final class Response {
         }
     }
 
+    /**
+     * Convert a Response instance to a human friendly string.
+     * @return String containing response info.
+     */
     @Override
     public String toString() {
         try {

@@ -27,6 +27,12 @@ public final class Question {
         this.questionType = questionType;
     }
 
+    /**
+     * Set the emotes that will be added to the question for the user to choose from. This accepts unserialized emotes, emote objects, and unicodes.
+     * @param jda Instance of Gary's JDA to serialize unserialized emotes.
+     * @param emotes Emotes that will be added to the question.
+     * @return Returns an instance of this question.
+     */
     public Question setEmotes(JDA jda, Object... emotes) {
         this.emotes = new ArrayList<>();
 

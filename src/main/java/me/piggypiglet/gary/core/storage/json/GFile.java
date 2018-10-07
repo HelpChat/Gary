@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -27,10 +28,16 @@ public final class GFile {
     private Logger logger;
 
     public GFile() {
-        itemMaps = new HashMap<>();
+        itemMaps = new ConcurrentHashMap<>();
         logger = LoggerFactory.getLogger("GFile");
     }
 
+    /**
+     * Generates a physical file and populates it with embedded content.
+     * @param name The name of the file, will be stored and accessible via a map.
+     * @param externalPath Path the file will be generated at.
+     * @param internalPath Path to the embedded content.
+     */
     public void make(String name, String externalPath, String internalPath) {
         File file = new File(externalPath);
 
@@ -83,6 +90,11 @@ public final class GFile {
         itemMaps.put(name, populatorMap);
     }
 
+    /**
+     * Get a FileConfiguration instance for the GFile specified.
+     * @param name The name of the GFile to be retrieved.
+     * @return Returns a FileConfiguration instance of the referenced GFile.
+     */
     public FileConfiguration getFileConfiguration(String name) {
         Object item = itemMaps.get(name).get("file-configuration");
 
