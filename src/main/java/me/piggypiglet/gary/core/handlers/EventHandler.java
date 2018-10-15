@@ -44,11 +44,12 @@ public final class EventHandler implements EventListener {
     public void onEvent(Event event) {
 
         if (event instanceof GuildMessageReceivedEvent) {
+            if (((GuildMessageReceivedEvent) event).getAuthor().isBot()) return;
             GuildMessageReceivedEvent ev = (GuildMessageReceivedEvent) event;
             String msg = ev.getMessage().getContentRaw();
             String channel = ev.getChannel().getName();
             if (msg.contains("<@") && msg.contains(">")) {
-                ev.getGuild().getTextChannelById(Constants.LOG).sendMessage(ev.getAuthor().getName() + " just tagged someone in " + channel + " and said: " + msg).queue();
+                ev.getGuild().getTextChannelById(Constants.LOG).sendMessage(ev.getAuthor().getName() + " just tagged someone in " + channel + " and said:\n ```" + msg + "```").queue();
             }
         }
 
