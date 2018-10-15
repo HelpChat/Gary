@@ -46,6 +46,7 @@ public final class EventHandler implements EventListener {
         if (event instanceof GuildMessageReceivedEvent) {
             if (((GuildMessageReceivedEvent) event).getAuthor().isBot()) return;
             GuildMessageReceivedEvent ev = (GuildMessageReceivedEvent) event;
+            if (ev.getChannel().getIdLong() != Constants.PLUGIN) return;
             String msg = ev.getMessage().getContentRaw();
             String channel = ev.getChannel().getName();
             if (msg.contains("<@") && msg.contains(">")) {
