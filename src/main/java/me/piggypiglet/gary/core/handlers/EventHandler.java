@@ -42,6 +42,16 @@ public final class EventHandler implements EventListener {
 
     @Override
     public void onEvent(Event event) {
+
+        if (event instanceof GuildMessageReceivedEvent) {
+            GuildMessageReceivedEvent ev = (GuildMessageReceivedEvent) event;
+            String msg = ev.getMessage().getContentRaw();
+            String channel = ev.getChannel().getName();
+            if (msg.contains("<@") && msg.contains(">")) {
+                ev.getGuild().getTextChannelById(Constants.LOG).sendMessage(ev.getAuthor().getName() + " just tagged someone in " + channel + " and said: " + msg).queue();
+            }
+        }
+
         loggingHandler.check(event);
 
         switch (EventsEnum.fromEvent(event.getClass())) {
