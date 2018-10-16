@@ -42,18 +42,6 @@ public final class EventHandler implements EventListener {
 
     @Override
     public void onEvent(Event event) {
-
-        if (event instanceof GuildMessageReceivedEvent) {
-            if (((GuildMessageReceivedEvent) event).getAuthor().isBot()) return;
-            GuildMessageReceivedEvent ev = (GuildMessageReceivedEvent) event;
-            if (ev.getChannel().getIdLong() != Constants.PLUGIN) return;
-            String msg = ev.getMessage().getContentRaw();
-            String channel = ev.getChannel().getName();
-            if (msg.contains("<@") && msg.contains(">")) {
-                ev.getGuild().getTextChannelById(Constants.LOG).sendMessage(ev.getAuthor().getName() + " just tagged someone in " + channel + " and said:\n ```" + msg + "```").queue();
-            }
-        }
-
         loggingHandler.check(event);
 
         switch (EventsEnum.fromEvent(event.getClass())) {
@@ -84,6 +72,12 @@ public final class EventHandler implements EventListener {
                     statHandler.check(e3);
                     serviceHandler.check(e3);
                     interfaceHandler.run(e3);
+
+                    String msg = e3.getMessage().getContentRaw();
+
+                    if (msg.contains("<@") && msg.contains(">") && e3.getChannel().getIdLong() == Constants.PLUGIN) {
+                        e3.getGuild().getTextChannelById(Constants.LOG).sendMessage(e3.getAuthor().getName() + " just tagged someone in " + e3.getChannel().getAsMention() + " and said:\n ```" + msg + "```").queue();
+                    }
                 }
 
                 break;
