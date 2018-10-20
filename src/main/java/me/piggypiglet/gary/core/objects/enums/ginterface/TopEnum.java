@@ -7,6 +7,5 @@ package me.piggypiglet.gary.core.objects.enums.ginterface;
 public enum TopEnum {
     CLEAR_REMOVE, ADD_MAKE_CREATE, RUN_EXECUTE,
 
-    // standalone
     EVAL
 }

@@ -39,6 +39,7 @@ public final class GFile {
      * @param internalPath Path to the embedded content.
      */
     public void make(String name, String externalPath, String internalPath) {
+        name = name.substring(0, name.lastIndexOf('.'));
         File file = new File(externalPath);
 
         try {

@@ -3,24 +3,21 @@ package me.piggypiglet.gary;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lombok.Getter;
-import me.piggypiglet.gary.core.ginterface.layers.InterfaceCommands;
-import me.piggypiglet.gary.core.ginterface.layers.add.AddCommands;
-import me.piggypiglet.gary.core.ginterface.layers.add.types.AddQuestionnaire;
-import me.piggypiglet.gary.core.ginterface.layers.clear.ClearCommands;
-import me.piggypiglet.gary.core.ginterface.layers.clear.types.Paginations;
-import me.piggypiglet.gary.core.ginterface.layers.run.RunCommands;
-import me.piggypiglet.gary.core.ginterface.layers.run.types.RunQuestionnaire;
+import me.piggypiglet.gary.core.ginterface.layers.standalone.EvalCommand;
 import me.piggypiglet.gary.core.handlers.EventHandler;
 import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
 import me.piggypiglet.gary.core.handlers.chat.ServiceHandler;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.storage.json.FileConfiguration;
 import me.piggypiglet.gary.core.storage.json.GFile;
+import me.piggypiglet.gary.core.storage.mysql.MySQLInitializer;
+import me.piggypiglet.gary.core.utils.mysql.FAQUtils;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -44,6 +41,7 @@ public final class GaryBot {
     @Getter private Map<String, QuestionnaireBuilder> questionnaires;
 
     @Inject private GFile gFile;
+    @Inject private MySQLInitializer mySQLInitializer;
 
     @Inject private EventHandler eventHandler;
     @Inject private ShutdownHandler shutdownHandler;
@@ -51,17 +49,7 @@ public final class GaryBot {
     @Inject private InterfaceHandler interfaceHandler;
     @Inject private ServiceHandler serviceHandler;
 
-    @Inject private InterfaceCommands interfaceCommands;
-
-    @Inject private ClearCommands clearCommands;
-    @Inject private AddCommands addCommands;
-    @Inject private RunCommands runCommands;
-
-    @Inject private Paginations clearPaginations;
-
-    @Inject private AddQuestionnaire addQuestionnaire;
-
-    @Inject private RunQuestionnaire runQuestionnaire;
+    @Inject private EvalCommand evalCommand;
 
     private BlockingQueue<GRunnable> queue;
     @Getter private JDA jda;
@@ -87,8 +75,8 @@ public final class GaryBot {
         switch (registerable) {
             case FILES:
                 Stream.of(
-                        "config"
-                ).forEach(f -> gFile.make(f, "./" + f + ".json", "/" + f + ".json"));
+                        "config.json", "schema.sql"
+                ).forEach(f -> gFile.make(f, "./" + f, "/" + f));
 
                 break;
 
@@ -100,16 +88,10 @@ public final class GaryBot {
                 break;
 
             case INTERFACE:
-                // command types
-                Stream.of(
-                        clearCommands, addCommands, runCommands
-                ).forEach(commands -> interfaceHandler.getTopCommands().put(commands.getType(), commands));
-
                 // commands
                 Stream.of(
-                        clearPaginations, addQuestionnaire, runQuestionnaire
-                ).forEach(interfaceCommands.getInterfaceAbstractList()::add);
-                interfaceCommands.sort();
+                        evalCommand
+                ).forEach(interfaceHandler.getCommands()::add);
 
                 break;
 
@@ -120,6 +102,8 @@ public final class GaryBot {
                 break;
 
             case MYSQL:
+                mySQLInitializer.connect();
+
                 break;
 
             case BOT:
@@ -142,7 +126,7 @@ public final class GaryBot {
 
                 Scanner input = new Scanner(System.in);
 
-                Task.async((e) -> {
+                Task.async(r -> {
                     if (input.nextLine().equalsIgnoreCase("stop")) {
                         System.exit(0);
                     }
@@ -151,6 +135,12 @@ public final class GaryBot {
                 break;
 
             case TEST:
+                Task.async(r -> {
+                    r.sleep(5000);
+
+                    FAQUtils.addFaq("test", "oof", Constants.PIGGYPIGLET);
+                });
+
                 break;
         }
     }
