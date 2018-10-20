@@ -39,9 +39,7 @@ public final class MySQLInitializer {
                 try {
                     int i_ = i.getAndIncrement();
 
-                    System.out.println(schemas[i_]);
-
-                    if (DB.getFirstRow("SHOW TABLES LIKE " + t) == null) {
+                    if (DB.getFirstRow("SHOW TABLES LIKE '" + t + "'") == null) {
                         DB.executeInsert(schemas[i_]);
                     }
                 } catch (Exception e) {

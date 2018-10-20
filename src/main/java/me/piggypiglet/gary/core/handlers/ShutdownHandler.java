@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.handlers;
 
+import co.aikar.idb.DB;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.objects.tasks.Task;
@@ -12,10 +13,11 @@ public final class ShutdownHandler extends Thread {
     @Inject private GaryBot garyBot;
 
     /**
-     * Disconnects JDA from Discord, then shuts down all threads in the thread pool. Program then exits.
+     * Closes MySQL connection, disconnects JDA from Discord, shuts down all threads in the thread pool, program then exits.
      */
     @Override
     public void run() {
+        DB.close();
         garyBot.getJda().shutdownNow();
         Task.shutdown();
     }

@@ -9,7 +9,6 @@ import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
 import me.piggypiglet.gary.core.handlers.chat.ServiceHandler;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
-import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
@@ -17,7 +16,6 @@ import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.storage.json.FileConfiguration;
 import me.piggypiglet.gary.core.storage.json.GFile;
 import me.piggypiglet.gary.core.storage.mysql.MySQLInitializer;
-import me.piggypiglet.gary.core.utils.mysql.FAQUtils;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -135,11 +133,6 @@ public final class GaryBot {
                 break;
 
             case TEST:
-                Task.async(r -> {
-                    r.sleep(5000);
-
-                    FAQUtils.addFaq("test", "oof", Constants.PIGGYPIGLET);
-                });
 
                 break;
         }
