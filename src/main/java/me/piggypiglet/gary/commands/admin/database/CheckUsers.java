@@ -2,6 +2,7 @@ package me.piggypiglet.gary.commands.admin.database;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.Command;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.admin.RoleUtils;
 import me.piggypiglet.gary.core.utils.mysql.UserUtils;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -22,7 +23,7 @@ public final class CheckUsers extends Command {
 
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
-        if (roleUtils.isTrustedPlus(e.getMember())) {
+        if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET) {
             e.getChannel().sendMessage(Objects.requireNonNull(userUtils.checkUsers(e.getGuild()))).queue();
         }
     }

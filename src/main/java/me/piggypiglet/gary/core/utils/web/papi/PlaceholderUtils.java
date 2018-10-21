@@ -12,6 +12,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -80,7 +81,7 @@ public final class PlaceholderUtils {
             }
         }
 
-        return placeholders.toString()
+        return placeholders.stream().distinct().collect(Collectors.toList()).toString()
                 .replace("]", "")
                 .replace("[", "")
                 .replace(", ", "\n")
