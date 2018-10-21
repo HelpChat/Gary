@@ -17,7 +17,6 @@ public final class MessageUtils {
     }
 
     public static void editMessage(Message message) {
-        long userID = message.getAuthor().getIdLong();
         long messageID = message.getIdLong();
         String messageContent = message.getContentRaw().length() >= 229 ? message.getContentRaw().substring(0, 229) + "..." : message.getContentRaw();
 
@@ -25,7 +24,7 @@ public final class MessageUtils {
             String previousMessage = (String) DB.getFirstColumnAsync("SELECT `current_message` FROM `gary_messages` WHERE `message_id`=?", messageID).get();
 
             if (previousMessage != null) {
-                DB.executeUpdateAsync("UPDATE `gary_messages` SET `previous_message`=?, `current_message`=?, WHERE `message_id`=?", previousMessage, messageContent, messageID);
+                DB.executeUpdateAsync("UPDATE `gary_messages` SET `previous_message`=?, `current_message`=? WHERE `message_id`=?;", previousMessage, messageContent, messageID);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,7 +53,7 @@ public final class MessageUtils {
         String result = "null";
 
         try {
-            Object message = DB.getFirstColumnAsync("SELECT ? FROM `gary_messages` WHERE `message_id`=?", type, messageID).get();
+            Object message = DB.getFirstColumnAsync("SELECT `" + type + "` FROM `gary_messages` WHERE `message_id`=?", messageID).get();
 
             if (message != null) result = (String) message;
         } catch (Exception e) {

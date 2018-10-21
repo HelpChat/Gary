@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.handlers.chat;
 
 import com.google.inject.Singleton;
 import lombok.Getter;
-import me.piggypiglet.gary.core.framework.ginterface.Command;
+import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
@@ -10,6 +10,7 @@ import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static me.piggypiglet.gary.core.objects.enums.EventsEnum.MESSAGE_CREATE;
@@ -36,7 +37,11 @@ public final class InterfaceHandler extends GEvent {
             if (StringUtils.startsWith(message, "gary,/gary/!")) {
                 for (Command command : commands) {
                     if (StringUtils.contains(message, command.getCommands())) {
-                        if (command.getArgPattern() != null && !StringUtils.endsWith(message, command.getCommands())) {
+                        if (command.getArgPattern() != null) {
+                            if (command.isForceArgPattern()) {
+                                if (!StringUtils.containsAll(message, Arrays.asList(command.getArgPattern().replace("|", "-").split("-")))) return;
+                            }
+
                             command.run(e, StringUtils.commandSplit(message.replace("```", "\""), command.getArgPattern()));
                         } else {
                             command.run(e, null);

@@ -15,6 +15,6 @@ public final class GaryBootstrap {
         Injector injector = module.createInjector();
         injector.injectMembers(clazz.newInstance());
 
-        injector.getInstance(GaryBot.class).start();
+        injector.getInstance(GaryBot.class).start(injector);
     }
 }

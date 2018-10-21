@@ -1,14 +1,16 @@
 package me.piggypiglet.gary;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lombok.Getter;
-import me.piggypiglet.gary.core.ginterface.layers.standalone.EvalCommand;
+import me.piggypiglet.gary.core.framework.commands.Command;
+import me.piggypiglet.gary.core.framework.logging.Logger;
 import me.piggypiglet.gary.core.handlers.EventHandler;
+import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
-import me.piggypiglet.gary.core.handlers.chat.ServiceHandler;
-import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
+import me.piggypiglet.gary.core.handlers.misc.LoggingHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
@@ -20,6 +22,7 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
+import org.reflections.Reflections;
 
 import java.util.Map;
 import java.util.Scanner;
@@ -36,28 +39,25 @@ import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
 // ------------------------------
 @Singleton
 public final class GaryBot {
-    @Getter private Map<String, QuestionnaireBuilder> questionnaires;
+    private final BlockingQueue<GRunnable> queue = new LinkedBlockingQueue<>();
+    @Getter private final Map<String, QuestionnaireBuilder> questionnaires = new ConcurrentHashMap<>();
+    @Getter private JDA jda;
+    @Getter private Injector injector;
+    private final Reflections reflections = new Reflections("me.piggypiglet.gary");
 
     @Inject private GFile gFile;
     @Inject private MySQLInitializer mySQLInitializer;
 
     @Inject private EventHandler eventHandler;
     @Inject private ShutdownHandler shutdownHandler;
-    @Inject private PaginationHandler paginationHandler;
     @Inject private InterfaceHandler interfaceHandler;
-    @Inject private ServiceHandler serviceHandler;
+    @Inject private LoggingHandler loggingHandler;
 
-    @Inject private EvalCommand evalCommand;
-
-    private BlockingQueue<GRunnable> queue;
-    @Getter private JDA jda;
-
-    void start() {
-        questionnaires = new ConcurrentHashMap<>();
-        queue = new LinkedBlockingQueue<>();
+    void start(Injector injector) {
+        this.injector = injector;
 
         Task.async((g) -> Stream.of(
-                FILES, EVENTS, INTERFACE, COMMANDS, LOGGERS, MYSQL, BOT, SHUTDOWN, TEST
+                FILES, EVENTS, INTERFACE, LOGGERS, MYSQL, BOT, SHUTDOWN, TEST
         ).forEach(GaryBot.this::register), "Gary");
 
         // sacrifice the main thread.
@@ -75,33 +75,22 @@ public final class GaryBot {
                 Stream.of(
                         "config.json", "schema.sql"
                 ).forEach(f -> gFile.make(f, "./" + f, "/" + f));
-
                 break;
 
             case EVENTS:
-                Stream.of(
-                        paginationHandler, interfaceHandler, serviceHandler
-                ).forEach(eventHandler.getEvents()::add);
-
+                reflections.getSubTypesOf(GEvent.class).stream().map(injector::getInstance).forEach(eventHandler.getEvents()::add);
                 break;
 
             case INTERFACE:
-                // commands
-                Stream.of(
-                        evalCommand
-                ).forEach(interfaceHandler.getCommands()::add);
-
-                break;
-
-            case COMMANDS:
+                reflections.getSubTypesOf(Command.class).stream().map(injector::getInstance).forEach(interfaceHandler.getCommands()::add);
                 break;
 
             case LOGGERS:
+                reflections.getSubTypesOf(Logger.class).stream().map(injector::getInstance).forEach(loggingHandler.getLoggers()::add);
                 break;
 
             case MYSQL:
                 mySQLInitializer.connect();
-
                 break;
 
             case BOT:
@@ -116,7 +105,6 @@ public final class GaryBot {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
 
             case SHUTDOWN:
@@ -129,11 +117,9 @@ public final class GaryBot {
                         System.exit(0);
                     }
                 }, "Console Command Monitor");
-
                 break;
 
             case TEST:
-
                 break;
         }
     }

@@ -52,6 +52,11 @@ public final class EventUtils {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
 
         while (e.getChannel() != channel && e.getAuthor() != user) {
+            if (e.getMessage().getContentRaw().equalsIgnoreCase("cancel")) {
+                future.complete(null);
+                return future;
+            }
+
             e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
         }
 

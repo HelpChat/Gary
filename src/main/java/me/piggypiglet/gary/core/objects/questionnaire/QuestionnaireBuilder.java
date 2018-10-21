@@ -2,13 +2,11 @@ package me.piggypiglet.gary.core.objects.questionnaire;
 
 import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
-import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.utils.discord.EventUtils;
 import net.dv8tion.jda.core.entities.*;
 
 import javax.annotation.Nonnull;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -68,63 +66,50 @@ public final class QuestionnaireBuilder {
     }
 
     public Questionnaire build(@Nonnull String questionnaireName) {
-        CompletableFuture<Questionnaire> questionnaire = new CompletableFuture<>();
+        Questionnaire questionnaire;
 
-        Task.async(r -> {
-            questions.values().forEach(question -> {
-                List<Object> emotes = question.getEmotes();
-                Message message = channel.sendMessage(question.getQuestion()).complete();
-                QuestionType questionType = question.getQuestionType();
-                Response response = new Response(question.getKey());
+        questions.values().forEach(question -> {
+            List<Object> emotes = question.getEmotes();
+            Message message = channel.sendMessage(question.getQuestion()).complete();
+            QuestionType questionType = question.getQuestionType();
+            Response response = new Response(question.getKey());
 
-                if (emotes != null && questionType == QuestionType.EMOTE) {
-                    emotes.forEach(e -> {
-                        if (e instanceof String) {
-                            message.addReaction((String) e).queue();
-                        }
+            if (emotes != null && questionType == QuestionType.EMOTE) {
+                emotes.forEach(e -> {
+                    if (e instanceof String) {
+                        message.addReaction((String) e).queue();
+                    }
 
-                        if (e instanceof Emote) {
-                            message.addReaction((Emote) e).queue();
-                        }
-                    });
-                } else if (questionType == QuestionType.EMOTE) {
-                    channel.sendMessage("Whoever made this questionnaire fucked up and forgot to add acceptable answers for this question. I'm cancelling this questionnaire.").queue();
-                    channel.getGuild().getTextChannelById(411094432402636802L).sendMessage("Whoever made the questionnaire: `" + questionnaireName + "` forgot to add acceptable emotes for question: `" + question.getKey() + "`. Please fix this ASAP.").queue();
-                    return;
-                }
+                    if (e instanceof Emote) {
+                        message.addReaction((Emote) e).queue();
+                    }
+                });
+            } else if (questionType == QuestionType.EMOTE) {
+                channel.sendMessage("Whoever made this questionnaire forgot to add acceptable emotes for this question. I'm cancelling this questionnaire.").queue();
+                channel.getGuild().getTextChannelById(411094432402636802L).sendMessage("Whoever made the questionnaire: `" + questionnaireName + "` forgot to add acceptable emotes for question: `" + question.getKey() + "`. Please fix this ASAP.").queue();
+                return;
+            }
 
-                User user = member.getUser();
+            User user = member.getUser();
 
-                switch (questionType) {
-                    case STRING:
-                        response.setMessage(EventUtils.pullMessage(channel, user));
-                        break;
+            switch (questionType) {
+                case STRING:
+                    response.setMessage(EventUtils.pullMessage(channel, user));
+                    break;
 
-                    case EMOTE:
-                        response.setReaction(EventUtils.pullReaction(message, user));
-                        break;
+                case EMOTE:
+                    response.setReaction(EventUtils.pullReaction(message, user));
+                    break;
 
-                    case INT:
-                        response.setInt(EventUtils.pullInt(channel, user));
-                        break;
-                }
+                case INT:
+                    response.setInt(EventUtils.pullInt(channel, user));
+                    break;
+            }
 
-                responses.put(question.getKey(), response);
-            });
-
-            questionnaire.complete(new Questionnaire(questions, responses, QuestionnaireBuilder.this));
+            responses.put(question.getKey(), response);
         });
 
-        //noinspection StatementWithEmptyBody
-        while (!questionnaire.isDone()) {}
-
-        try {
-            return questionnaire.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return new Questionnaire(questions, new HashMap<>(), this);
+        return new Questionnaire(questions, responses, QuestionnaireBuilder.this);
     }
 
     public final class Questionnaire {

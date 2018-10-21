@@ -28,7 +28,7 @@ public final class BinderModule extends AbstractModule {
     @Override
     @SuppressWarnings("unchecked")
     public void configure() {
-        this.bind(clazz).toInstance(clazz);
+        bind(clazz).toInstance(clazz);
         requestStaticInjection(HasteUtils.class);
     }
 

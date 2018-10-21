@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.objects;
 
+import com.google.common.base.CaseFormat;
 import lombok.Getter;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
@@ -60,20 +61,18 @@ public final class FormatScanner {
      * @param titleKey The value to use for the title
      * @return Returns a MessageEmbed instance containing information stored in this class.
      */
-    public MessageEmbed toEmbed(String titleKey, String thumbnail, String footer) {
+    public MessageEmbed toEmbed(String titleKey) {
+        titleKey = titleKey.toLowerCase();
+
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setAuthor(values.getOrDefault(titleKey, "null"))
-                .setThumbnail(thumbnail)
-                .setColor(Constants.GARY_COLOR);
+                .setAuthor(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, values.getOrDefault(titleKey, "null")), null, message.getAuthor().getEffectiveAvatarUrl())
+                .setColor(Constants.GARY_COLOR)
+                .setTimestamp(ZonedDateTime.now());
 
         Map<String, String> tempMap = values;
         tempMap.remove(titleKey);
+        tempMap.forEach((key, value) -> embedBuilder.addField(CaseFormat.LOWER_CAMEL.to(CaseFormat.UPPER_CAMEL, key) + ":", value, false));
 
-        tempMap.forEach((key, value) -> embedBuilder.addField(key, value, false));
-
-        return embedBuilder
-                .setFooter(footer, null)
-                .setTimestamp(ZonedDateTime.now())
-                .build();
+        return embedBuilder.build();
     }
 }

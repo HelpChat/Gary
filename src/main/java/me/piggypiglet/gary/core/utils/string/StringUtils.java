@@ -14,28 +14,32 @@ public final class StringUtils {
         return lowercaseParallelStream(Arrays.asList(contain.split("/"))).anyMatch(str.toLowerCase()::startsWith);
     }
 
-    public static boolean endsWith(String str, List<String> items) {
-        return lowercaseParallelStream(items).anyMatch(str.toLowerCase()::endsWith);
+    public static boolean endsWith(String str, List<String> elements) {
+        return lowercaseParallelStream(elements).anyMatch(str.toLowerCase()::endsWith);
     }
 
     public static boolean contains(String str, String contain) {
         return contains(str, Arrays.asList(contain.split("/")));
     }
 
-    public static boolean contains(String str, List<String> items) {
-        return lowercaseParallelStream(items).anyMatch(str.toLowerCase()::contains);
+    public static boolean contains(String str, List<String> elements) {
+        return lowercaseParallelStream(elements).anyMatch(str.toLowerCase()::contains);
     }
 
-    public static boolean containsAll(String str, List<String> items) {
-        return lowercaseParallelStream(items).allMatch(str.toLowerCase()::contains);
+    public static boolean containsAll(String str, List<String> elements) {
+        return lowercaseParallelStream(elements).allMatch(str.toLowerCase()::contains);
     }
 
     private static Stream<String> lowercaseParallelStream(List<String> list) {
         return list.stream().map(String::toLowerCase).parallel();
     }
 
-    public static String replaceLast(String text, String regex, String replacement) {
-        return text.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
+    public static String replaceLast(String str, String regex, String replacement) {
+        return str.replaceFirst("(?s)(.*)" + regex, "$1" + replacement);
+    }
+
+    public static boolean equalsIgnoreCase(String str, String... elements) {
+        return lowercaseParallelStream(Arrays.asList(elements)).anyMatch(str::equalsIgnoreCase);
     }
 
     /**
@@ -57,21 +61,31 @@ public final class StringUtils {
             if (argAreas.length >= 2) {
                 baseArgs.add(org.apache.commons.lang3.StringUtils.substringBetween(message, argAreas[0], argAreas[1]));
             } else {
-                String secondStr = "╚";
+                String str = "╚";
 
-                if (sections.length > i + 1) {
-                    secondStr = sections[i + 1].split("-")[0];
-                } else {
-                    message = message + secondStr;
+                if (sections[i].startsWith("-")) {
+                    if (i == 0) {
+                        message = str + message;
+                    } else {
+                        str = sections[i - 1].split("-")[0];
+                    }
+                } else if (sections[i].endsWith("-")) {
+                    if (sections.length > i + 1) {
+                        str = sections[i + 1].split("-")[0];
+                    } else {
+                        message = message + str;
+                    }
                 }
 
-                baseArgs.add(org.apache.commons.lang3.StringUtils.substringBetween(message, argAreas[0], secondStr));
+                System.out.println(message);
+
+                baseArgs.add(org.apache.commons.lang3.StringUtils.substringBetween(message, argAreas[0], str));
             }
         }
 
         baseArgs.forEach(ba -> args.addAll(Arrays.asList(ba.split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))));
         String[] result = args.stream().filter(x -> !org.apache.commons.lang3.StringUtils.isBlank(x)).toArray(String[]::new);
 
-        return result[0].isEmpty() ? new String[]{} : result;
+        return result.length == 0 ? new String[]{} : result[0].isEmpty() ? new String[]{} : result;
     }
 }

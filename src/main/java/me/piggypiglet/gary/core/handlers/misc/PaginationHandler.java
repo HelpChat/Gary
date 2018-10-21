@@ -25,12 +25,10 @@ import static me.piggypiglet.gary.core.objects.enums.EventsEnum.MESSAGE_REACTION
 // ------------------------------
 @Singleton
 public final class PaginationHandler extends GEvent {
-    @Getter private Map<String, PaginationSet> paginations;
+    @Getter private final Map<String, PaginationSet> paginations = new HashMap<>();
 
     public PaginationHandler() {
         super(MESSAGE_REACTION_ADD, MESSAGE_DELETE);
-
-        paginations = new HashMap<>();
     }
 
     @Override

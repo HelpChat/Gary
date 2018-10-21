@@ -8,7 +8,6 @@ public enum Registerables {
     FILES,
     EVENTS,
     INTERFACE,
-    COMMANDS,
     LOGGERS,
     MYSQL,
     BOT,

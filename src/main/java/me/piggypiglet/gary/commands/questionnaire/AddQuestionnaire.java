@@ -1,10 +1,9 @@
-package me.piggypiglet.gary.core.ginterface.layers.add.types;
+package me.piggypiglet.gary.commands.questionnaire;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
-import me.piggypiglet.gary.core.ginterface.layers.add.AddAbstract;
+import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
-import me.piggypiglet.gary.core.objects.enums.ginterface.types.AddType;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.questionnaire.Response;
@@ -20,24 +19,25 @@ import java.util.Map;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class AddQuestionnaire extends AddAbstract {
+public final class AddQuestionnaire extends Command {
     @Inject private GaryBot garyBot;
 
     public AddQuestionnaire() {
-        super(AddType.QUESTIONNAIRE);
+        super("add", "make", "create");
+        setArgPattern("-questionnaire", true);
     }
 
     @Override
-    protected void execute(GuildMessageReceivedEvent e) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         Member member = e.getMember();
         TextChannel channel = e.getChannel();
 
-        QuestionnaireBuilder builder = new QuestionnaireBuilder(member, channel).addQuestions(
+        QuestionnaireBuilder.Questionnaire questionnaire = new QuestionnaireBuilder(member, channel).addQuestions(
                 new Question("name", "What do you want to name this questionnaire?", QuestionType.STRING),
                 new Question("questions", "How many questions do you want?", QuestionType.INT)
-        );
+        ).build("temp");
 
-        Map<String, Response> info = builder.build("temp-questionnaire builder").getResponses();
+        Map<String, Response> info = questionnaire.getResponses();
         List<Question> questions = new ArrayList<>();
         int iterations = info.get("questions").getInteger();
 

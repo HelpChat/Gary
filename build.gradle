@@ -27,6 +27,7 @@ repositories {
 }
 
 dependencies {
+    compile 'org.reflections:reflections:+'
     compile 'ai.api:libai:+'
     compile 'net.dv8tion:JDA:+'
 //    compile 'me.piggypiglet:TimeAPI:+'

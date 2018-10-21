@@ -1,10 +1,9 @@
-package me.piggypiglet.gary.core.ginterface.layers.run.types;
+package me.piggypiglet.gary.commands.questionnaire;
 
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
-import me.piggypiglet.gary.core.ginterface.layers.run.RunAbstract;
+import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
-import me.piggypiglet.gary.core.objects.enums.ginterface.types.RunType;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.questionnaire.Response;
@@ -16,15 +15,16 @@ import java.util.Map;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class RunQuestionnaire extends RunAbstract {
+public final class RunQuestionnaire extends Command {
     @Inject private GaryBot garyBot;
 
     public RunQuestionnaire() {
-        super(RunType.QUESTIONNAIRE);
+        super("run");
+        setArgPattern("-questionnaire", true);
     }
 
     @Override
-    protected void execute(GuildMessageReceivedEvent e) {
+    protected void execute(GuildMessageReceivedEvent e, String[] args) {
         try {
             QuestionnaireBuilder builder = new QuestionnaireBuilder(e.getMember(), e.getChannel()).addQuestions(
                     new Question("questionnaire", "What questionnaire would you like to run?", QuestionType.STRING)

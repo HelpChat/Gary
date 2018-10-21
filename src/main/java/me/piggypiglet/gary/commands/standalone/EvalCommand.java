@@ -1,7 +1,7 @@
-package me.piggypiglet.gary.core.ginterface.layers.standalone;
+package me.piggypiglet.gary.commands.standalone;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.core.framework.ginterface.Command;
+import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;

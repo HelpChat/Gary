@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.framework.ginterface;
+package me.piggypiglet.gary.core.framework.commands;
 
 import lombok.Getter;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
@@ -14,6 +14,7 @@ import java.util.List;
 public abstract class Command {
     @Getter private final List<String> commands = new ArrayList<>();
     @Getter protected String argPattern;
+    @Getter private boolean forceArgPattern;
 
     protected Command(String... commands) {
         this.commands.addAll(Arrays.asList(commands));
@@ -23,5 +24,13 @@ public abstract class Command {
 
     public void run(GuildMessageReceivedEvent e, String[] args) {
         execute(e, args);
+    }
+
+    protected void setArgPattern(String argPattern, boolean... force) {
+        this.argPattern = argPattern;
+
+        if (force != null) {
+            forceArgPattern = force[0];
+        }
     }
 }
