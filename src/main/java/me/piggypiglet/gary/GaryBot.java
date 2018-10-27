@@ -15,6 +15,7 @@ import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.objects.tasks.Task;
+import me.piggypiglet.gary.core.objects.tasks.tasks.ServiceClear;
 import me.piggypiglet.gary.core.storage.json.FileConfiguration;
 import me.piggypiglet.gary.core.storage.json.GFile;
 import me.piggypiglet.gary.core.storage.mysql.MySQLInitializer;
@@ -29,6 +30,7 @@ import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
@@ -40,10 +42,10 @@ import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
 @Singleton
 public final class GaryBot {
     private final BlockingQueue<GRunnable> queue = new LinkedBlockingQueue<>();
+    private final Reflections reflections = new Reflections("me.piggypiglet.gary");
     @Getter private final Map<String, QuestionnaireBuilder> questionnaires = new ConcurrentHashMap<>();
     @Getter private JDA jda;
     @Getter private Injector injector;
-    private final Reflections reflections = new Reflections("me.piggypiglet.gary");
 
     @Inject private GFile gFile;
     @Inject private MySQLInitializer mySQLInitializer;
@@ -53,11 +55,13 @@ public final class GaryBot {
     @Inject private InterfaceHandler interfaceHandler;
     @Inject private LoggingHandler loggingHandler;
 
+    @Inject private ServiceClear serviceClear;
+
     void start(Injector injector) {
         this.injector = injector;
 
         Task.async((g) -> Stream.of(
-                FILES, EVENTS, INTERFACE, LOGGERS, MYSQL, BOT, SHUTDOWN, TEST
+                FILES, EVENTS, INTERFACE, LOGGERS, MYSQL, BOT, CONSOLE, TASKS
         ).forEach(GaryBot.this::register), "Gary");
 
         // sacrifice the main thread.
@@ -78,6 +82,7 @@ public final class GaryBot {
                 break;
 
             case EVENTS:
+                Runtime.getRuntime().addShutdownHook(shutdownHandler);
                 reflections.getSubTypesOf(GEvent.class).stream().map(injector::getInstance).forEach(eventHandler.getEvents()::add);
                 break;
 
@@ -107,19 +112,22 @@ public final class GaryBot {
                 }
                 break;
 
-            case SHUTDOWN:
-                Runtime.getRuntime().addShutdownHook(shutdownHandler);
-
-                Scanner input = new Scanner(System.in);
-
+            case CONSOLE:
                 Task.async(r -> {
-                    if (input.nextLine().equalsIgnoreCase("stop")) {
-                        System.exit(0);
+                    Scanner input = new Scanner(System.in);
+
+                    while (true) {
+                        switch (input.nextLine().toLowerCase()) {
+                            case "stop": System.exit(0); break;
+                            case "clear-channels": Task.async(serviceClear); break;
+                        }
                     }
                 }, "Console Command Monitor");
                 break;
 
-            case TEST:
+            case TASKS:
+                Task.scheduleAsync(serviceClear, 1, 1, TimeUnit.DAYS);
+
                 break;
         }
     }
