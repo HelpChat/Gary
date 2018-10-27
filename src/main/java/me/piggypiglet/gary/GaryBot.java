@@ -110,6 +110,7 @@ public final class GaryBot {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
                 break;
 
             case CONSOLE:

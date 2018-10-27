@@ -40,5 +40,5 @@ public final class Constants {
                     "ℹ Last reset: %s 1st";
 
     public static final Color GARY_COLOR = new Color(68, 192, 190), RED = new Color(255, 71, 15), BLUE = new Color(17, 126, 166),
-            GREEN = new Color(35, 209, 96);
+            GREEN = new Color(35, 209, 96), YELLOW = new Color(250, 166, 26);
 }
