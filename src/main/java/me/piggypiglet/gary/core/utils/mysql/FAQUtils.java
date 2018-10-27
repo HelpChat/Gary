@@ -6,6 +6,6 @@ package me.piggypiglet.gary.core.utils.mysql;
 // ------------------------------
 public final class FAQUtils {
     public static void addFaq(String key, String value, long userID) {
-        MySQLUtils.add("gary_faq", new String[] {"key", "value", "author"}, key, value, userID);
+        MySQLUtils.create("gary_faq", new String[] {"key", "value", "author"}, key, value, userID);
     }
 }

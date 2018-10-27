@@ -31,6 +31,8 @@ public final class MySQLHandler extends GEvent {
                 break;
 
             case MESSAGE_DELETE:
+                // sleep before deleting from mysql so logger can grab the message content
+                instance.sleep(100);
                 MessageUtils.deleteMessage(((GuildMessageDeleteEvent) event).getMessageIdLong());
                 break;
         }

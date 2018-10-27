@@ -77,8 +77,6 @@ public final class StringUtils {
                     }
                 }
 
-                System.out.println(message);
-
                 baseArgs.add(org.apache.commons.lang3.StringUtils.substringBetween(message, argAreas[0], str));
             }
         }

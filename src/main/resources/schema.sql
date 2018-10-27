@@ -27,3 +27,16 @@ CREATE TABLE `gary_stats` (
   `bro` SMALLINT(6) NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) COLLATE = 'utf8_general_ci' ENGINE = MyISAM;
+
+-
+
+CREATE TABLE `gary_settings` (
+  `id` SMALLINT(6) NOT NULL AUTO_INCREMENT,
+  `user_id` BIGINT(20) NULL DEFAULT NULL,
+  `global_announcements` TINYINT NULL DEFAULT NULL,
+  `plugin_updates` TINYINT NULL DEFAULT NULL,
+  `papi_git` TINYINT NULL DEFAULT NULL,
+  `clip_ping` TINYINT NULL DEFAULT NULL,
+  `chat_reaction` TINYINT NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) COLLATE = 'utf8_general_ci' ENGINE = MyISAM;

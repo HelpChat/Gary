@@ -21,6 +21,7 @@ public abstract class Logger {
     protected Message message;
     protected List<String> list;
     protected Long aLong;
+    protected String string;
     protected Object[] other;
 
     protected Logger(EventsEnum type) {
@@ -59,10 +60,15 @@ public abstract class Logger {
                 case "Long":
                     aLong = (Long) obj;
                     break;
+
+                case "String":
+                    string = (String) obj;
+                    break;
             }
         });
 
         MessageEmbed messageEmbed = send();
+
         if (messageEmbed != null) {
             jda.getTextChannelById(Constants.LOG).sendMessage(messageEmbed).queue();
         }

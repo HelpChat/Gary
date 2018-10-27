@@ -1,9 +1,11 @@
 package me.piggypiglet.gary.core.utils.mysql;
 
 import co.aikar.idb.DB;
+import co.aikar.idb.DbRow;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 
 import java.util.Arrays;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 // ------------------------------
@@ -11,7 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class MySQLUtils {
-    public static void add(String table, String[] keys, Object... values) {
+    public static void create(String table, String[] keys, Object... values) {
         StringBuilder keysBuilder = new StringBuilder("(`id`");
         Arrays.stream(keys).forEach(k -> keysBuilder.append(", `").append(k).append("`"));
         keysBuilder.append(")");
@@ -29,6 +31,60 @@ public final class MySQLUtils {
         });
     }
 
+    public static void set(String table, Map.Entry<String, Object> location, Map.Entry<String[], Object[]> replace) {
+        String[] replaceKeys = replace.getKey();
+        Object[] replaceValues = replace.getValue();
+        int replaceKeysLength = replaceKeys.length;
+
+        if (replaceKeysLength != 0 && replaceKeysLength == replaceValues.length) {
+            StringBuilder replacements = new StringBuilder();
+
+            for (int i = 0; i < replaceKeysLength - 2; ++i) {
+                replacements.append(replaceKeys[i]).append("=").append("%s");
+            }
+
+            replacements.append(replaceKeys[replaceKeysLength - 1]).append("=").append("%s");
+
+            try {
+                if (exists(table, location.getKey(), location.getValue())) {
+                    DB.executeUpdateAsync("UPDATE `" + table + "` SET " + mysqlFormat(replacements.toString(), replaceValues) + " WHERE `" + location.getKey() + "`=?", location.getValue());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static DbRow getRow(String table, String key, Object value) {
+        try {
+            return DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE `" + key + "`=?;", value).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static void remove(String table, String key, Object value) {
+        try {
+            if (exists(table, key, value)) {
+                DB.executeUpdateAsync("DELETE FROM `" + table + "` WHERE `" + key + "`=?;", value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean exists(String table, String key, Object value) {
+        boolean exists = false;
+
+        try {
+            exists = DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE `" + key + "`=?;", value).get() != null;
+        } catch (Exception ignored) {}
+
+        return exists;
+    }
+
     private static String mysqlFormat(String str, Object... params) {
         final AtomicReference<String> string = new AtomicReference<>(str);
 
@@ -36,6 +92,10 @@ public final class MySQLUtils {
             switch (param.getClass().getSimpleName()) {
                 case "String":
                     string.set(string.get().replaceFirst("%s", "'" + param + "'"));
+                    break;
+
+                case "Integer":
+                    string.set(string.get().replaceFirst("%s", Integer.toString((Integer) param)));
                     break;
 
                 case "Long":

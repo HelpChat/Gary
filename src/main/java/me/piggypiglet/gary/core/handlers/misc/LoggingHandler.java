@@ -6,6 +6,7 @@ import me.piggypiglet.gary.core.framework.logging.Logger;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
+import me.piggypiglet.gary.core.utils.mysql.MessageUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
@@ -67,7 +68,7 @@ public final class LoggingHandler extends GEvent {
             case MESSAGE_EDIT:
                 GuildMessageUpdateEvent e5 = (GuildMessageUpdateEvent) event;
 
-                if (StringUtils.equalsIgnoreCase(e5.getChannel().getId(), Constants.CHANNELS)) {
+                if (!e5.getAuthor().isBot() && StringUtils.equalsIgnoreCase(e5.getChannel().getId(), Constants.CHANNELS)) {
                     log(EventsEnum.MESSAGE_EDIT, e5.getJDA(), e5.getGuild(), e5.getAuthor(), e5.getChannel(), e5.getMessage());
                 }
 
@@ -77,7 +78,7 @@ public final class LoggingHandler extends GEvent {
                 GuildMessageDeleteEvent e6 = (GuildMessageDeleteEvent) event;
 
                 if ((StringUtils.equalsIgnoreCase(e6.getChannel().getId(), Constants.CHANNELS))) {
-                    log(EventsEnum.MESSAGE_DELETE, e6.getJDA(), e6.getGuild(), e6.getChannel(), e6.getMessageIdLong());
+                    log(EventsEnum.MESSAGE_DELETE, e6.getJDA(), e6.getGuild(), MessageUtils.getAuthor(e6.getMessageIdLong()), e6.getChannel(), e6.getMessageIdLong(), MessageUtils.getMessage(e6.getMessageIdLong()));
                 }
 
                 break;

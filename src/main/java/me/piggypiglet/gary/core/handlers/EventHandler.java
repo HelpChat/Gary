@@ -28,7 +28,7 @@ public final class EventHandler implements EventListener {
         if (EventsEnum.contains(event)) {
             events.forEach(e -> {
                 if (Arrays.asList(e.getEvents()).contains(EventsEnum.fromEvent(event))) {
-                    Task.async((r) -> e.execute(event));
+                    Task.async((r) -> e.run(event, r));
                 }
             });
         }

@@ -22,8 +22,8 @@ public final class MessageDelete extends Logger {
         return new EmbedBuilder()
                 .setAuthor(user.getName() + "#" + user.getDiscriminator(), null, user.getEffectiveAvatarUrl())
                 .setColor(Constants.RED)
-                .setDescription("**Message sent by " + user.getAsMention() + " deleted in " + channel.getAsMention() + ".**\n" + message.getContentRaw())
-                .setFooter("ID: " + message.getId(), null)
+                .setDescription("**Message sent by " + user.getAsMention() + " deleted in " + channel.getAsMention() + ".**\n" + string)
+                .setFooter("ID: " + aLong, null)
                 .setTimestamp(ZonedDateTime.now())
                 .build();
     }
