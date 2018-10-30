@@ -57,21 +57,25 @@ public final class HastebinScanner extends GEvent {
                         int j = 0;
                         String inputLine;
 
+                        StringBuilder catches = new StringBuilder();
                         while ((inputLine = in.readLine()) != null) {
-                            if (StringUtils.contains(inputLine, "crack/cracked/leaked/leak/bsmc/directleaks/leaks/blackspigot")) {
-                                MessageEmbed message = new EmbedBuilder()
-                                        .setColor(Constants.YELLOW)
-                                        .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this line:\n```tex\n$ [" + j + ":] " + inputLine + "```")
-                                        .setTimestamp(ZonedDateTime.now())
-                                        .build();
-
-                                e.getGuild().getTextChannelById(411094432402636802L).sendMessage(message).queue();
+                            if (StringUtils.contains(inputLine, "crack/cracked/leaked/leak/bsmc/directleaks/leaks/blackspigot/nulled")) {
+                                catches.append("```tex\n$ [" + j + ":] " + inputLine + "```\n");
                             }
 
                             ++j;
                         }
 
                         in.close();
+
+                        MessageEmbed message = new EmbedBuilder()
+                                .setColor(Constants.YELLOW)
+                                .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this data:" + catches.toString() + "\n[Link to pasta](" + i + ")")
+                                .setTimestamp(ZonedDateTime.now())
+                                .build();
+
+                        e.getGuild().getTextChannelById(411094432402636802L).sendMessage(message).queue();
+
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
@@ -80,3 +84,4 @@ public final class HastebinScanner extends GEvent {
         }
     }
 }
+

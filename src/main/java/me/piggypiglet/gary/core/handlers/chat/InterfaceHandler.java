@@ -31,7 +31,7 @@ public final class InterfaceHandler extends GEvent {
     protected void execute(Event event) {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 
-        if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET) {
+        if (e.getAuthor().getIdLong() == Constants.PIGGYPIGLET || e.getAuthor().getIdLong() == Constants.GLARE) {
             String message = e.getMessage().getContentRaw();
 
             if (StringUtils.startsWith(message, "gary,/gary/!")) {
