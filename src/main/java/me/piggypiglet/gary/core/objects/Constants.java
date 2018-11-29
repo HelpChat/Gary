@@ -13,6 +13,8 @@ public final class Constants {
 
     public static final long PIGGYPIGLET = 181675431362035712L, GLARE = 104723018483318784L;
 
+    public static final long GLARE = 104723018483318784L;
+
     public static final long GUILD = 164280494874165248L;
 
     public static final String INT_ERROR = "Please supply a number.", REQUEST_FREE_STR = "411094432402636802", REQUEST_PAID_STR = "411094432402636802",
