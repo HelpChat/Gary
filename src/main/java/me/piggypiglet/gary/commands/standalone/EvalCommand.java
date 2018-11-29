@@ -6,7 +6,7 @@ import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
-import me.piggypiglet.gary.core.storage.json.GFile;
+import me.piggypiglet.gary.core.storage.file.GFile;
 import me.piggypiglet.gary.core.utils.http.HasteUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
 import net.dv8tion.jda.core.entities.Member;
@@ -26,7 +26,6 @@ public final class EvalCommand extends Command {
 
     public EvalCommand() {
         super("eval");
-        argPattern = "eval-";
     }
 
     @Override

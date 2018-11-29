@@ -4,8 +4,11 @@ import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 // ------------------------------
@@ -13,7 +16,8 @@ import java.util.concurrent.atomic.AtomicReference;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class MySQLUtils {
-    public static void create(String table, String[] keys, Object... values) {
+    public static boolean create(String table, String[] keys, Object... values) {
+        CompletableFuture<Boolean> success = new CompletableFuture<>();
         StringBuilder keysBuilder = new StringBuilder("(`id`");
         Arrays.stream(keys).forEach(k -> keysBuilder.append(", `").append(k).append("`"));
         keysBuilder.append(")");
@@ -25,13 +29,27 @@ public final class MySQLUtils {
         Task.async(r -> {
             try {
                 DB.executeInsert(mysqlFormat("INSERT INTO " + table + " " + keysBuilder.toString() + " VALUES " + valuesBuilder.toString(), values));
+                success.complete(true);
             } catch (Exception e) {
+                success.complete(false);
                 e.printStackTrace();
             }
         });
+
+        //noinspection StatementWithEmptyBody
+        while (!success.isDone());
+
+        try {
+            return success.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
-    public static void set(String table, Map.Entry<String, Object> location, Map.Entry<String[], Object[]> replace) {
+    public static boolean set(String table, Map.Entry<String, Object> location, Map.Entry<String[], Object[]> replace) {
+        boolean success = false;
         String[] replaceKeys = replace.getKey();
         Object[] replaceValues = replace.getValue();
         int replaceKeysLength = replaceKeys.length;
@@ -47,12 +65,15 @@ public final class MySQLUtils {
 
             try {
                 if (exists(table, location.getKey(), location.getValue())) {
-                    DB.executeUpdateAsync("UPDATE `" + table + "` SET " + mysqlFormat(replacements.toString(), replaceValues) + " WHERE `" + location.getKey() + "`=?", location.getValue());
+                    DB.executeUpdateAsync("UPDATE `" + table + "` SET " + mysqlFormat(replacements.toString(), replaceValues) + " WHERE `" + location.getKey() + "`=?;", location.getValue());
+                    success = true;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        return success;
     }
 
     public static DbRow getRow(String table, String key, Object value) {
@@ -65,14 +86,29 @@ public final class MySQLUtils {
         return null;
     }
 
-    public static void remove(String table, String key, Object value) {
+    public static List<DbRow> getRows(String table) {
+        try {
+            return DB.getResultsAsync("SELECT * FROM `" + table + "`;").get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    public static boolean remove(String table, String key, Object value) {
+        boolean success = false;
+
         try {
             if (exists(table, key, value)) {
                 DB.executeUpdateAsync("DELETE FROM `" + table + "` WHERE `" + key + "`=?;", value);
+                success = true;
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return success;
     }
 
     public static boolean exists(String table, String key, Object value) {

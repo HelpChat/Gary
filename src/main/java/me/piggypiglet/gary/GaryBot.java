@@ -4,20 +4,21 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lombok.Getter;
+import me.piggypiglet.gary.commands.faq.AddFaq;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.framework.logging.Logger;
 import me.piggypiglet.gary.core.handlers.EventHandler;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.handlers.ShutdownHandler;
-import me.piggypiglet.gary.core.handlers.chat.InterfaceHandler;
+import me.piggypiglet.gary.core.handlers.chat.CommandHandler;
 import me.piggypiglet.gary.core.handlers.misc.LoggingHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.objects.tasks.tasks.ServiceClear;
-import me.piggypiglet.gary.core.storage.json.FileConfiguration;
-import me.piggypiglet.gary.core.storage.json.GFile;
+import me.piggypiglet.gary.core.storage.file.FileConfiguration;
+import me.piggypiglet.gary.core.storage.file.GFile;
 import me.piggypiglet.gary.core.storage.mysql.MySQLInitializer;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -30,7 +31,6 @@ import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
@@ -46,14 +46,17 @@ public final class GaryBot {
     @Getter private final Map<String, QuestionnaireBuilder> questionnaires = new ConcurrentHashMap<>();
     @Getter private JDA jda;
     @Getter private Injector injector;
+    private static final boolean DEBUG = false;
 
     @Inject private GFile gFile;
     @Inject private MySQLInitializer mySQLInitializer;
 
     @Inject private EventHandler eventHandler;
     @Inject private ShutdownHandler shutdownHandler;
-    @Inject private InterfaceHandler interfaceHandler;
+    @Inject private CommandHandler commandHandler;
     @Inject private LoggingHandler loggingHandler;
+
+    @Inject private AddFaq addFaq;
 
     @Inject private ServiceClear serviceClear;
 
@@ -62,7 +65,7 @@ public final class GaryBot {
 
         Task.async((g) -> Stream.of(
                 FILES, EVENTS, INTERFACE, LOGGERS, MYSQL, BOT, CONSOLE, TASKS
-        ).forEach(GaryBot.this::register), "Gary");
+        ).forEach(this::register), "Gary");
 
         // sacrifice the main thread.
         try {
@@ -77,8 +80,10 @@ public final class GaryBot {
         switch (registerable) {
             case FILES:
                 Stream.of(
-                        "config.json", "schema.sql"
-                ).forEach(f -> gFile.make(f, "./" + f, "/" + f));
+                        "config.json", "schema.sql", "lang.json"
+                ).forEach(f -> gFile.make(f, "./" + f, "/" + f, false));
+
+                gFile.make("embed.json", null, "/" + "embed.json", true);
                 break;
 
             case EVENTS:
@@ -87,7 +92,13 @@ public final class GaryBot {
                 break;
 
             case INTERFACE:
-                reflections.getSubTypesOf(Command.class).stream().map(injector::getInstance).forEach(interfaceHandler.getCommands()::add);
+                if (!DEBUG) {
+                    reflections.getSubTypesOf(Command.class).stream().map(injector::getInstance).forEach(commandHandler.getCommands()::add);
+                } else {
+                    Stream.of(
+                            addFaq
+                    ).forEach(commandHandler.getCommands()::add);
+                }
                 break;
 
             case LOGGERS:
@@ -127,7 +138,10 @@ public final class GaryBot {
                 break;
 
             case TASKS:
-                Task.scheduleAsync(serviceClear, 1, 1, TimeUnit.DAYS);
+//                Task.async(r -> {
+//                    r.sleep(10000);
+//                    Task.scheduleAsync(serviceClear, 0, 1, TimeUnit.DAYS);
+//                });
 
                 break;
         }

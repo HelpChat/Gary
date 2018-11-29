@@ -5,6 +5,7 @@ import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 
 import java.time.ZonedDateTime;
 
@@ -19,6 +20,8 @@ public final class MemberLeave extends Logger {
 
     @Override
     protected MessageEmbed send() {
+        User user = users.get(0);
+
         return new EmbedBuilder()
                 .setAuthor("Member Left", null, user.getEffectiveAvatarUrl())
                 .setThumbnail(user.getEffectiveAvatarUrl())

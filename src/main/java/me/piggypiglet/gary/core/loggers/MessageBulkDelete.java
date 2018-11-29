@@ -5,6 +5,7 @@ import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.TextChannel;
 
 import java.time.ZonedDateTime;
 
@@ -19,6 +20,8 @@ public final class MessageBulkDelete extends Logger {
 
     @Override
     protected MessageEmbed send() {
+        TextChannel channel = channels.get(0);
+
         return new EmbedBuilder()
                 .setTitle(guild.getName())
                 .setColor(Constants.BLUE)

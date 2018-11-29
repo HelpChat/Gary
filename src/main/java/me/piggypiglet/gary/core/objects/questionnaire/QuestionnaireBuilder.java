@@ -3,7 +3,11 @@ package me.piggypiglet.gary.core.objects.questionnaire;
 import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
 import me.piggypiglet.gary.core.utils.discord.EventUtils;
-import net.dv8tion.jda.core.entities.*;
+import me.piggypiglet.gary.core.utils.discord.MessageUtils;
+import net.dv8tion.jda.core.entities.Member;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.User;
 
 import javax.annotation.Nonnull;
 import java.util.*;
@@ -75,15 +79,7 @@ public final class QuestionnaireBuilder {
             Response response = new Response(question.getKey());
 
             if (emotes != null && questionType == QuestionType.EMOTE) {
-                emotes.forEach(e -> {
-                    if (e instanceof String) {
-                        message.addReaction((String) e).queue();
-                    }
-
-                    if (e instanceof Emote) {
-                        message.addReaction((Emote) e).queue();
-                    }
-                });
+                MessageUtils.addEmoteObjectToMessage(message, emotes);
             } else if (questionType == QuestionType.EMOTE) {
                 channel.sendMessage("Whoever made this questionnaire forgot to add acceptable emotes for this question. I'm cancelling this questionnaire.").queue();
                 channel.getGuild().getTextChannelById(411094432402636802L).sendMessage("Whoever made the questionnaire: `" + questionnaireName + "` forgot to add acceptable emotes for question: `" + question.getKey() + "`. Please fix this ASAP.").queue();

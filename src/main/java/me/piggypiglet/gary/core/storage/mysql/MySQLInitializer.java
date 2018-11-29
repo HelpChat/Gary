@@ -5,8 +5,8 @@ import co.aikar.idb.DatabaseOptions;
 import co.aikar.idb.PooledDatabaseOptions;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.objects.tasks.Task;
-import me.piggypiglet.gary.core.storage.json.FileConfiguration;
-import me.piggypiglet.gary.core.storage.json.GFile;
+import me.piggypiglet.gary.core.storage.file.FileConfiguration;
+import me.piggypiglet.gary.core.storage.file.GFile;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;

@@ -5,7 +5,7 @@ import com.google.gson.internal.LinkedTreeMap;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.storage.json.FileConfiguration;
+import me.piggypiglet.gary.core.storage.file.FileConfiguration;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

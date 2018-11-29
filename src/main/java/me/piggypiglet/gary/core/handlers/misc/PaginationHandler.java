@@ -16,9 +16,6 @@ import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEv
 import java.util.HashMap;
 import java.util.Map;
 
-import static me.piggypiglet.gary.core.objects.enums.EventsEnum.MESSAGE_DELETE;
-import static me.piggypiglet.gary.core.objects.enums.EventsEnum.MESSAGE_REACTION_ADD;
-
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
@@ -28,7 +25,7 @@ public final class PaginationHandler extends GEvent {
     @Getter private final Map<String, PaginationSet> paginations = new HashMap<>();
 
     public PaginationHandler() {
-        super(MESSAGE_REACTION_ADD, MESSAGE_DELETE);
+        super(EventsEnum.MESSAGE_REACTION_ADD, EventsEnum.MESSAGE_DELETE);
     }
 
     @Override
@@ -36,29 +33,31 @@ public final class PaginationHandler extends GEvent {
         switch (EventsEnum.fromEvent(event)) {
             case MESSAGE_REACTION_ADD:
                 GuildMessageReactionAddEvent e = (GuildMessageReactionAddEvent) event;
-                String messageId = e.getMessageId();
+                if (!e.getMember().getUser().isBot()) {
+                    String messageId = e.getMessageId();
 
-                if (paginations.containsKey(messageId)) {
-                    MessageReaction.ReactionEmote reactionEmote = e.getReactionEmote();
-                    PaginationPage newPage;
+                    if (paginations.containsKey(messageId)) {
+                        MessageReaction.ReactionEmote reactionEmote = e.getReactionEmote();
+                        PaginationPage newPage;
 
-                    if (reactionEmote.getEmote() == null) {
-                        newPage = paginations.get(messageId).getPage(reactionEmote.getName());
-                    } else {
-                        newPage = paginations.get(messageId).getPage(reactionEmote.getEmote());
-                    }
-
-                    if (newPage != null) {
-                        Object newMessage = newPage.getMessage();
-                        Message message = e.getChannel().getMessageById(messageId).complete();
-
-                        if (newMessage instanceof String) {
-                            message.editMessage((String) newMessage).queue();
-                        } else if (newMessage instanceof MessageEmbed) {
-                            message.editMessage((MessageEmbed) newMessage).override(true).queue();
+                        if (reactionEmote.getEmote() == null) {
+                            newPage = paginations.get(messageId).getPage(reactionEmote.getName());
+                        } else {
+                            newPage = paginations.get(messageId).getPage(reactionEmote.getEmote());
                         }
 
-                        e.getReaction().removeReaction(e.getUser()).queue();
+                        if (newPage != null) {
+                            Object newMessage = newPage.getMessage();
+                            Message message = e.getChannel().getMessageById(messageId).complete();
+
+                            if (newMessage instanceof String) {
+                                message.editMessage((String) newMessage).queue();
+                            } else if (newMessage instanceof MessageEmbed) {
+                                message.editMessage((MessageEmbed) newMessage).override(true).queue();
+                            }
+
+                            e.getReaction().removeReaction(e.getUser()).queue();
+                        }
                     }
                 }
 

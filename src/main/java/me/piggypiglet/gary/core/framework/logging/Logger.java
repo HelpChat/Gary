@@ -6,6 +6,7 @@ import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,12 +17,12 @@ import java.util.List;
 public abstract class Logger {
     @Getter private final EventsEnum type;
     protected Guild guild;
-    protected User user;
-    protected TextChannel channel;
-    protected Message message;
+    protected final List<User> users = new ArrayList<>();
+    protected final List<TextChannel> channels = new ArrayList<>();
+    protected final List<Message> messages = new ArrayList<>();
     protected List<String> list;
-    protected Long aLong;
-    protected String string;
+    protected final List<Long> longs = new ArrayList<>();
+    protected List<String> strings = new ArrayList<>();
     protected Object[] other;
 
     protected Logger(EventsEnum type) {
@@ -38,15 +39,15 @@ public abstract class Logger {
         Arrays.stream(other).forEach(obj -> {
             switch (obj.getClass().getSimpleName()) {
                 case "UserImpl":
-                    user = (User) obj;
+                    users.add((User) obj);
                     break;
 
                 case "TextChannelImpl":
-                    channel = (TextChannel) obj;
+                    channels.add((TextChannel) obj);
                     break;
 
                 case "ReceivedMessage":
-                    message = (Message) obj;
+                    messages.add((Message) obj);
                     break;
 
                 case "List":
@@ -58,11 +59,11 @@ public abstract class Logger {
                     break;
 
                 case "Long":
-                    aLong = (Long) obj;
+                    longs.add((Long) obj);
                     break;
 
                 case "String":
-                    string = (String) obj;
+                    strings.add((String) obj);
                     break;
             }
         });

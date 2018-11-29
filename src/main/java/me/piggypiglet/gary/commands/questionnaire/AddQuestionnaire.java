@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
+import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.questionnaire.Response;
@@ -23,8 +24,8 @@ public final class AddQuestionnaire extends Command {
     @Inject private GaryBot garyBot;
 
     public AddQuestionnaire() {
-        super("add", "make", "create");
-        setArgPattern("-questionnaire", true);
+        super("questionnaire add", "questionnaire make", "questionnaire create");
+        options.setRole(Roles.TRUSTED).save();
     }
 
     @Override

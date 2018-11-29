@@ -7,6 +7,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import me.piggypiglet.gary.core.objects.tasks.Task;
+import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.http.HasteUtils;
 import me.piggypiglet.gary.core.utils.mysql.MessageUtils;
 
@@ -31,7 +32,7 @@ public final class BinderModule extends AbstractModule {
     @SuppressWarnings("unchecked")
     public void configure() {
         bind(clazz).toInstance(clazz);
-        requestStaticInjection(HasteUtils.class, MessageUtils.class, Task.class);
+        requestStaticInjection(HasteUtils.class, MessageUtils.class, Task.class, Lang.class);
     }
 
     @Provides

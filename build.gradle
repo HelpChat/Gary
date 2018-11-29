@@ -14,6 +14,7 @@ targetCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    mavenLocal()
     jcenter()
     maven {
         url = 'https://jitpack.io'
@@ -30,7 +31,7 @@ dependencies {
     compile 'org.reflections:reflections:+'
     compile 'ai.api:libai:+'
     compile 'net.dv8tion:JDA:+'
-//    compile 'me.piggypiglet:TimeAPI:+'
+    compile 'me.piggypiglet:TimeAPI:+'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
     compile 'org.apache.commons:commons-lang3:+'
@@ -49,7 +50,16 @@ lombok {
     sha256 = ""
 }
 
+import org.apache.tools.ant.filters.ReplaceTokens
+
+processResources {
+    from(sourceSets.main.resources.srcDirs) {
+        filter ReplaceTokens, tokens: [version: version]
+    }
+}
+
 shadowJar {
+    delete "rewrite/lang.json"
     exclude 'META-INF/*.SF'
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'

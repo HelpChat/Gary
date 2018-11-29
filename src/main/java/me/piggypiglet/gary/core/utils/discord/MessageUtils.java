@@ -1,10 +1,13 @@
 package me.piggypiglet.gary.core.utils.discord;
 
 import me.piggypiglet.gary.core.utils.http.HasteUtils;
+import net.dv8tion.jda.core.entities.Emote;
+import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -20,5 +23,15 @@ public final class MessageUtils {
      */
     public static void sendMessageHaste(@Nonnull final String msg, @Nonnull User user, @Nonnull final TextChannel channel, @Nonnull final String backupMsg) {
         user.openPrivateChannel().queue(c -> c.sendMessage(msg).queue(null, t -> channel.sendMessage(String.format(backupMsg, HasteUtils.haste(msg))).queue()));
+    }
+
+    public static void addEmoteObjectToMessage(@Nonnull final Message message, @Nonnull final List<Object> emotes) {
+        emotes.forEach(emote -> {
+            if (emote instanceof String) {
+                message.addReaction((String) emote).queue();
+            } else if (emote instanceof Emote) {
+                message.addReaction((Emote) emote).queue();
+            }
+        });
     }
 }

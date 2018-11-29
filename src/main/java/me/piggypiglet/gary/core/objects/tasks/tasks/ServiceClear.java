@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
+import me.piggypiglet.gary.core.storage.file.Lang;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
@@ -54,7 +55,7 @@ public final class ServiceClear extends GRunnable {
                         .addPermissionOverride(everyone, new ArrayList<>(), everyonePerms)
                         .addPermissionOverride(sm, new ArrayList<>(), smPerms)
                         .addPermissionOverride(admin, adminPerms, new ArrayList<>())
-                        .queue(c -> ((TextChannel) c).sendMessage(String.format(Constants.REQUEST_FREE_MESSAGE, ZonedDateTime.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH))).queue());
+                        .queue(c -> ((TextChannel) c).sendMessage(Lang.getString("formats.request-free.channel-message", ZonedDateTime.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH))).queue());
             });
         }
     }

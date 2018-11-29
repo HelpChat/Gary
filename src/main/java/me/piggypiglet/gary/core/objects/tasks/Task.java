@@ -56,22 +56,21 @@ public final class Task {
         });
     }
 
-    public static void scheduleAsync(final Consumer<GRunnable> task, long initialDelay, long period, TimeUnit timeUnit) {
-        scheduledExecutor.scheduleAtFixedRate(new GRunnable() {
+    public static void scheduleAsync(final Consumer<GRunnable> task, long period, TimeUnit timeUnit) {
+        scheduledExecutor.schedule(new GRunnable() {
             @Override
             public void run() {
                 task.accept(this);
             }
-        }, initialDelay, period, timeUnit);
+        }, period, timeUnit);
     }
-
-    public static void scheduleAsync(final GRunnable task, long initialDelay, long period, TimeUnit timeUnit) {
-        scheduleAsync(r -> task.run(), initialDelay, period, timeUnit);
-    }
-
-    public static void scheduleSync(final Consumer<GRunnable> task, long initialDelay, long period, TimeUnit timeUnit) {
-        scheduleAsync(r -> sync(task), initialDelay, period, timeUnit);
-    }
+//    public static void scheduleAsync(final GRunnable task, long initialDelay, long period, TimeUnit timeUnit) {
+//        scheduleAsync(r -> task.run(), initialDelay, period, timeUnit);
+//    }
+//
+//    public static void scheduleSync(final Consumer<GRunnable> task, long initialDelay, long period, TimeUnit timeUnit) {
+//        scheduleAsync(r -> sync(task), initialDelay, period, timeUnit);
+//    }
 
     public static void shutdown() {
         executor.shutdownNow();
