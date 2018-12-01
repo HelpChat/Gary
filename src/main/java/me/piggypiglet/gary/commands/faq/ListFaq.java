@@ -8,7 +8,7 @@ import me.piggypiglet.gary.core.objects.faq.Faq;
 import me.piggypiglet.gary.core.objects.paginations.PaginationBuilder;
 import me.piggypiglet.gary.core.objects.paginations.PaginationPage;
 import me.piggypiglet.gary.core.storage.file.GFile;
-import me.piggypiglet.gary.core.utils.mysql.FAQUtils;
+import me.piggypiglet.gary.core.utils.mysql.FaqUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
@@ -36,7 +36,7 @@ public final class ListFaq extends Command {
 
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
-        List<String> faqs = Arrays.asList(String.join("\n", FAQUtils.getFaqs().stream().map(Faq::getKey).collect(Collectors.toList()))
+        List<String> faqs = Arrays.asList(String.join("\n", FaqUtils.getFaqs().stream().map(Faq::getKey).collect(Collectors.toList()))
                 .replaceAll("((.*\\s*\\n\\s*){25})", "$1-SEPARATOR-\n")
                 .split("-SEPARATOR-"));
         String title = "Faqs";

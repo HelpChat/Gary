@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
-public final class FAQUtils {
+public final class FaqUtils {
     public static boolean add(String key, String value, long userID) {
         return MySQLUtils.create("gary_faq", new String[] {"key", "value", "author"}, key, value, userID);
     }

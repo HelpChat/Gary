@@ -35,6 +35,20 @@
       "get": {
         "failure": ":warning: There was an error when trying to process your request, either the eCloud is down or the expansion you specified doesn't exist."
       }
+    },
+    "punishment": {
+      "warn": {
+        "add": {
+          "success": "Successfully added 1 strike to %s.",
+          "failure": "Could not add 1 strike to %s."
+        },
+        "del": {
+          "success": "Successfully removed 1 strike from %s.",
+          "failure": "Could not remove 1 strike from %s."
+        },
+        "invalid-id": "You did not specify a user ID.",
+        "invalid-user": "The user ID you've specified doesn't exist."
+      }
     }
   },
   "formats": {

@@ -3,7 +3,7 @@ package me.piggypiglet.gary.commands.faq;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.storage.file.Lang;
-import me.piggypiglet.gary.core.utils.mysql.FAQUtils;
+import me.piggypiglet.gary.core.utils.mysql.FaqUtils;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
@@ -19,7 +19,7 @@ public final class EditFaq extends Command {
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (args.length >= 2) {
-            if (FAQUtils.edit(args[0], args[1].replace("\"", ""))) {
+            if (FaqUtils.edit(args[0], args[1].replace("\"", ""))) {
                 e.getChannel().sendMessage(Lang.getString("commands.faq.edit.success", args[0], args[1])).queue();
             } else {
                 e.getChannel().sendMessage(Lang.getString("commands.faq.edit.failure", args[0], args[1])).queue();
