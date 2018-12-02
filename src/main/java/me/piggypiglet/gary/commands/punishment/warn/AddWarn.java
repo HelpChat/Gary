@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.commands.punishment.warn;
 
 import me.piggypiglet.gary.core.framework.commands.Command;
+import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.mysql.WarningsUtils;
 import net.dv8tion.jda.core.entities.User;
@@ -12,7 +13,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 // ------------------------------
 public final class AddWarn extends Command {
     public AddWarn() {
-        super("warn add");
+        super("warn");
+        options.setRole(Roles.TRUSTED).save();
     }
 
     @Override
@@ -41,6 +43,7 @@ public final class AddWarn extends Command {
                     e.getChannel().sendMessage(Lang.getString("commands.punishment.warn.add.invalid-user")).queue();
                 }
             } else {
+                // TODO: Change this to incorrect-usage
                 e.getChannel().sendMessage(Lang.getString("commands.punishment.warn.add.invalid-id")).queue();
             }
         } else {

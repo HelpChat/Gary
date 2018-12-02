@@ -1,6 +1,7 @@
 package me.piggypiglet.gary.commands.punishment.warn;
 
 import me.piggypiglet.gary.core.framework.commands.Command;
+import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.mysql.WarningsUtils;
 import net.dv8tion.jda.core.entities.User;
@@ -12,7 +13,8 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 // ------------------------------
 public final class DelWarn extends Command {
     public DelWarn() {
-        super("warn delete", "warn remove");
+        super("unwarn");
+        options.setRole(Roles.TRUSTED).save();
     }
 
     @Override

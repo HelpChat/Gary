@@ -48,6 +48,11 @@
         },
         "invalid-id": "You did not specify a user ID.",
         "invalid-user": "The user ID you've specified doesn't exist."
+      },
+      "ban": {
+        "add": {
+          "success": "Successfully banned %s."
+        }
       }
     }
   },
