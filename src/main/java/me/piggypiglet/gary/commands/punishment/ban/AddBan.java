@@ -24,7 +24,7 @@ public final class AddBan extends Command {
 
             try {
                 member = e.getGuild().getMemberById(args[0]);
-            } catch (Exception ignored) {
+            } catch (Exception ex) {
                 e.getChannel().sendMessage(Lang.getString("commands.incorrect-usage", "ban <user id> [reason]")).queue();
                 return;
             }

@@ -70,7 +70,7 @@ public final class HastebinScanner extends GEvent {
 
                         MessageEmbed message = new EmbedBuilder()
                                 .setColor(Constants.YELLOW)
-                                .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this data:" + catches.toString() + "\n[Link to pasta](" + i + ")")
+                                .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this data:" + catches.toString() + "\n[Link to paste](" + i + ")")
                                 .setTimestamp(ZonedDateTime.now())
                                 .build();
 

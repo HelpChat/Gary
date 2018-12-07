@@ -19,4 +19,8 @@ public final class Lang {
     public static List<String> getStringList(String path, Object... variables) {
         return StringUtils.formatList(gFile.getFileConfiguration("lang").getStringList(path), variables);
     }
+
+    public static List<String> getAlternateList(String path, Object... variables) {
+        return StringUtils.alternateFormat(gFile.getFileConfiguration("lang").getStringList(path), variables);
+    }
 }

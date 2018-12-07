@@ -52,38 +52,131 @@
       "ban": {
         "add": {
           "success": "Successfully banned %s."
+        },
+        "del": {
+          "success": "Successfully unbanned %s."
         }
       }
     }
   },
   "formats": {
+    "error": {
+      "message": [
+        "Your latest message is not following the requirements for %s.",
+        "The requirements are as below:",
+        "```",
+        "%s",
+        "```\n",
+        "The template is as follows:",
+        "```",
+        "%s",
+        "```\n",
+        "Please edit your message below to fit the requirements:",
+        "```",
+        "%s",
+        "```"
+      ],
+      "backup-message": [
+        "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**",
+        "%s Your message does not follow the requirements for %s, please read this:",
+        "haste"
+      ]
+    },
     "request-free": {
       "channel-message": [
-        "**READ THIS BEFORE POSTING**\n",
-        ":tools: Welcome to the Unpaid Request Services channel! \n",
-        "\n",
+        "**READ THIS BEFORE POSTING**",
+        ":tools: Welcome to the Unpaid Request Services channel!",
+        "```",
+        "%s",
         "```\n",
-        "- This is only for requesting services, do not reply to services here.\n",
-        "- If you wish to complete a request. DM Them. Do not reply here.\n",
-        "- Remove completed requests to keep the list \"fresh\"\n",
-        "- Only have one message in this channel at a time.\n",
-        "- The list is cleared every month.\n",
-        "- Services should not be for plugin help. Please post in #plugin-help\n",
-        "- Bumping requests is not permitted.\n",
-        "- Requests require to have a budget of either none or a range (No DM for budget)\n",
-        "- Stick to the template below:\n",
-        "```\n\n",
-        "**Template:** (Follow this template or your message will be removed)\n",
+        "**Template:** (Follow this template or your message will be removed)",
+        "```",
+        "%s",
         "```\n",
-        "[Service] Custom Plugin\n",
-        "[Request] I need a plugin that spawns many Llamas over the spawn.\n",
-        "```\n\n",
         "ℹ Last reset: %s 1st"
+      ],
+      "requirements": [
+        "- This is only for requesting services, do not reply to services here.",
+        "- If you wish to complete a request. DM Them. Do not reply here.",
+        "- Remove completed requests to keep the list \"fresh\"",
+        "- Only have one message in this channel at a time.",
+        "- The list is cleared every month.",
+        "- Services should not be for plugin help. Please post in #plugin-help",
+        "- Bumping requests is not permitted.",
+        "- Stick to the template below:"
+      ],
+      "template": [
+        "[Service] Custom Plugin",
+        "[Request] I need a plugin that spawns many Llamas over the spawn."
       ]
     },
     "request-paid": {
       "channel-message": [
-
+        "**READ THIS BEFORE POSTING**",
+        ":tools: Welcome to the Paid Request Services channel!",
+        "```",
+        "%s",
+        "```\n",
+        "**Template:** (Follow this template or your message will be removed)",
+        "```",
+        "%s",
+        "```\n",
+        "ℹ Last reset: %s 1st"
+      ],
+      "requirements": [
+        "- This is only for requesting services, do not reply to services here.",
+        "- If you wish to complete a request. DM Them. Do not reply here.",
+        "- Remove completed requests to keep the list \"fresh\"",
+        "- Only have one message in this channel at a time.",
+        "- The list is cleared every month.",
+        "- Bumping requests is not permitted.",
+        "- Requests are required to have a set budget or a range (No DM for budget)",
+        "- Stick to the template below:"
+      ],
+      "template": [
+        "[Service] Custom Plugin",
+        "[Request] I need a plugin that spawns many Llamas over the spawn.",
+        "[Budget] $1-$4"
+      ]
+    },
+    "rate-my-server": {
+      "channel-message": [
+        ":star: Rate My Server Guidelines :gear:\n",
+        "Please follow the below guidelines and formats in order to post in this channel and only request reviews if you are able to handle constructive criticism. This is not a place to advertise your server, therefore you are only allowed to post your server in here once a month.\n",
+        "**Guidelines:**",
+        "```",
+        "%s",
+        "```\n",
+        "**To Request:**",
+        "```",
+        "%s",
+        "```\n",
+        "NOTE: Website is optional, but we suggest including it.",
+        "NOTE 2: We've had issues reported to us that domains behind CloudFlares proxies don't work. If this is the case, please put the server's ip and port in the ip section instead of your domain.\n",
+        "**To Review:**",
+        "```",
+        "%s",
+        "```\n",
+        "ℹ Last reset: %s 1st"
+      ],
+      "requirements": [
+        "- Discussion will not be tolerated in this channel. Feel free to post multiple review messages for the same server if discord's character limit is limiting you, but do not abuse the review tag by using it to start conversations.",
+        "- Bumping is strictly prohibited in this channel, any signs of it may result in a permanent mute from the service channels.",
+        "- Any hate/toxicity towards server owners or reviewers in this channel will not be tolerated. Severe punishments will be a result from these actions.",
+        "- If posting a server for another user, make sure you have their permission first, and make sure they don't also post the server in this channel.",
+        "- The list is cleared every month.",
+        "- Stick to the templates below:"
+      ],
+      "rms-template": [
+        "[Name] TestPlugins",
+        "[IP] testplugins.com",
+        "[Website] https://testplugins.com",
+        "[Description] One of a kind server to test various Spigot plugins."
+      ],
+      "review-template": [
+        "```",
+        "[Review] All reviews must start with this tag or else they will be deleted.",
+        "```"
       ]
     }
   }

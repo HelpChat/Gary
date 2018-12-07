@@ -15,7 +15,7 @@ public final class Constants {
 
     public static final long GUILD = 164280494874165248L;
 
-    public static final String INT_ERROR = "Please supply a number.", REQUEST_FREE_STR = "411094432402636802", REQUEST_PAID_STR = "411094432402636802",
+    public static final String INT_ERROR = "Please supply a number.", REQUEST_FREE = "411094432402636802", REQUEST_PAID = "411094432402636802",
             RMS_STR = "411094432402636802";
 
     public static final long HELPFUL = 333634764085133313L, TRUSTED = 164528648873836544L, ADMIN = 164525396354793472L, GLOBAL_MUTE = 487901903737454592L;

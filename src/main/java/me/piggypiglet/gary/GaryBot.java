@@ -64,7 +64,7 @@ public final class GaryBot {
         this.injector = injector;
 
         Task.async((g) -> Stream.of(
-                FILES, EVENTS, INTERFACE, LOGGERS, MYSQL, BOT, CONSOLE, TASKS
+                FILES, EVENTS, COMMANDS, LOGGERS, MYSQL, BOT, CONSOLE, TASKS
         ).forEach(this::register), "Gary");
 
         // sacrifice the main thread.
@@ -91,7 +91,7 @@ public final class GaryBot {
                 reflections.getSubTypesOf(GEvent.class).stream().map(injector::getInstance).forEach(eventHandler.getEvents()::add);
                 break;
 
-            case INTERFACE:
+            case COMMANDS:
                 if (!DEBUG) {
                     reflections.getSubTypesOf(Command.class).stream().map(injector::getInstance).forEach(commandHandler.getCommands()::add);
                 } else {

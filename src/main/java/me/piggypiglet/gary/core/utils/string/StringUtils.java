@@ -57,6 +57,10 @@ public final class StringUtils {
         return list.stream().map(s -> String.format(s, variables)).collect(Collectors.toList());
     }
 
+    public static List<String> alternateFormat(List<String> list, Object... variables) {
+        return Arrays.asList(String.format(String.join("\n", list), variables).split("/"));
+    }
+
     public static String[] commandSplit(String message, List<String> replacements) {
         final AtomicReference<String> msg = new AtomicReference<>(message);
         replacements.addAll(Lang.getStringList("commands.prefix"));

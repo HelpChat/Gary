@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.entities.User;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -21,8 +22,8 @@ public final class MessageUtils {
      * @param channel Backup channel to send a message to if pm fails.
      * @param backupMsg Backup message that will be hastebinned if pm fails.
      */
-    public static void sendMessageHaste(@Nonnull final String msg, @Nonnull User user, @Nonnull final TextChannel channel, @Nonnull final String backupMsg) {
-        user.openPrivateChannel().queue(c -> c.sendMessage(msg).queue(null, t -> channel.sendMessage(String.format(backupMsg, HasteUtils.haste(msg))).queue()));
+    public static void sendMessageHaste(String msg, User user, TextChannel channel, String backupMsg) {
+        user.openPrivateChannel().queue(c -> c.sendMessage(msg).queue(s -> {}, t -> channel.sendMessage(backupMsg.replace("haste", HasteUtils.haste(msg))).queue(s -> s.delete().queueAfter(30, TimeUnit.SECONDS))));
     }
 
     public static void addEmoteObjectToMessage(@Nonnull final Message message, @Nonnull final List<Object> emotes) {
