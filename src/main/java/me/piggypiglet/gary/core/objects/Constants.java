@@ -29,8 +29,8 @@ public final class Constants {
 
     public static final long PLUS_1 = 343993557700444160L, MINUS_1 = 352782396745318410L;
 
-    public static final long STAR_1 = 424527592507310081L, STAR_2 = 424527593036054549L, STAR_3 = 424527594042687490L;
-    public static final long STAR_4 = 424527582411751424L, STAR_5 = 424527593342107649L;
+    public static final long STAR_1 = 520488545836728330, STAR_2 = 520488545836728330, STAR_3 = 520488545836728330;
+    public static final long STAR_4 = 520488545836728330, STAR_5 = 520488545836728330;
 
     public static final String[] SHAMES = {
             "Shame on %s, they seem to think they're the top stuff, rating their own server 5 stars.",
