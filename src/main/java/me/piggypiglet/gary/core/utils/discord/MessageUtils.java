@@ -23,7 +23,11 @@ public final class MessageUtils {
      * @param backupMsg Backup message that will be hastebinned if pm fails.
      */
     public static void sendMessageHaste(String msg, User user, TextChannel channel, String backupMsg) {
-        user.openPrivateChannel().queue(c -> c.sendMessage(msg).queue(s -> {}, t -> channel.sendMessage(backupMsg.replace("haste", HasteUtils.haste(msg))).queue(s -> s.delete().queueAfter(30, TimeUnit.SECONDS))));
+        System.out.println("test1");
+        user.openPrivateChannel().queue(c -> {
+            System.out.println("test");
+            c.sendMessage(msg).queue(s -> {}, t -> channel.sendMessage(backupMsg.replace("haste", HasteUtils.haste(msg))).queue(s -> s.delete().queueAfter(30, TimeUnit.SECONDS)));
+        });
     }
 
     public static void addEmoteObjectToMessage(@Nonnull final Message message, @Nonnull final List<Object> emotes) {

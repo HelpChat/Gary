@@ -6,6 +6,7 @@ import me.piggypiglet.gary.core.objects.FormatScanner;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
+import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -35,34 +36,49 @@ public final class ServiceHandler extends GEvent {
 //
 //                    if (!scanner.containsKeys()) {
 //                        message.delete().queue();
-//                        sendError(author, channel);
+//                        sendError(author, channel, message.getContentRaw());
 //                    }
 //
 //                    break;
 
-            case Constants.REQUEST_PAID:
-                FormatScanner scanner = new FormatScanner(message, "service", "request", "budget");
+//            case Constants.REQUEST_PAID:
+//                FormatScanner scanner = new FormatScanner(message, "service", "request", "budget");
+//
+//                if (!scanner.containsKeys()) {
+//                    message.delete().queue();
+//                    sendError(author, channel, message.getContentRaw());
+//                }
+//
+//                break;
+//
+            case Constants.RMS:
+                FormatScanner rmsScanner = new FormatScanner(message, "name", "ip", "description");
+                FormatScanner reviewScanner = new FormatScanner(message, "review");
 
-                if (!scanner.containsKeys()) {
+                if (!rmsScanner.containsKeys() || !reviewScanner.containsKeys()) {
                     message.delete().queue();
-                    sendError(author, channel);
+                    sendError(author, channel, message.getContentRaw());
+                }
+
+                if (rmsScanner.containsKeys()) {
+                    EmbedBuilder builder = rmsScanner.toEmbed("name");
+
+                    builder.addField("Extra:", )
                 }
 
                 break;
-//
-//            case Constants.RMS:
-//                break;
             }
         }
     }
 
-    private void sendError(User author, TextChannel channel) {
+    private void sendError(User author, TextChannel channel, String message) {
         String name = channel.getName().toLowerCase();
 
         MessageUtils.sendMessageHaste(
                 String.join("\n", Lang.getAlternateList("formats.error.message", channel.getAsMention(),
                         String.join("\n", Lang.getAlternateList("formats." + name + ".requirements")),
-                        String.join("\n", Lang.getAlternateList("formats." + name + ".template")))),
+                        String.join("\n", Lang.getAlternateList("formats." + name + ".template")),
+                        message)),
                 author, channel,
                 String.join("\n", Lang.getAlternateList("formats.error.backup-message", author.getAsMention(), channel.getAsMention()))
         );
