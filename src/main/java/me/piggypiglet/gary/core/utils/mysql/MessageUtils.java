@@ -17,7 +17,7 @@ public final class MessageUtils {
         long userID = message.getAuthor().getIdLong();
         long messageID = message.getIdLong();
         String messageContent = message.getContentStripped().length() >= 229 ? message.getContentStripped().substring(0, 229) + "..." : message.getContentStripped();
-        messageContent = messageContent.replace("'", "\'");
+        messageContent = messageContent.replace("'", "").replace("\"", "").replace("`", "");
 
         MySQLUtils.create("gary_messages", new String[] {"user_id", "message_id", "previous_message", "current_message"}, userID, messageID, messageContent, messageContent);
     }
@@ -25,7 +25,7 @@ public final class MessageUtils {
     public static void editMessage(Message message) {
         long messageID = message.getIdLong();
         String messageContent = message.getContentStripped().length() >= 229 ? message.getContentStripped().substring(0, 229) + "..." : message.getContentStripped();
-        messageContent = messageContent.replace("'", "\'");
+        messageContent = messageContent.replace("'", "\\'").replace("\"", "\\\"");
 
         try {
             String previousMessage = (String) DB.getFirstColumnAsync("SELECT `current_message` FROM `gary_messages` WHERE `message_id`=?", messageID).get();
