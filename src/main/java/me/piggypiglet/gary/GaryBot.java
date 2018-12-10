@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import lombok.Getter;
-import me.piggypiglet.gary.commands.faq.AddFaq;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.framework.logging.Logger;
 import me.piggypiglet.gary.core.handlers.EventHandler;
@@ -46,7 +45,6 @@ public final class GaryBot {
     @Getter private final Map<String, QuestionnaireBuilder> questionnaires = new ConcurrentHashMap<>();
     @Getter private JDA jda;
     @Getter private Injector injector;
-    private static final boolean DEBUG = false;
 
     @Inject private GFile gFile;
     @Inject private MySQLInitializer mySQLInitializer;
@@ -55,8 +53,6 @@ public final class GaryBot {
     @Inject private ShutdownHandler shutdownHandler;
     @Inject private CommandHandler commandHandler;
     @Inject private LoggingHandler loggingHandler;
-
-    @Inject private AddFaq addFaq;
 
     @Inject private ServiceClear serviceClear;
 
@@ -92,13 +88,7 @@ public final class GaryBot {
                 break;
 
             case COMMANDS:
-                if (!DEBUG) {
-                    reflections.getSubTypesOf(Command.class).stream().map(injector::getInstance).forEach(commandHandler.getCommands()::add);
-                } else {
-                    Stream.of(
-                            addFaq
-                    ).forEach(commandHandler.getCommands()::add);
-                }
+                reflections.getSubTypesOf(Command.class).stream().map(injector::getInstance).forEach(commandHandler.getCommands()::add);
                 break;
 
             case LOGGERS:

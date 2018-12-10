@@ -24,22 +24,26 @@ public final class MySQLHandler extends GEvent {
     protected void execute(Event event) {
         GenericGuildMessageEvent e = (GenericGuildMessageEvent) event;
 
-        if (!MessageUtils.getAuthor(e.getMessageIdLong()).isBot()) {
-            switch (EventsEnum.fromEvent(event)) {
-                case MESSAGE_CREATE:
+        switch (EventsEnum.fromEvent(event)) {
+            case MESSAGE_CREATE:
+                if (!e.getChannel().getMessageById(e.getMessageId()).complete().getAuthor().isBot()) {
                     MessageUtils.addMessage(((GuildMessageReceivedEvent) event).getMessage());
-                    break;
+                }
+                break;
 
-                case MESSAGE_EDIT:
+            case MESSAGE_EDIT:
+                if (!MessageUtils.getAuthor(e.getMessageIdLong()).isBot()) {
                     MessageUtils.editMessage(((GuildMessageUpdateEvent) event).getMessage());
-                    break;
+                }
+                break;
 
-                case MESSAGE_DELETE:
+            case MESSAGE_DELETE:
+                if (!MessageUtils.getAuthor(e.getMessageIdLong()).isBot()) {
                     // sleep before deleting from mysql so logger can grab the message content
                     instance.sleep(100);
                     MessageUtils.deleteMessage(((GuildMessageDeleteEvent) event).getMessageIdLong());
-                    break;
-            }
+                }
+                break;
         }
     }
 }

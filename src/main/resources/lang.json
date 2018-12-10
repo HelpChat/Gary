@@ -167,17 +167,17 @@
         "- The list is cleared every month.",
         "- Stick to the templates below:"
       ],
-      "rms-template": [
+      "template": [
         "[Name] TestPlugins",
         "[IP] testplugins.com",
-        "[Website] https://testplugins.com",
-        "[Description] One of a kind server to test various Spigot plugins."
-      ],
-      "review-template": [
+        "[Website] https:\/\/testplugins.com",
+        "[Description] One of a kind server to test various Spigot plugins.",
+        "```\n",
+        "For reviewing:",
         "```",
-        "[Review] All reviews must start with this tag or else they will be deleted.",
-        "```"
-      ]
+        "[Review] All reviews must start with this tag or else they will be deleted."
+      ],
+      "server-error": "%s The server's ip you specified doesn't exist or https://mcapi.us is down. Please retry at a later date once these issues have been resolved."
     }
   }
 }

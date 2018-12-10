@@ -1,12 +1,9 @@
 package me.piggypiglet.gary.core.handlers.chat;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
-import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.FormatScanner;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.User;
@@ -51,22 +48,39 @@ public final class ServiceHandler extends GEvent {
 //
 //                break;
 //
-            case Constants.RMS:
-                FormatScanner rmsScanner = new FormatScanner(message, "name", "ip", "description");
-                FormatScanner reviewScanner = new FormatScanner(message, "review");
-
-                if (!rmsScanner.containsKeys() || !reviewScanner.containsKeys()) {
-                    message.delete().queue();
-                    sendError(author, channel, message.getContentRaw());
-                }
-
-                if (rmsScanner.containsKeys()) {
-                    EmbedBuilder builder = rmsScanner.toEmbed("name");
-
-                    builder.addField("Extra:", )
-                }
-
-                break;
+//            case Constants.RMS:
+//                FormatScanner scanner = new FormatScanner(message);
+//
+//                if (!scanner.containsKeys("review") && !scanner.containsKeys("name", "description", "ip")) {
+//                    message.delete().queue();
+//                    sendError(author, channel, message.getContentRaw());
+//                }
+//
+//                if (scanner.containsKeys()) {
+//                    EmbedBuilder builder = scanner.toEmbed("name", "Description", "IP", "Website");
+//                    Map<String, String> values = scanner.getValues();
+//                    MinecraftServer server = new MinecraftServer(values.get("ip"));
+//
+//                    if (server.isSuccess()) {
+//                        builder.addField("Extras:", "Premium: " + server.isPremium() + "\nVersion: " + server.getVersion(), false);
+//                        builder.setThumbnail("attachment://server.png");
+//                        InputStream stream = new ByteArrayInputStream(Base64.getDecoder().decode(server.getFavicon().split(",")[1]));
+//                        channel.sendFile(stream, "server.png", new MessageBuilder().setEmbed(builder.build()).build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
+//
+//                        try {
+//                            stream.close();
+//                        } catch (IOException e1) {
+//                            e1.printStackTrace();
+//                        }
+//                    } else {
+//                        String msg = Lang.getString("formats.rate-my-server.server-error", author.getAsMention());
+//                        MessageUtils.sendMessage(msg, author, channel, msg);
+//                    }
+//
+//                    message.delete().queue();
+//                }
+//
+//                break;
             }
         }
     }

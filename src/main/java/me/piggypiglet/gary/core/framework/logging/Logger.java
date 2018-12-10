@@ -17,24 +17,31 @@ import java.util.List;
 public abstract class Logger {
     @Getter private final EventsEnum type;
     protected Guild guild;
-    protected final List<User> users = new ArrayList<>();
-    protected final List<TextChannel> channels = new ArrayList<>();
-    protected final List<Message> messages = new ArrayList<>();
+    protected List<User> users;
+    protected List<TextChannel> channels;
+    protected List<Message> messages;
     protected List<String> list;
-    protected final List<Long> longs = new ArrayList<>();
-    protected List<String> strings = new ArrayList<>();
+    protected List<Long> longs;
+    protected List<String> strings;
     protected Object[] other;
 
     protected Logger(EventsEnum type) {
         this.type = type;
     }
 
-    protected abstract MessageEmbed send();
+    protected abstract MessageEmbed send() throws Exception;
 
     @SuppressWarnings("unchecked")
     public void log(JDA jda, Guild guild, Object... other) {
         this.guild = guild;
         this.other = other;
+
+        users = new ArrayList<>();
+        channels = new ArrayList<>();
+        messages = new ArrayList<>();
+        list = new ArrayList<>();
+        longs = new ArrayList<>();
+        strings = new ArrayList<>();
 
         Arrays.stream(other).forEach(obj -> {
             switch (obj.getClass().getSimpleName()) {
@@ -68,10 +75,14 @@ public abstract class Logger {
             }
         });
 
-        MessageEmbed messageEmbed = send();
+        try {
+            MessageEmbed messageEmbed = send();
 
-        if (messageEmbed != null) {
-            jda.getTextChannelById(Constants.LOG).sendMessage(messageEmbed).queue();
+            if (messageEmbed != null) {
+                jda.getTextChannelById(Constants.LOG).sendMessage(messageEmbed).queue();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

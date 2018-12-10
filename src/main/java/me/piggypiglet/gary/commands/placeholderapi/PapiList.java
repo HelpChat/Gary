@@ -7,13 +7,9 @@ import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import me.piggypiglet.gary.core.objects.paginations.PaginationBuilder;
 import me.piggypiglet.gary.core.objects.paginations.PaginationPage;
+import me.piggypiglet.gary.core.utils.http.WebUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -37,17 +33,7 @@ public final class PapiList extends Command {
     @Override
     @SuppressWarnings("unchecked")
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
-        HttpClient client = HttpClientBuilder.create().build();
-        HttpGet get = new HttpGet("https://api.extendedclip.com/");
-        List<String> keys = new ArrayList<>();
-
-        try {
-            HttpResponse response = client.execute(get);
-            keys.addAll(gson.fromJson(EntityUtils.toString(response.getEntity()), LinkedTreeMap.class).keySet());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
+        List<String> keys = new ArrayList<>(gson.fromJson(WebUtils.getStringEntity("https://api.extendedclip.com/"), LinkedTreeMap.class).keySet());
         keys = Arrays.asList(String.join("\n", keys).replaceAll("((.*\\s*\\n\\s*){25})", "$1-SEPARATOR-\n").split("-SEPARATOR-"));
         String[] title = new String[]{"Expansions in the eCloud", "https://api.extendedclip.com/all"};
 

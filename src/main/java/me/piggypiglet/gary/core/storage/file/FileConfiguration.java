@@ -14,6 +14,7 @@ import java.util.Set;
 public final class FileConfiguration {
     private static final String NULL_STRING = "null";
     private static final int NULL_NUM = 0;
+    private static final boolean NULL_BOOL = false;
 
     private Map<String, Object> itemMap;
 
@@ -111,6 +112,22 @@ public final class FileConfiguration {
         }
 
         return def.length >= 1 ? def[0] : NULL_NUM;
+    }
+
+    public boolean getBoolean(String path, Boolean... def) {
+        Object object;
+
+        try {
+            object = get(path, (Object[]) def);
+        } catch (Exception e) {
+            return NULL_BOOL;
+        }
+
+        if (object instanceof Boolean) {
+            return (Boolean) object;
+        }
+
+        return def.length >= 1 ? def[0] : NULL_BOOL;
     }
 
     @SuppressWarnings("unchecked")
