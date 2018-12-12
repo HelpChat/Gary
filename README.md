@@ -31,7 +31,7 @@ public final class CommandClass extends Command {
 }
 ```
 The boolean in the super will specifiy whether the command will show up on the non staff commands list. By default, the command will delete itself once the execute method has ran, to disable this functionality, specify `this.delete = false;` under the super.<br/>
-In Gary, we use google guice for dependency injection. This allows you to get an instance of a class with a simple annotation, for example:
+In Gary, we use google guice for dependency injection. This allows you to get an instance of a class with a simple annotation, for example: 
 ```java
 @Inject private ClassYouWantToInject classYouWantToInject;
 ```
