@@ -31,7 +31,7 @@ dependencies {
     compile 'org.reflections:reflections:+'
     compile 'ai.api:libai:+'
     compile 'net.dv8tion:JDA:+'
-    compile 'me.piggypiglet:TimeAPI:+'
+    compile 'com.github.PiggyPiglet:TimeAPI:1.13.1'
     compile 'com.google.inject:guice:+'
     compile 'org.apache.httpcomponents:httpclient:+'
     compile 'org.apache.commons:commons-lang3:+'
