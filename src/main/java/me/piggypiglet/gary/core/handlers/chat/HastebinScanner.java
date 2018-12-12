@@ -2,16 +2,13 @@ package me.piggypiglet.gary.core.handlers.chat;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
+import me.piggypiglet.gary.core.utils.http.WebUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,22 +48,14 @@ public final class HastebinScanner extends GEvent {
                     rawSplit[3] = "/raw/" + rawSplit[3];
 
                     try {
-                        URL url = new URL(rawSplit[0] + rawSplit[3]);
-                        URLConnection connection = url.openConnection();
-                        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                        int j = 0;
-                        String inputLine;
+                        String[] paste = WebUtils.getStringEntity(rawSplit[0] + rawSplit[3]).split("\n");
 
                         StringBuilder catches = new StringBuilder();
-                        while ((inputLine = in.readLine()) != null) {
-                            if (StringUtils.contains(inputLine, "crack/cracked/leaked/leak/bsmc/directleaks/leaks/blackspigot/nulled")) {
-                                catches.append("```tex\n$ [").append(j).append(":] ").append(inputLine).append("```\n");
+                        for (int j = 0; j < paste.length; ++j) {
+                            if (StringUtils.contains(paste[j], "crack/cracked/leaked/leak/bsmc/directleaks/leaks/blackspigot/nulled")) {
+                                catches.append("```tex\n$ [").append(j + 1).append(":] ").append(paste[j]).append("```\n");
                             }
-
-                            ++j;
                         }
-
-                        in.close();
 
                         MessageEmbed message = new EmbedBuilder()
                                 .setColor(Constants.YELLOW)

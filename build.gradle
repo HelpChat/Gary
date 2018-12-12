@@ -59,12 +59,10 @@ processResources {
 }
 
 shadowJar {
-    delete "rewrite/lang.json"
     exclude 'META-INF/*.SF'
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'
     relocate 'co.aikar.commands', 'me.piggypiglet.gary.idb'
-    destinationDir = file("$rootDir/rewrite")
 }
 
 compileJava.options.encoding = 'UTF-8'

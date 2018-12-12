@@ -130,7 +130,6 @@ public final class GaryBot {
             case TASKS:
 //                Task.async(r -> {
 //                    r.sleep(10000);
-//                    Task.scheduleAsync(serviceClear, 0, 1, TimeUnit.DAYS);
 //                });
 
                 break;

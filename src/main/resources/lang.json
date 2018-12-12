@@ -143,20 +143,16 @@
       "channel-message": [
         ":star: Rate My Server Guidelines :gear:\n",
         "Please follow the below guidelines and formats in order to post in this channel and only request reviews if you are able to handle constructive criticism. This is not a place to advertise your server, therefore you are only allowed to post your server in here once a month.\n",
-        "**Guidelines:**",
+        "Guidelines:",
         "```",
         "%s",
         "```\n",
-        "**To Request:**",
+        "To request:",
         "```",
         "%s",
         "```\n",
         "NOTE: Website is optional, but we suggest including it.",
         "NOTE 2: We've had issues reported to us that domains behind CloudFlares proxies don't work. If this is the case, please put the server's ip and port in the ip section instead of your domain.\n",
-        "**To Review:**",
-        "```",
-        "%s",
-        "```\n",
         "ℹ Last reset: %s 1st"
       ],
       "requirements": [
@@ -170,7 +166,7 @@
       "template": [
         "[Name] TestPlugins",
         "[IP] testplugins.com",
-        "[Website] https:\/\/testplugins.com",
+        "[Website] https:\u2215\u2215testplugins.com",
         "[Description] One of a kind server to test various Spigot plugins.",
         "```\n",
         "For reviewing:",
