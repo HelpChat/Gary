@@ -1,0 +1,179 @@
+{
+  "questionnaires": {
+    "errors": {
+      "int-error": "Please supply a number."
+    }
+  },
+  "commands": {
+    "no-permission": "You do not have permission to execute that command.",
+    "prefix": [
+      "gary", "!"
+    ],
+    "incorrect-usage": "Incorrect usage, the correct usage is: `%s`",
+    "faq": {
+      "add": {
+        "success": "Successfully added `%s` to the faq database.",
+        "failure": "Could not add `%s` to the faq database."
+      },
+      "remove": {
+        "success": "Successfully removed `%s` from the faq database.",
+        "failure": "Could not remove `%s` from the faq database."
+      },
+      "edit": {
+        "success": "Successfully changed `%s` to ```\n%s\n```",
+        "failure": "Could not change `%s` to ```\n%s\n```"
+      },
+      "get": {
+        "failure": "Could not retrieve `%s` from the faq database."
+      }
+    },
+    "papi": {
+      "status": {
+        "success": ":white_check_mark: The eCloud is up and running.",
+        "failure": ":warning: The eCloud appears to be offline, please contact a staff member."
+      },
+      "get": {
+        "failure": ":warning: There was an error when trying to process your request, either the eCloud is down or the expansion you specified doesn't exist."
+      }
+    },
+    "punishment": {
+      "warn": {
+        "add": {
+          "success": "Successfully added 1 strike to %s.",
+          "failure": "Could not add 1 strike to %s."
+        },
+        "del": {
+          "success": "Successfully removed 1 strike from %s.",
+          "failure": "Could not remove 1 strike from %s."
+        },
+        "invalid-id": "You did not specify a user ID.",
+        "invalid-user": "The user ID you've specified doesn't exist."
+      },
+      "ban": {
+        "add": {
+          "success": "Successfully banned %s."
+        },
+        "del": {
+          "success": "Successfully unbanned %s."
+        }
+      }
+    }
+  },
+  "formats": {
+    "error": {
+      "message": [
+        "Your latest message is not following the requirements for %s.",
+        "The requirements are as below:",
+        "```",
+        "%s",
+        "```\n",
+        "The template is as follows:",
+        "```",
+        "%s",
+        "```\n",
+        "Please edit your message below to fit the requirements:",
+        "```",
+        "%s",
+        "```"
+      ],
+      "backup-message": [
+        "**THIS MESSAGE WILL BE REMOVED IN 30 SECONDS!**",
+        "%s Your message does not follow the requirements for %s, please read this:",
+        "haste"
+      ]
+    },
+    "request-free": {
+      "channel-message": [
+        "**READ THIS BEFORE POSTING**",
+        ":tools: Welcome to the Unpaid Request Services channel!",
+        "```",
+        "%s",
+        "```\n",
+        "**Template:** (Follow this template or your message will be removed)",
+        "```",
+        "%s",
+        "```\n",
+        "ℹ Last reset: %s 1st"
+      ],
+      "requirements": [
+        "- This is only for requesting services, do not reply to services here.",
+        "- If you wish to complete a request. DM Them. Do not reply here.",
+        "- Remove completed requests to keep the list \"fresh\"",
+        "- Only have one message in this channel at a time.",
+        "- The list is cleared every month.",
+        "- Services should not be for plugin help. Please post in #plugin-help",
+        "- Bumping requests is not permitted.",
+        "- Stick to the template below:"
+      ],
+      "template": [
+        "[Service] Custom Plugin",
+        "[Request] I need a plugin that spawns many Llamas over the spawn."
+      ]
+    },
+    "request-paid": {
+      "channel-message": [
+        "**READ THIS BEFORE POSTING**",
+        ":tools: Welcome to the Paid Request Services channel!",
+        "```",
+        "%s",
+        "```\n",
+        "**Template:** (Follow this template or your message will be removed)",
+        "```",
+        "%s",
+        "```\n",
+        "ℹ Last reset: %s 1st"
+      ],
+      "requirements": [
+        "- This is only for requesting services, do not reply to services here.",
+        "- If you wish to complete a request. DM Them. Do not reply here.",
+        "- Remove completed requests to keep the list \"fresh\"",
+        "- Only have one message in this channel at a time.",
+        "- The list is cleared every month.",
+        "- Bumping requests is not permitted.",
+        "- Requests are required to have a set budget or a range (No DM for budget)",
+        "- Stick to the template below:"
+      ],
+      "template": [
+        "[Service] Custom Plugin",
+        "[Request] I need a plugin that spawns many Llamas over the spawn.",
+        "[Budget] $1-$4"
+      ]
+    },
+    "rate-my-server": {
+      "channel-message": [
+        ":star: Rate My Server Guidelines :gear:\n",
+        "Please follow the below guidelines and formats in order to post in this channel and only request reviews if you are able to handle constructive criticism. This is not a place to advertise your server, therefore you are only allowed to post your server in here once a month.\n",
+        "Guidelines:",
+        "```",
+        "%s",
+        "```\n",
+        "To request:",
+        "```",
+        "%s",
+        "```\n",
+        "NOTE: Website is optional, but we suggest including it.",
+        "NOTE 2: We've had issues reported to us that domains behind CloudFlares proxies don't work. If this is the case, please put the server's ip and port in the ip section instead of your domain.\n",
+        "ℹ Last reset: %s 1st"
+      ],
+      "requirements": [
+        "- Discussion will not be tolerated in this channel. Feel free to post multiple review messages for the same server if discord's character limit is limiting you, but do not abuse the review tag by using it to start conversations.",
+        "- Bumping is strictly prohibited in this channel, any signs of it may result in a permanent mute from the service channels.",
+        "- Any hate/toxicity towards server owners or reviewers in this channel will not be tolerated. Severe punishments will be a result from these actions.",
+        "- If posting a server for another user, make sure you have their permission first, and make sure they don't also post the server in this channel.",
+        "- The list is cleared every month.",
+        "- Stick to the templates below:"
+      ],
+      "template": [
+        "[Name] TestPlugins",
+        "[IP] testplugins.com",
+        "[Website] https:\u2215\u2215testplugins.com",
+        "[Description] One of a kind server to test various Spigot plugins.",
+        "```\n",
+        "For reviewing:",
+        "```",
+        "[Review] All reviews must start with this tag or else they will be deleted."
+      ],
+      "server-error": "%s The server's ip you specified doesn't exist or https://mcapi.us is down. Please retry at a later date once these issues have been resolved."
+    }
+  }
+}
