@@ -28,6 +28,7 @@ public final class PapiGet extends Command {
 
     public PapiGet() {
         super("papi get");
+        options.setDescription("Get placeholders for an expansion in the eCloud.");
     }
 
     @Override
@@ -74,6 +75,8 @@ public final class PapiGet extends Command {
             } else {
                 e.getChannel().sendMessage(Lang.getString("commands.papi.get.failure")).queue();
             }
+        } else {
+            e.getChannel().sendMessage(Lang.getString("commands.incorrect-usage", "papi get <expansion name>")).queue();
         }
     }
 }

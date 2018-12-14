@@ -14,20 +14,21 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class AddWarn extends Command {
     public AddWarn() {
         super("warn");
-        options.setRole(Roles.TRUSTED).save();
+        options.setRole(Roles.TRUSTED).setDescription("Add a warning to a user.");
     }
 
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (args.length >= 1) {
-            long id = 0L;
-            User user = null;
+            long id;
+            User user;
 
             try {
                 id = Long.parseLong(args[0]);
                 user = e.getGuild().getMemberById(id).getUser();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                e.getChannel().sendMessage(Lang.getString("commands.incorrect-usage", "warn <user id>")).queue();
+                return;
             }
 
             if (id != 0L) {

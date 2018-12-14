@@ -21,7 +21,7 @@ public final class RunQuestionnaire extends Command {
 
     public RunQuestionnaire() {
         super("questionnaire run");
-        options.setRole(Roles.HELPFUL).save();
+        options.setRole(Roles.HELPFUL).setDescription("Run a questionnaire.");
     }
 
     @Override

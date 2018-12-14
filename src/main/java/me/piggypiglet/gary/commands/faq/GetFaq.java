@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class GetFaq extends Command {
     public GetFaq() {
         super("faq get");
-        options.setRole(Roles.HELPFUL).save();
+        options.setRole(Roles.HELPFUL).setDescription("Print a FAQ out in the channel this command is ran in.");
     }
 
     @Override

@@ -49,3 +49,15 @@ CREATE TABLE `gary_warnings` (
   `strikes` TINYINT NULL,
   PRIMARY KEY (`id`)
 ) COLLATE = 'utf8_general_ci' ENGINE = MyISAM;
+
+-
+
+CREATE TABLE `gary_giveaways` (
+	`id` TINYINT NOT NULL AUTO_INCREMENT,
+	`message_id` BIGINT NULL,
+	`author_id` BIGINT NULL,
+	`prize` TEXT NULL,
+	`time` BIGINT NULL,
+	`time_left` BIGINT NULL,
+	PRIMARY KEY (`id`)
+) COLLATE='utf8_general_ci' ENGINE=MyISAM;

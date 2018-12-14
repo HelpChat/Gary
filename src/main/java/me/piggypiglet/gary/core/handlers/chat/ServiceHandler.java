@@ -2,9 +2,9 @@ package me.piggypiglet.gary.core.handlers.chat;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
-import me.piggypiglet.gary.core.objects.FormatScanner;
-import me.piggypiglet.gary.core.objects.MinecraftServer;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
+import me.piggypiglet.gary.core.objects.services.FormatScanner;
+import me.piggypiglet.gary.core.objects.services.MinecraftServer;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
 import net.dv8tion.jda.core.EmbedBuilder;

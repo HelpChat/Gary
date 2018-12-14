@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class AddBan extends Command {
     public AddBan() {
         super("ban");
-        options.setRole(Roles.TRUSTED).save();
+        options.setRole(Roles.TRUSTED).setDescription("Ban a user.");
     }
 
     @Override

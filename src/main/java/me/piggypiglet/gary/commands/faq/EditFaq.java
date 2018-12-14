@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class EditFaq extends Command {
     public EditFaq() {
         super("faq edit", "faq change");
-        options.setRole(Roles.HELPFUL).save();
+        options.setRole(Roles.HELPFUL).setDescription("Edit a FAQ.");
     }
 
     @Override

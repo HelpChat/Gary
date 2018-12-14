@@ -14,6 +14,7 @@ import java.net.URL;
 public final class PapiStatus extends Command {
     public PapiStatus() {
         super("papi status");
+        options.setDescription("Get the current status of the eCloud (online/offline).");
     }
 
     @Override

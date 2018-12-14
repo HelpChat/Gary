@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.objects;
+package me.piggypiglet.gary.core.objects.services;
 
 import com.google.gson.Gson;
 import com.google.gson.internal.LinkedTreeMap;

@@ -4,6 +4,7 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.handlers.GEvent;
+import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.RoleUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
@@ -45,31 +46,11 @@ public final class CommandHandler extends GEvent {
                 if (StringUtils.startsWith(message, command.getCommands())) {
                     String[] args = StringUtils.commandSplit(message, command.getCommands());
 
-                    switch (command.getAllowedRole()) {
-                        case EVERYBODY:
-                            command.run(e, args);
-                            return;
+                    if (Roles.isRoleOrUnder(command.getAllowedRole(), RoleUtils.getRole(e.getMember()))) {
+                        //todo fix empty args
+                        command.run(e, args);
 
-                        case HELPFUL:
-                            if (RoleUtils.isHelpful(e.getMember())) {
-                                command.run(e, args);
-                                return;
-                            }
-                            break;
-
-                        case TRUSTED:
-                            if (RoleUtils.isTrusted(e.getMember())) {
-                                command.run(e, args);
-                                return;
-                            }
-                            break;
-
-                        case ADMIN:
-                            if (RoleUtils.isAdmin(e.getMember())) {
-                                command.run(e, args);
-                                return;
-                            }
-                            break;
+                        return;
                     }
 
                     e.getChannel().sendMessage(Lang.getString("commands.no-permission")).queue(s -> s.delete().queueAfter(15, TimeUnit.SECONDS));

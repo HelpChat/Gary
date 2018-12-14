@@ -12,7 +12,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class DelBan extends Command {
     public DelBan() {
         super("unban");
-        options.setRole(Roles.TRUSTED).save();
+        options.setRole(Roles.TRUSTED).setDescription("Unban a user.");
     }
 
     @Override

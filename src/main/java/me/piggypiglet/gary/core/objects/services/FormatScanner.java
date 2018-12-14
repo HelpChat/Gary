@@ -1,6 +1,7 @@
-package me.piggypiglet.gary.core.objects;
+package me.piggypiglet.gary.core.objects.services;
 
 import lombok.Getter;
+import me.piggypiglet.gary.core.objects.Constants;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 

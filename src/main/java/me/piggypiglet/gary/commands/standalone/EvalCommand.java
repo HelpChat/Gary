@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
+import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.storage.file.GFile;
@@ -26,6 +27,7 @@ public final class EvalCommand extends Command {
 
     public EvalCommand() {
         super("eval");
+        options.setRole(Roles.ADMIN).setDescription("Piggy only.");
     }
 
     @Override

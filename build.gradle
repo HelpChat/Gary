@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '4.0.0.0'
+version = '4.0.1.0'
 mainClassName = 'me.piggypiglet.gary.GaryBootstrap'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -59,6 +59,7 @@ processResources {
 }
 
 shadowJar {
+    delete "build/libs/lang.json"
     exclude 'META-INF/*.SF'
     exclude 'META-INF/*.DSA'
     exclude 'META-INF/*.RSA'

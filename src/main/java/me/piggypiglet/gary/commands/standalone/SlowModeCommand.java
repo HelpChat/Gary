@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public final class SlowModeCommand extends Command {
     public SlowModeCommand() {
         super("slowmode");
-        options.setRole(Roles.TRUSTED).save();
+        options.setRole(Roles.TRUSTED);
     }
 
     @Override
@@ -32,7 +32,7 @@ public final class SlowModeCommand extends Command {
         e.getMessage().delete().queue();
         channel.getManager().setSlowmode((int) slowmodeTime.getSeconds()).queue();
 
-        Task.scheduleAsync(r -> channel.getManager().setSlowmode(0).queue(),lastTime.getMilliseconds(), TimeUnit.MILLISECONDS);
+        Task.scheduleAsync(r -> channel.getManager().setSlowmode(0).queue(), lastTime.getMilliseconds(), TimeUnit.MILLISECONDS);
 
         MessageEmbed message = new EmbedBuilder()
                 .setColor(Constants.GREEN)

@@ -14,7 +14,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class DelWarn extends Command {
     public DelWarn() {
         super("unwarn");
-        options.setRole(Roles.TRUSTED).save();
+        options.setRole(Roles.TRUSTED).setDescription("Remove a warning from a user.");
     }
 
     @Override

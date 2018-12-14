@@ -7,7 +7,7 @@
   "commands": {
     "no-permission": "You do not have permission to execute that command.",
     "prefix": [
-      "gary", "!"
+      "!", "gary"
     ],
     "incorrect-usage": "Incorrect usage, the correct usage is: `%s`",
     "faq": {

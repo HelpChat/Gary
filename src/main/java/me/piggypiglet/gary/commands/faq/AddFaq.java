@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class AddFaq extends Command {
     public AddFaq() {
         super("faq add", "faq make", "faq create");
-        options.setRole(Roles.HELPFUL).save();
+        options.setRole(Roles.HELPFUL).setDescription("Create a FAQ.");
     }
 
     @Override

@@ -17,6 +17,7 @@ public abstract class Command {
 
     protected final Options options = new Options();
     @Getter private Roles allowedRole = Roles.EVERYBODY;
+    @Getter private String description = "null";
 
     protected Command(String... commands) {
         this.commands.addAll(Arrays.asList(commands));
@@ -31,15 +32,14 @@ public abstract class Command {
     protected class Options {
         private Options() {}
 
-        private Roles allowedRole;
-
         public Options setRole(Roles allowedRole) {
-            this.allowedRole = allowedRole;
+            Command.this.allowedRole = allowedRole;
             return this;
         }
 
-        public void save() {
-            Command.this.allowedRole = allowedRole;
+        public Options setDescription(String description) {
+            Command.this.description = description;
+            return this;
         }
     }
 }

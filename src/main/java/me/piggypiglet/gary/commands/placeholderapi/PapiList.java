@@ -28,6 +28,7 @@ public final class PapiList extends Command {
 
     public PapiList() {
         super("papi list");
+        options.setDescription("Get a list of all expansions currently in the eCloud.");
     }
 
     @Override

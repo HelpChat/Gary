@@ -31,7 +31,7 @@ public final class ListFaq extends Command {
 
     public ListFaq() {
         super("faq list", "faqs");
-        options.setRole(Roles.HELPFUL).save();
+        options.setRole(Roles.HELPFUL).setDescription("List all available faqs.");
     }
 
     @Override

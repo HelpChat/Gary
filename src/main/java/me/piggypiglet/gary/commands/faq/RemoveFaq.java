@@ -13,7 +13,7 @@ import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
 public final class RemoveFaq extends Command {
     public RemoveFaq() {
         super("faq remove", "faq delete");
-        options.setRole(Roles.HELPFUL).save();
+        options.setRole(Roles.HELPFUL).setDescription("Remove a FAQ from the database.");
     }
 
     @Override

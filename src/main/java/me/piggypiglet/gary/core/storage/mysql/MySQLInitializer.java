@@ -22,7 +22,7 @@ public final class MySQLInitializer {
     public void connect() {
         Task.async(r -> {
             final FileConfiguration config = gFile.getFileConfiguration("config");
-            final String[] tables = {"gary_faq", "gary_messages", "gary_stats", "gary_settings", "gary_warnings"};
+            final String[] tables = {"gary_faq", "gary_messages", "gary_stats", "gary_settings", "gary_warnings", "gary_giveaways"};
             final String[] schemas = ((String) gFile.getItemMaps().get("schema").get("file-content")).split("-");
 
             DatabaseOptions options = DatabaseOptions.builder().mysql(

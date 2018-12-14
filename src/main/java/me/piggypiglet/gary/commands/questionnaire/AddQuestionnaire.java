@@ -25,7 +25,7 @@ public final class AddQuestionnaire extends Command {
 
     public AddQuestionnaire() {
         super("questionnaire add", "questionnaire make", "questionnaire create");
-        options.setRole(Roles.TRUSTED).save();
+        options.setRole(Roles.TRUSTED).setDescription("Create a questionnaire with multiple choice or text based questions.");
     }
 
     @Override
