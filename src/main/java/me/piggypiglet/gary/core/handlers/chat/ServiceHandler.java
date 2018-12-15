@@ -74,7 +74,7 @@ public final class ServiceHandler extends GEvent {
 
                     if (server.isSuccess()) {
                         builder.addField("Extras:", "Premium: " + server.isPremium() + "\nVersion: " + server.getVersion(), false);
-                        builder.setFooter("Posted by ", author.getAsMention());
+                        builder.setFooter("Posted by " + author.getName() + "#" + author.getDiscriminator(), null);
                         builder.setThumbnail("attachment://server.png");
                         InputStream stream = new ByteArrayInputStream(Base64.getDecoder().decode(server.getFavicon().replace("\n", "").split(",")[1]));
                         channel.sendFile(stream, "server.png", new MessageBuilder().setEmbed(builder.build()).build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
