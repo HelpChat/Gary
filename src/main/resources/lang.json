@@ -57,6 +57,9 @@
           "success": "Successfully unbanned %s."
         }
       }
+    },
+    "giveaway": {
+      "winner": "Congratulations %s, you've one %s. Please contact %s to retrieve your prize."
     }
   },
   "formats": {
@@ -174,6 +177,27 @@
         "[Review] All reviews must start with this tag or else they will be deleted."
       ],
       "server-error": "%s The server's ip you specified doesn't exist or https://mcapi.us is down. Please retry at a later date once these issues have been resolved."
+    },
+    "offer-services": {
+      "channel-message": [
+        "**READ ME**",
+        ":tools: Welcome to the Offer Services channel! :tools:",
+        "%s",
+        "```",
+        "%s",
+        "```",
+        "ℹ Last reset: %s 1st"
+      ],
+      "requirements": [
+        "When posting please make sure to include some details about how to contact you and the various details of your service. This channel will only clear each month if the post threshold has been met."
+      ],
+      "template": [
+        "- This channel is cleared every month, this keeps it all fresh",
+        "- You may repost your service after the monthly clear",
+        "- Bumping posts will get your permission to post here removed.",
+        "- There is not template but it is recommended you include a link to your Spigot thread if you have one.",
+        "- This channel may change at any time without notice"
+      ]
     }
   }
 }
