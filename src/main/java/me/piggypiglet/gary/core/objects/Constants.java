@@ -18,8 +18,8 @@ public final class Constants {
 
     public static final long GIVEAWAY_MESSAGE = 458934066377654274L;
 
-    public static final String INT_ERROR = "Please supply a number.", REQUEST_FREE = "449114116938792962", REQUEST_PAID = "449114052233265152",
-            RMS = "424460627663126538";
+    public static final String INT_ERROR = "Please supply a number.", REQUEST_FREE = "529516758940385280", REQUEST_PAID = "529516760492146738",
+            RMS = "529516757162131468";
 
     public static final String[] RATINGS = {"520488319428198400", "520488320946536458", "520488327477198848", "520488323953983489", "520488325253955594"};
     public static final String THUMBSUP = "\uD83D\uDC4D";
