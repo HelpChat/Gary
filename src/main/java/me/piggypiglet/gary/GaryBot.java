@@ -122,7 +122,7 @@ public final class GaryBot {
                     while (true) {
                         switch (input.nextLine().toLowerCase()) {
                             case "stop": System.exit(0); break;
-                            case "clear-channels": Task.async(serviceClear); break;
+                            case "clear-channels": System.out.println("test"); Task.async(serviceClear); break;
                         }
                     }
                 }, "Console Command Monitor");
