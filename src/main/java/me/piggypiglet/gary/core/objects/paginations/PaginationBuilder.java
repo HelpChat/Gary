@@ -3,9 +3,9 @@ package me.piggypiglet.gary.core.objects.paginations;
 import lombok.Getter;
 import me.piggypiglet.gary.core.handlers.misc.PaginationHandler;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.util.ArrayList;
 import java.util.Arrays;

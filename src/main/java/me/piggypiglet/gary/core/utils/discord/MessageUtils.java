@@ -1,20 +1,24 @@
 package me.piggypiglet.gary.core.utils.discord;
 
+import com.google.inject.Inject;
+import emoji4j.EmojiUtils;
+import me.piggypiglet.gary.GaryBot;
+import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.http.HasteUtils;
-import net.dv8tion.jda.core.entities.Emote;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.*;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
 public final class MessageUtils {
+    @Inject private static GaryBot garyBot;
+
     /**
      * Attempt to send a private message to a user. If their private messages are disabled, will send a message to the channel with a link to a hastebin containing msg.
      * @param msg The message that is to be sent.
@@ -38,5 +42,15 @@ public final class MessageUtils {
                 message.addReaction((Emote) emote).queue();
             }
         });
+    }
+
+    public static Object getEmoteObject(String emote) {
+        Guild guild = garyBot.getJda().getGuildById(Constants.GUILD);
+
+        if (EmojiUtils.isEmoji(emote)) {
+            return emote;
+        } else {
+            return guild.getEmoteById(Stream.of(emote.replaceAll("^\\D+", "").split("\\D+")).mapToLong(Long::parseLong).max().orElse(0L));
+        }
     }
 }

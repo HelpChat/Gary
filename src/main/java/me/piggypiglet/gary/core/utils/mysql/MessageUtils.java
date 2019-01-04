@@ -3,8 +3,8 @@ package me.piggypiglet.gary.core.utils.mysql;
 import co.aikar.idb.DB;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.User;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018

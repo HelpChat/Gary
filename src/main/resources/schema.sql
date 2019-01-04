@@ -4,7 +4,7 @@ CREATE TABLE `gary_faq` (
   `key` TEXT NULL,
   `value` TEXT NULL,
   PRIMARY KEY (`id`)
-) COLLATE = 'utf8_general_ci' ENGINE = MyISAM;
+) COLLATE = 'utf8_general_ci' ENGINE = InnoDB;
 
 -
 
@@ -15,7 +15,7 @@ CREATE TABLE `gary_messages` (
 	`previous_message` TEXT NULL,
 	`current_message` TEXT NULL,
 	PRIMARY KEY (`id`)
-) COLLATE='utf8_general_ci' ENGINE=MyISAM;
+) COLLATE='utf8_general_ci' ENGINE=InnoDB;
 
 -
 
@@ -26,7 +26,7 @@ CREATE TABLE `gary_stats` (
   `o` SMALLINT NULL,
   `bro` SMALLINT NULL,
   PRIMARY KEY (`id`)
-) COLLATE = 'utf8_general_ci' ENGINE = MyISAM;
+) COLLATE = 'utf8_general_ci' ENGINE = InnoDB;
 
 -
 
@@ -39,7 +39,7 @@ CREATE TABLE `gary_settings` (
   `clip_ping` TINYINT NULL,
   `chat_reaction` TINYINT NULL,
   PRIMARY KEY (`id`)
-) COLLATE = 'utf8_general_ci' ENGINE = MyISAM;
+) COLLATE = 'utf8_general_ci' ENGINE = InnoDB;
 
 -
 
@@ -48,7 +48,7 @@ CREATE TABLE `gary_warnings` (
   `user_id` BIGINT NULL,
   `strikes` TINYINT NULL,
   PRIMARY KEY (`id`)
-) COLLATE = 'utf8_general_ci' ENGINE = MyISAM;
+) COLLATE = 'utf8_general_ci' ENGINE = InnoDB;
 
 -
 
@@ -57,7 +57,8 @@ CREATE TABLE `gary_giveaways` (
 	`message_id` BIGINT NULL,
 	`author_id` BIGINT NULL,
 	`prize` TEXT NULL,
-	`time` BIGINT NULL,
+	`emote` TEXT NULL,
+	`time` TEXT NULL,
 	`time_left` BIGINT NULL,
 	PRIMARY KEY (`id`)
-) COLLATE='utf8_general_ci' ENGINE=MyISAM;
+) COLLATE='utf8_general_ci' ENGINE=InnoDB;

@@ -3,8 +3,8 @@ package me.piggypiglet.gary.commands.punishment.ban;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.storage.file.Lang;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018

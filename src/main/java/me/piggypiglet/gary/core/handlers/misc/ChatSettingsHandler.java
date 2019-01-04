@@ -5,9 +5,9 @@ import me.piggypiglet.gary.core.objects.enums.ChatSettings;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.utils.mysql.MySQLUtils;
 import me.piggypiglet.gary.core.utils.mysql.SettingsUtils;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionAddEvent;
-import net.dv8tion.jda.core.events.message.guild.react.GuildMessageReactionRemoveEvent;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018

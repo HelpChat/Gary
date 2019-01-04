@@ -3,7 +3,7 @@ package me.piggypiglet.gary.core.utils.misc;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.objects.Constants;
-import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.api.entities.Guild;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018

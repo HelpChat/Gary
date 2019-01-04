@@ -4,10 +4,10 @@ import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.utils.http.WebUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

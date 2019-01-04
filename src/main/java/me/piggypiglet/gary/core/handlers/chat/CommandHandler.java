@@ -8,8 +8,8 @@ import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.RoleUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +47,6 @@ public final class CommandHandler extends GEvent {
                     String[] args = StringUtils.commandSplit(message, command.getCommands());
 
                     if (Roles.isRoleOrUnder(command.getAllowedRole(), RoleUtils.getRole(e.getMember()))) {
-                        //todo fix empty args
                         command.run(e, args);
 
                         return;

@@ -1,8 +1,8 @@
 package me.piggypiglet.gary.core.objects.questionnaire;
 
 import lombok.Getter;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageReaction;
 
 import java.util.concurrent.Future;
 

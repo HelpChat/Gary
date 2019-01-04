@@ -3,8 +3,8 @@ package me.piggypiglet.gary.core.objects.questionnaire;
 import emoji4j.EmojiUtils;
 import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Emote;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Emote;
 
 import java.util.ArrayList;
 import java.util.Arrays;

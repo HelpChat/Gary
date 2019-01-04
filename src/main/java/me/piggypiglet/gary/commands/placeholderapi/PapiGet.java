@@ -8,9 +8,9 @@ import me.piggypiglet.gary.core.objects.paginations.PaginationBuilder;
 import me.piggypiglet.gary.core.objects.paginations.PaginationPage;
 import me.piggypiglet.gary.core.objects.placeholderapi.PapiExpansion;
 import me.piggypiglet.gary.core.storage.file.Lang;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;

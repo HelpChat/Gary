@@ -4,8 +4,8 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.objects.tasks.Task;
-import net.dv8tion.jda.core.events.Event;
-import net.dv8tion.jda.core.hooks.EventListener;
+import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.hooks.EventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;

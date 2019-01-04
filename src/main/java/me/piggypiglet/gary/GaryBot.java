@@ -10,26 +10,25 @@ import me.piggypiglet.gary.core.handlers.EventHandler;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.CommandHandler;
+import me.piggypiglet.gary.core.handlers.misc.GiveawayHandler;
 import me.piggypiglet.gary.core.handlers.misc.LoggingHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
-import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.objects.tasks.tasks.ServiceClear;
 import me.piggypiglet.gary.core.storage.file.FileConfiguration;
 import me.piggypiglet.gary.core.storage.file.GFile;
 import me.piggypiglet.gary.core.storage.mysql.MySQLInitializer;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import org.reflections.Reflections;
 
-import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
@@ -42,7 +41,6 @@ import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
 public final class GaryBot {
     private final BlockingQueue<GRunnable> queue = new LinkedBlockingQueue<>();
     private final Reflections reflections = new Reflections("me.piggypiglet.gary");
-    @Getter private final Map<String, QuestionnaireBuilder> questionnaires = new ConcurrentHashMap<>();
     @Getter private JDA jda;
     @Getter private Injector injector;
 
@@ -54,6 +52,7 @@ public final class GaryBot {
     @Inject private ShutdownHandler shutdownHandler;
     @Inject private CommandHandler commandHandler;
     @Inject private LoggingHandler loggingHandler;
+    @Inject private GiveawayHandler giveawayHandler;
 
     @Inject private ServiceClear serviceClear;
 
@@ -61,7 +60,7 @@ public final class GaryBot {
         this.injector = injector;
 
         Task.async((g) -> Stream.of(
-                FILES, EVENTS, COMMANDS, LOGGERS, MYSQL, BOT, CONSOLE, TASKS
+                FILES, EVENTS, COMMANDS, LOGGERS, BOT, MYSQL, CONSOLE, TASKS
         ).forEach(this::register), "Gary");
 
         // sacrifice the main thread.
@@ -96,23 +95,25 @@ public final class GaryBot {
                 reflections.getSubTypesOf(Logger.class).stream().map(injector::getInstance).forEach(loggingHandler.getLoggers()::add);
                 break;
 
-            case MYSQL:
-                mySQLInitializer.connect();
-                break;
-
             case BOT:
                 final FileConfiguration config = gFile.getFileConfiguration("config");
 
                 try {
                     jda = new JDABuilder(AccountType.BOT)
                             .setToken(config.getString("token"))
-                            .setGame(Game.of(Game.GameType.valueOf(config.getString("game.type", "default").toUpperCase()), config.getString("game.game", "https://gary.helpch.at")))
-                            .addEventListener(eventHandler)
+                            .setActivity(Activity.of(Activity.ActivityType.valueOf(config.getString("game.type", "default").toUpperCase()), config.getString("game.game", "https://gary.helpch.at")))
+                            .addEventListeners(eventHandler)
                             .build();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
+                break;
+
+            case MYSQL:
+                mySQLInitializer.connect();
+
+                Task.scheduleAsync(r -> giveawayHandler.populate(), 3, TimeUnit.SECONDS);
                 break;
 
             case CONSOLE:
@@ -122,7 +123,7 @@ public final class GaryBot {
                     while (true) {
                         switch (input.nextLine().toLowerCase()) {
                             case "stop": System.exit(0); break;
-                            case "clear-channels": System.out.println("test"); Task.async(serviceClear); break;
+                            case "clear-channels": Task.async(serviceClear); break;
                         }
                     }
                 }, "Console Command Monitor");

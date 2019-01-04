@@ -3,7 +3,7 @@ package me.piggypiglet.gary.core.handlers;
 import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
-import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.api.events.Event;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018

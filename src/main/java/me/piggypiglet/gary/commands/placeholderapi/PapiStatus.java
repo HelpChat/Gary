@@ -2,7 +2,7 @@ package me.piggypiglet.gary.commands.placeholderapi;
 
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.storage.file.Lang;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.net.HttpURLConnection;
 import java.net.URL;

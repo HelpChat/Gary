@@ -4,10 +4,10 @@ import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
 import me.piggypiglet.gary.core.utils.discord.EventUtils;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.entities.User;
 
 import javax.annotation.Nonnull;
 import java.util.*;

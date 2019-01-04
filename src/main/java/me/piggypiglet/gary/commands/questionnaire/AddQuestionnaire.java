@@ -1,16 +1,16 @@
 package me.piggypiglet.gary.commands.questionnaire;
 
 import com.google.inject.Inject;
-import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.framework.commands.Command;
+import me.piggypiglet.gary.core.handlers.misc.QuestionnaireHandler;
 import me.piggypiglet.gary.core.objects.enums.QuestionType;
 import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.objects.questionnaire.Question;
 import me.piggypiglet.gary.core.objects.questionnaire.QuestionnaireBuilder;
 import me.piggypiglet.gary.core.objects.questionnaire.Response;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.Map;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class AddQuestionnaire extends Command {
-    @Inject private GaryBot garyBot;
+    @Inject private QuestionnaireHandler questionnaireHandler;
 
     public AddQuestionnaire() {
         super("questionnaire add", "questionnaire make", "questionnaire create");
@@ -67,7 +67,7 @@ public final class AddQuestionnaire extends Command {
             questions.add(questionObj);
         }
 
-        garyBot.getQuestionnaires().put(info.get("name").getMessage().getContentRaw(), new QuestionnaireBuilder(member, channel).addQuestions(questions.toArray(new Question[]{})));
+        questionnaireHandler.getQuestionnaires().put(info.get("name").getMessage().getContentRaw(), new QuestionnaireBuilder(member, channel).addQuestions(questions.toArray(new Question[]{})));
         e.getChannel().sendMessage("Questionnaire successfully made.").queue();
     }
 }

@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.framework.commands;
 
 import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.Roles;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
