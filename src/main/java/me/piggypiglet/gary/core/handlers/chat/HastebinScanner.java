@@ -63,7 +63,7 @@ public final class HastebinScanner extends GEvent {
                                 .setTimestamp(ZonedDateTime.now())
                                 .build();
 
-                        e.getGuild().getTextChannelById(411094432402636802L).sendMessage(message).queue();
+                        e.getGuild().getTextChannelById(Constants.STAFF).sendMessage(message).queue();
 
                     } catch (Exception ex) {
                         ex.printStackTrace();
