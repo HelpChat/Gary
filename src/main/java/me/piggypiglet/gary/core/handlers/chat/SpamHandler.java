@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.handlers.chat;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
-import net.dv8tion.jda.core.events.Event;
+import net.dv8tion.jda.api.events.Event;
 
 import java.util.HashSet;
 import java.util.Set;
