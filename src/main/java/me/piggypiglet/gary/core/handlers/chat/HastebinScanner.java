@@ -49,22 +49,26 @@ public final class HastebinScanner extends GEvent {
 
                     try {
                         String[] paste = WebUtils.getStringEntity(rawSplit[0] + rawSplit[3]).split("\n");
+                        boolean success = false;
 
                         StringBuilder catches = new StringBuilder();
                         for (int j = 0; j < paste.length; ++j) {
                             if (StringUtils.contains(paste[j], "crack/cracked/leaked/leak/bsmc/directleaks/leaks/blackspigot/nulled")) {
+                                success = true;
                                 catches.append("```tex\n$ [").append(j + 1).append(":] ").append(paste[j]).append("```\n");
                             }
                         }
 
-                        MessageEmbed message = new EmbedBuilder()
-                                .setColor(Constants.YELLOW)
-                                .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this data:" + catches.toString() + "\n[Link to paste](" + i + ")")
-                                .setTimestamp(ZonedDateTime.now())
-                                .build();
+                        if (success) {
 
-                        e.getGuild().getTextChannelById(Constants.STAFF).sendMessage(message).queue();
+                            MessageEmbed message = new EmbedBuilder()
+                                    .setColor(Constants.YELLOW)
+                                    .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this data:" + catches.toString() + "\n[Link to paste](" + i + ")")
+                                    .setTimestamp(ZonedDateTime.now())
+                                    .build();
 
+                            e.getGuild().getTextChannelById(Constants.STAFF).sendMessage(message).queue();
+                        }
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
