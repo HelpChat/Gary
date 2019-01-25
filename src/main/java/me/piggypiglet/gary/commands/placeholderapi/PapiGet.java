@@ -37,8 +37,8 @@ public final class PapiGet extends Command {
             PapiExpansion exp = new PapiExpansion(gson).load(args[0]);
 
             if (exp.isSuccess()) {
-                String title = "Placeholders for" + args[0];
-                String[] footer = new String[]{"Version" + exp.getVersion() + " by " + exp.getAuthor(), e.getJDA().getSelfUser().getEffectiveAvatarUrl()};
+                String title = "Placeholders for " + args[0];
+                String[] footer = new String[]{"Version " + exp.getVersion() + " by " + exp.getAuthor(), e.getJDA().getSelfUser().getEffectiveAvatarUrl()};
                 MessageEmbed.Field command = new MessageEmbed.Field("Commands:", "```/papi ecloud download " + args[0] + "\n/papi reload```", false);
                 List<String> placeholders = exp.getPlaceholders();
 
