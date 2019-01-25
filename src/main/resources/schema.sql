@@ -23,8 +23,6 @@ CREATE TABLE `gary_stats` (
   `id` SMALLINT NOT NULL AUTO_INCREMENT,
   `user_id` BIGINT NULL,
   `wins` SMALLINT NULL,
-  `o` SMALLINT NULL,
-  `bro` SMALLINT NULL,
   PRIMARY KEY (`id`)
 ) COLLATE = 'utf8_general_ci' ENGINE = InnoDB;
 
