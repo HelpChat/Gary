@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.commands.standalone;
 
+import co.aikar.idb.DB;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.core.framework.commands.Command;
 import me.piggypiglet.gary.core.objects.Constants;
@@ -44,13 +45,14 @@ public final class EvalCommand extends Command {
 
             ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("Nashorn");
             scriptEngine.put("e", e);
+            scriptEngine.put("db", DB.getGlobalDatabase());
             scriptEngine.put("sys", System.out);
             scriptEngine.put("gFile", gFile);
 
             try {
-                if (code.contains("gFile")) {
+                if (code.contains("gFile") || code.contains("db")) {
                     QuestionnaireBuilder.Questionnaire questionnaire = new QuestionnaireBuilder(e.getMember(), channel).addQuestions(
-                            new Question("check", "Accessing gFile can expose confidential information, are you sure you want to execute this code?", QuestionType.EMOTE).setEmotes(
+                            new Question("check", "Accessing gFile/db can expose confidential information, are you sure you want to execute this code?", QuestionType.EMOTE).setEmotes(
                                     e.getJDA(), "✅", "❎"
                             )
                     ).build("gi-temp");
