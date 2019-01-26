@@ -12,6 +12,7 @@ import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.CommandHandler;
 import me.piggypiglet.gary.core.handlers.misc.GiveawayHandler;
 import me.piggypiglet.gary.core.handlers.misc.LoggingHandler;
+import me.piggypiglet.gary.core.handlers.misc.RoleRequestHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.objects.tasks.Task;
@@ -53,6 +54,7 @@ public final class GaryBot {
     @Inject private CommandHandler commandHandler;
     @Inject private LoggingHandler loggingHandler;
     @Inject private GiveawayHandler giveawayHandler;
+    @Inject private RoleRequestHandler roleRequestHandler;
 
     @Inject private ServiceClear serviceClear;
 
@@ -60,7 +62,7 @@ public final class GaryBot {
         this.injector = injector;
 
         Task.async((g) -> Stream.of(
-                FILES, EVENTS, COMMANDS, LOGGERS, BOT, MYSQL, CONSOLE, TASKS
+                FILES, EVENTS, COMMANDS, LOGGERS, BOT, MYSQL, CONSOLE, ROLE_REQUESTS, TASKS
         ).forEach(this::register), "Gary");
 
         // sacrifice the main thread.
@@ -127,6 +129,10 @@ public final class GaryBot {
                         }
                     }
                 }, "Console Command Monitor");
+                break;
+
+            case ROLE_REQUESTS:
+                roleRequestHandler.populateMap();
                 break;
 
             case TASKS:

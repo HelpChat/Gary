@@ -12,5 +12,6 @@ public enum Registerables {
     MYSQL,
     BOT,
     CONSOLE,
+    ROLE_REQUESTS,
     TASKS
 }
