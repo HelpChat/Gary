@@ -57,7 +57,6 @@ public final class Task {
     }
 
     public static void scheduleAsync(final Consumer<GRunnable> task, long period, TimeUnit timeUnit) {
-        System.out.println("test2");
         scheduledExecutor.schedule(new GRunnable() {
             @Override
             public void run() {
@@ -67,7 +66,6 @@ public final class Task {
     }
 
     public static void scheduleAsync(final GRunnable task, long period, TimeUnit timeUnit) {
-        System.out.println("test");
         scheduleAsync(r -> task.run(), period, timeUnit);
     }
 //

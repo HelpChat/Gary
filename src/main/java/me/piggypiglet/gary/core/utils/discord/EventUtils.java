@@ -51,7 +51,7 @@ public final class EventUtils {
         CompletableFuture<Message> future = new CompletableFuture<>();
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
 
-        while (e.getChannel() != channel && e.getAuthor() != user) {
+        while (e.getChannel() != channel || e.getAuthor() != user || e.getMessage().getContentRaw().equalsIgnoreCase("cancel")) {
             if (e.getMessage().getContentRaw().equalsIgnoreCase("cancel")) {
                 future.complete(null);
                 return future;
@@ -69,7 +69,7 @@ public final class EventUtils {
         CompletableFuture<MessageReaction> future = new CompletableFuture<>();
         GuildMessageReactionAddEvent e = (GuildMessageReactionAddEvent) pullEvent(EventsEnum.MESSAGE_REACTION_ADD, jda);
 
-        while (message.getChannel().getMessageById(e.getMessageId()).complete() != message && e.getUser() != user) {
+        while (message.getChannel().getMessageById(e.getMessageId()).complete() != message || e.getUser() != user) {
             e = (GuildMessageReactionAddEvent) pullEvent(EventsEnum.MESSAGE_REACTION_ADD, jda);
         }
 
@@ -82,11 +82,10 @@ public final class EventUtils {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
         boolean integer = false;
 
-        while (e.getChannel() != channel && e.getAuthor() != user && !integer) {
+        while (e.getChannel() != channel || e.getAuthor() != user || !integer) {
             e = (GuildMessageReceivedEvent) pullEvent(EventsEnum.MESSAGE_CREATE, channel.getJDA());
 
             try {
-                //noinspection ResultOfMethodCallIgnored
                 Integer.parseInt(e.getMessage().getContentRaw());
             } catch (Exception ex) {
                 channel.sendMessage(Constants.INT_ERROR).queue();

@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
+import sh.okx.timeapi.TimeAPI;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -111,7 +112,8 @@ public final class ServiceHandler extends GEvent {
                         String.join("\n", Lang.getAlternateList("formats." + name + ".template")),
                         message)),
                 author, channel,
-                String.join("\n", Lang.getAlternateList("formats.error.backup-message", author.getAsMention(), channel.getAsMention()))
+                String.join("\n", Lang.getAlternateList("formats.error.backup-message", author.getAsMention(), channel.getAsMention())),
+                new TimeAPI("30secs")
         );
     }
 }

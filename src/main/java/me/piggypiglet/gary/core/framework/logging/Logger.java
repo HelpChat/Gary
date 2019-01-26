@@ -5,6 +5,7 @@ import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.exceptions.InsufficientPermissionException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -82,7 +83,9 @@ public abstract class Logger {
                 jda.getTextChannelById(Constants.LOG).sendMessage(messageEmbed).queue();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            if (!(e instanceof InsufficientPermissionException)) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -18,6 +18,5 @@ public enum Roles {
 
     public static boolean isRoleOrUnder(Roles roleToCheck, Roles role) {
         return role.priority >= roleToCheck.priority;
-
     }
 }

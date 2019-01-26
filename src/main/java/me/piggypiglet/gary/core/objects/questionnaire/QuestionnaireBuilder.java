@@ -74,7 +74,7 @@ public final class QuestionnaireBuilder {
 
         questions.values().forEach(question -> {
             List<Object> emotes = question.getEmotes();
-            Message message = channel.sendMessage(question.getQuestion()).complete();
+            Message message = MessageUtils.getFutureMessage(question.getQuestion(), channel);
             QuestionType questionType = question.getQuestionType();
             Response response = new Response(question.getKey());
 
