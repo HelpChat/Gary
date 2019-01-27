@@ -146,8 +146,10 @@ public final class RoleRequestHandler extends GEvent {
     }
 
     public void populateMap() {
-        garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().getRetrievedHistory().forEach(m ->
-                ids.put(m.getId(), m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", ""))
-        );
+        garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().getRetrievedHistory().forEach(m -> {
+            if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor() == Constants.BLUE) {
+                ids.put(m.getId(), m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", ""));
+            }
+        });
     }
 }

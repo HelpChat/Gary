@@ -9,7 +9,6 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.time.ZonedDateTime;
 import java.time.format.TextStyle;
@@ -54,7 +53,7 @@ public final class ServiceClear extends GRunnable {
                         .queue(c -> {
                             String prefix = "formats." + s + ".";
 
-                            ((TextChannel) c).sendMessage(Lang.getALString( prefix + "channel-message",
+                            c.sendMessage(Lang.getALString( prefix + "channel-message",
                                     Lang.getALString(prefix + "requirements"),
                                     Lang.getALString(prefix + "template"),
                                     ZonedDateTime.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH))).queue();

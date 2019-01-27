@@ -25,7 +25,7 @@ public final class MessageDelete extends Logger {
     @Override
     protected MessageEmbed send() throws Exception {
         User user = users.get(0);
-        TextChannel channel = channels.get(0);
+        TextChannel channel = textChannels.get(0);
         String string = strings.get(0);
         Long aLong = longs.get(0);
         CompletableFuture<String> deleter = new CompletableFuture<>();

@@ -18,12 +18,13 @@ import java.util.List;
 public abstract class Logger {
     @Getter private final EventsEnum type;
     protected Guild guild;
-    protected List<User> users;
-    protected List<TextChannel> channels;
-    protected List<Message> messages;
-    protected List<String> list;
-    protected List<Long> longs;
-    protected List<String> strings;
+    protected List<User> users = new ArrayList<>();
+    protected List<TextChannel> textChannels = new ArrayList<>();
+    protected List<VoiceChannel> voiceChannels = new ArrayList<>();
+    protected List<Message> messages = new ArrayList<>();
+    protected List<String> list = new ArrayList<>();
+    protected List<Long> longs = new ArrayList<>();
+    protected List<String> strings = new ArrayList<>();
     protected Object[] other;
 
     protected Logger(EventsEnum type) {
@@ -37,21 +38,20 @@ public abstract class Logger {
         this.guild = guild;
         this.other = other;
 
-        users = new ArrayList<>();
-        channels = new ArrayList<>();
-        messages = new ArrayList<>();
-        list = new ArrayList<>();
-        longs = new ArrayList<>();
-        strings = new ArrayList<>();
-
         Arrays.stream(other).forEach(obj -> {
+            System.out.println(obj.getClass().getSimpleName());
+
             switch (obj.getClass().getSimpleName()) {
                 case "UserImpl":
                     users.add((User) obj);
                     break;
 
                 case "TextChannelImpl":
-                    channels.add((TextChannel) obj);
+                    textChannels.add((TextChannel) obj);
+                    break;
+
+                case "VoiceChannelImpl":
+                    voiceChannels.add((VoiceChannel) obj);
                     break;
 
                 case "ReceivedMessage":

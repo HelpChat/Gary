@@ -20,7 +20,7 @@ public final class MessageBulkDelete extends Logger {
 
     @Override
     protected MessageEmbed send() {
-        TextChannel channel = channels.get(0);
+        TextChannel channel = textChannels.get(0);
 
         return new EmbedBuilder()
                 .setTitle(guild.getName())

@@ -24,7 +24,7 @@ public final class MessageEdit extends Logger {
     @Override
     protected MessageEmbed send() {
         User user = users.get(0);
-        TextChannel channel = channels.get(0);
+        TextChannel channel = textChannels.get(0);
         Message message = messages.get(0);
 
         return new EmbedBuilder()

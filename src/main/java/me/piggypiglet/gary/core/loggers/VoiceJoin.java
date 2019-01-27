@@ -5,8 +5,8 @@ import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 
 import java.time.ZonedDateTime;
 
@@ -22,12 +22,12 @@ public final class VoiceJoin extends Logger {
     @Override
     protected MessageEmbed send() {
         User user = users.get(0);
-        TextChannel channel = channels.get(0);
+        VoiceChannel channel = voiceChannels.get(0);
 
         return new EmbedBuilder()
                 .setAuthor(user.getName() + "#" + user.getDiscriminator(), null, user.getEffectiveAvatarUrl())
                 .setColor(Constants.GREEN)
-                .setDescription(user.getAsMention() + " **joined voice channel " + channel.getAsMention() + "**")
+                .setDescription(user.getAsMention() + " **joined voice channel " + channel.getName() + "**")
                 .setFooter("ID: " + user.getId(), null)
                 .setTimestamp(ZonedDateTime.now())
                 .build();
