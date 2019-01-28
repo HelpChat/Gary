@@ -33,6 +33,7 @@ public final class RoleRequestHandler extends GEvent {
     @Inject private GaryBot garyBot;
 
     private final Map<String, String> ids = new HashMap<>();
+    private final Map<String, String> reserved = new HashMap<>();
 
     public RoleRequestHandler() {
         super(EventsEnum.MESSAGE_CREATE, EventsEnum.MESSAGE_REACTION_ADD);
@@ -70,7 +71,7 @@ public final class RoleRequestHandler extends GEvent {
                                         .setTimestamp(ZonedDateTime.now())
                                         .build()
                         ).queue(s -> {
-                            Stream.of("✅", "❌").forEach(em -> s.addReaction(em).queue());
+                            Stream.of("✅", "❌", "➖").forEach(em -> s.addReaction(em).queue());
                             ids.put(s.getId(), message.getId());
                         });
                     } else {
@@ -94,6 +95,11 @@ public final class RoleRequestHandler extends GEvent {
 
                         switch (e2.getReactionEmote().getName()) {
                             case "✅":
+                                if (isNotReserver(id, user.getId())) {
+                                    e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
+                                    return;
+                                }
+
                                 while (role == RequestableRoles.DEFAULT) {
                                     String question;
 
@@ -115,6 +121,11 @@ public final class RoleRequestHandler extends GEvent {
                                 break;
 
                             case "❌":
+                                if (isNotReserver(id, user.getId())) {
+                                    e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
+                                    return;
+                                }
+
                                 String question;
 
                                 try {
@@ -138,11 +149,21 @@ public final class RoleRequestHandler extends GEvent {
                                 );
                                 ids.remove(id);
                                 break;
+
+                            case "➖":
+                                s.editMessage(new EmbedBuilder(embed).setColor(Constants.YELLOW).setFooter(embed.getFooter().getText(), user.getEffectiveAvatarUrl()).build()).queue();
+                                reserved.put(id, user.getId());
+                                e2.getChannel().sendMessage("I've reserved this request for you.").queue(s1 -> s1.delete().queueAfter(10, TimeUnit.SECONDS));
+                                break;
                         }
                     });
                 }
                 break;
         }
+    }
+
+    private boolean isNotReserver(String messageId, String authorId) {
+        return !reserved.get(messageId).equals(authorId);
     }
 
     public void populateMap() {
