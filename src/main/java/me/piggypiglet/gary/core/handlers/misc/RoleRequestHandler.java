@@ -163,14 +163,20 @@ public final class RoleRequestHandler extends GEvent {
     }
 
     private boolean isNotReserver(String messageId, String authorId) {
-        return !reserved.get(messageId).equals(authorId);
+        if (reserved.containsKey(messageId)) {
+            return !reserved.get(messageId).equals(authorId);
+        }
+
+        return true;
     }
 
     public void populateMap() {
-        garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().getRetrievedHistory().forEach(m -> {
-            if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor() == Constants.BLUE) {
-                ids.put(m.getId(), m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", ""));
+        garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().retrievePast(100).queue(l -> l.forEach(m -> {
+            if (m.getAuthor().isBot()) {
+                if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor().getRGB() == Constants.BLUE.getRGB()) {
+                    ids.put(m.getId(), m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", ""));
+                }
             }
-        });
+        }));
     }
 }

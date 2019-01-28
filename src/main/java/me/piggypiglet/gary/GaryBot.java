@@ -131,14 +131,13 @@ public final class GaryBot {
                 }, "Console Command Monitor");
                 break;
 
-            case ROLE_REQUESTS:
-                roleRequestHandler.populateMap();
-                break;
-
             case TASKS:
-//                Task.async(r -> {
-//                    r.sleep(10000);
-//                });
+                // just shit that needs to be run after jda starts up.
+
+                Task.async(r -> {
+                    r.sleep(4000);
+                    roleRequestHandler.populateMap();
+                });
 
                 break;
         }

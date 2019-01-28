@@ -39,8 +39,6 @@ public abstract class Logger {
         this.other = other;
 
         Arrays.stream(other).forEach(obj -> {
-            System.out.println(obj.getClass().getSimpleName());
-
             switch (obj.getClass().getSimpleName()) {
                 case "UserImpl":
                     users.add((User) obj);
