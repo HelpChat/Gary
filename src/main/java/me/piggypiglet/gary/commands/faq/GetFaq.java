@@ -22,7 +22,11 @@ public final class GetFaq extends Command {
             String faq = FaqUtils.get(args[0]);
 
             if (!faq.equalsIgnoreCase("null")) {
-                e.getChannel().sendMessage(faq).queue();
+                if (args.length >= 2 && args[1].equalsIgnoreCase("raw")) {
+                    e.getChannel().sendMessage("```" + faq + "```").queue();
+                } else {
+                    e.getChannel().sendMessage(faq).queue();
+                }
             } else {
                 e.getChannel().sendMessage(Lang.getString("commands.faq.get.failure", args[0])).queue();
             }
