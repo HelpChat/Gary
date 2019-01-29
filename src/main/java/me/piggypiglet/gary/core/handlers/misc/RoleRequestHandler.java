@@ -174,7 +174,8 @@ public final class RoleRequestHandler extends GEvent {
         garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().retrievePast(100).queue(l -> l.forEach(m -> {
             if (m.getAuthor().isBot()) {
                 if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor().getRGB() == Constants.BLUE.getRGB()) {
-                    ids.put(m.getId(), m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", ""));
+                    String[] titleSegments = m.getEmbeds().get(0).getFooter().getText().split("-");
+                    ids.put(m.getId(), titleSegments[titleSegments.length - 1].replace(" ", "").replace("ID:", ""));
                 }
             }
         }));
