@@ -124,21 +124,23 @@ public final class MySQLUtils {
     private static String mysqlFormat(String str, Object... params) {
         final AtomicReference<String> string = new AtomicReference<>(str);
 
-        Arrays.stream(params).forEach(param -> {
-            switch (param.getClass().getSimpleName()) {
-                case "String":
-                    string.set(string.get().replaceFirst("%s", "'" + param + "'"));
-                    break;
+        if (params != null) {
+            Arrays.stream(params).forEach(param -> {
+                switch (param.getClass().getSimpleName()) {
+                    case "String":
+                        string.set(string.get().replaceFirst("%s", "'" + param + "'"));
+                        break;
 
-                case "Integer":
-                    string.set(string.get().replaceFirst("%s", Integer.toString((Integer) param)));
-                    break;
+                    case "Integer":
+                        string.set(string.get().replaceFirst("%s", Integer.toString((Integer) param)));
+                        break;
 
-                case "Long":
-                    string.set(string.get().replaceFirst("%s", Long.toString((Long) param)));
-                    break;
-            }
-        });
+                    case "Long":
+                        string.set(string.get().replaceFirst("%s", Long.toString((Long) param)));
+                        break;
+                }
+            });
+        }
 
         return string.get();
     }
