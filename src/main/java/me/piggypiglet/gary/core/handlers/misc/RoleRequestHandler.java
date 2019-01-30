@@ -89,7 +89,7 @@ public final class RoleRequestHandler extends GEvent {
                 if (ids.containsKey(id) && !user.isBot() && RoleUtils.isTrusted(e2.getMember())) {
                     e2.getChannel().getMessageById(id).queue(s -> {
                         MessageEmbed embed = s.getEmbeds().get(0);
-                        Member applicant = guild.getMemberById(embed.getAuthor().getName().split("-")[1].replace(" ", ""));
+                        Member applicant = guild.getMemberById(getTitleId(embed.getAuthor().getName()));
                         RequestableRoles role = RequestableRoles.getFromAlias(embed.getFields().get(0).getValue());
                         String formattedName = user.getName() + "#" + user.getDiscriminator();
 
@@ -167,17 +167,21 @@ public final class RoleRequestHandler extends GEvent {
             return !reserved.get(messageId).equals(authorId);
         }
 
-        return true;
+        return false;
     }
 
     public void populateMap() {
         garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().retrievePast(100).queue(l -> l.forEach(m -> {
             if (m.getAuthor().isBot()) {
                 if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor().getRGB() == Constants.BLUE.getRGB()) {
-                    String[] titleSegments = m.getEmbeds().get(0).getAuthor().getName().split("-");
-                    ids.put(m.getId(), titleSegments[titleSegments.length - 1].replace(" ", "").replace("ID:", ""));
+                    ids.put(m.getId(), m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", ""));
                 }
             }
         }));
+    }
+
+    private String getTitleId(String title) {
+        String[] titleSegments = title.split("-");
+        return titleSegments[titleSegments.length - 1].replace(" ", "");
     }
 }
