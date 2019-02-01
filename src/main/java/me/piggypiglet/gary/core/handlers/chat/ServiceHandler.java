@@ -39,8 +39,8 @@ public final class ServiceHandler extends GEvent {
         User author = message.getAuthor();
 
         if (!message.getAuthor().isBot()) {
-            switch (e.getChannel().getId()) {
-                case Constants.REQUEST_FREE:
+            switch (e.getChannel().getName()) {
+                case "request-free":
                     FormatScanner rfScanner = new FormatScanner(message);
 
                     if (!rfScanner.containsKeys("service", "request")) {
@@ -50,55 +50,55 @@ public final class ServiceHandler extends GEvent {
 
                     break;
 
-            case Constants.REQUEST_PAID:
-                FormatScanner rpScanner = new FormatScanner(message);
+                case "request-paid":
+                    FormatScanner rpScanner = new FormatScanner(message);
 
-                if (!rpScanner.containsKeys("service", "request", "budget")) {
-                    message.delete().queue();
-                    sendError(author, channel, message.getContentRaw());
-                }
-
-                break;
-
-            case Constants.RMS:
-                FormatScanner rmsScanner = new FormatScanner(message);
-
-                if (!rmsScanner.containsKeys("review") && !rmsScanner.containsKeys("name", "description", "ip")) {
-                    message.delete().queue();
-                    sendError(author, channel, message.getContentRaw());
-                }
-
-                if (rmsScanner.containsKeys()) {
-                    EmbedBuilder builder = rmsScanner.toEmbed("name", "Description", "IP", "Website");
-                    Map<String, String> values = rmsScanner.getValues();
-                    MinecraftServer server = new MinecraftServer(values.get("ip"));
-
-                    if (server.isSuccess()) {
-                        builder.addField("Extras:", "Premium: " + server.isPremium() + "\nVersion: " + server.getVersion(), false);
-                        builder.setFooter("Posted by " + author.getName() + "#" + author.getDiscriminator(), null);
-
-                        if (!server.getFavicon().equalsIgnoreCase("null")) {
-                            builder.setThumbnail("attachment://server.png");
-                            InputStream stream = new ByteArrayInputStream(Base64.getDecoder().decode(server.getFavicon().replace("\n", "").split(",")[1]));
-                            channel.sendFile(stream, "server.png", new MessageBuilder().setEmbed(builder.build()).build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
-
-                            try {
-                                stream.close();
-                            } catch (Exception e1) {
-                                e1.printStackTrace();
-                            }
-                        } else {
-                            channel.sendMessage(builder.build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
-                        }
-                    } else {
-                        String msg = Lang.getString("formats.rate-my-server.server-error", author.getAsMention());
-                        MessageUtils.sendMessage(msg, author, channel, msg);
+                    if (!rpScanner.containsKeys("service", "request", "budget")) {
+                        message.delete().queue();
+                        sendError(author, channel, message.getContentRaw());
                     }
 
-                    message.delete().queue();
-                }
+                    break;
 
-                break;
+                case "rate-my-server":
+                    FormatScanner rmsScanner = new FormatScanner(message);
+
+                    if (!rmsScanner.containsKeys("review") && !rmsScanner.containsKeys("name", "description", "ip")) {
+                        message.delete().queue();
+                        sendError(author, channel, message.getContentRaw());
+                    }
+
+                    if (rmsScanner.containsKeys()) {
+                        EmbedBuilder builder = rmsScanner.toEmbed("name", "Description", "IP", "Website");
+                        Map<String, String> values = rmsScanner.getValues();
+                        MinecraftServer server = new MinecraftServer(values.get("ip"));
+
+                        if (server.isSuccess()) {
+                            builder.addField("Extras:", "Premium: " + server.isPremium() + "\nVersion: " + server.getVersion(), false);
+                            builder.setFooter("Posted by " + author.getName() + "#" + author.getDiscriminator(), null);
+
+                            if (!server.getFavicon().equalsIgnoreCase("null")) {
+                                builder.setThumbnail("attachment://server.png");
+                                InputStream stream = new ByteArrayInputStream(Base64.getDecoder().decode(server.getFavicon().replace("\n", "").split(",")[1]));
+                                channel.sendFile(stream, "server.png", new MessageBuilder().setEmbed(builder.build()).build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
+
+                                try {
+                                    stream.close();
+                                } catch (Exception e1) {
+                                    e1.printStackTrace();
+                                }
+                            } else {
+                                channel.sendMessage(builder.build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
+                            }
+                        } else {
+                            String msg = Lang.getString("formats.rate-my-server.server-error", author.getAsMention());
+                            MessageUtils.sendMessage(msg, author, channel, msg);
+                        }
+
+                        message.delete().queue();
+                    }
+
+                    break;
             }
         }
     }
