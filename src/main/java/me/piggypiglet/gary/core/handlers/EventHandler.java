@@ -4,7 +4,7 @@ import com.google.inject.Singleton;
 import lombok.Getter;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.objects.tasks.Task;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public final class EventHandler implements EventListener {
     }
 
     @Override
-    public void onEvent(Event event) {
+    public void onEvent(GenericEvent event) {
         if (EventsEnum.contains(event)) {
             events.forEach(e -> {
                 if (Arrays.asList(e.getEvents()).contains(EventsEnum.fromEvent(event))) {

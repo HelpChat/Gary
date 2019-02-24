@@ -30,7 +30,7 @@ public final class MessageDelete extends Logger {
         Long aLong = longs.get(0);
         CompletableFuture<String> deleter = new CompletableFuture<>();
 
-        guild.getAuditLogs().limit(1).type(ActionType.MESSAGE_DELETE).queue(l -> {
+        guild.retrieveAuditLogs().limit(1).type(ActionType.MESSAGE_DELETE).queue(l -> {
             for (AuditLogEntry entry : l) {
                 User entryUser = entry.getUser();
 

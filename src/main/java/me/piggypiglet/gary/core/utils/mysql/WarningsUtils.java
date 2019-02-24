@@ -16,8 +16,8 @@ public final class WarningsUtils {
         final AtomicInteger strikes = new AtomicInteger(amount.length >= 1 ? amount[0] : 1);
         boolean success;
 
-        if (MySQLUtils.exists("gary_warnings", "user_id", userId)) {
-            strikes.set(strikes.get() + Objects.requireNonNull(MySQLUtils.getRow("gary_warnings", "user_id", userId)).getInt("strikes"));
+        if (MySQLUtils.exists("gary_warnings", new String[]{"user_id"}, new Object[]{userId})) {
+            strikes.set(strikes.get() + Objects.requireNonNull(MySQLUtils.getRow("gary_warnings", new String[] {"user_id"}, new Object[] {userId})).getInt("strikes"));
 
             success = MySQLUtils.set(
                    "gary_warnings",
@@ -31,7 +31,7 @@ public final class WarningsUtils {
                     userId, strikes.get());
         }
 
-        Task.async(r -> PunishmentUtils.update(userId, strikes.get()));
+        Task.mysqlAsync(r -> PunishmentUtils.update(userId, strikes.get()));
 
         return success;
     }
@@ -39,11 +39,11 @@ public final class WarningsUtils {
     public static boolean remove(long userId, int... amount) {
         int strikes = amount.length >= 1 ? amount[0] : 1;
 
-        if (MySQLUtils.exists("gary_warnings", "user_id", userId)) {
-            int currentStrikes = Objects.requireNonNull(MySQLUtils.getRow("gary_warnings", "user_id", userId)).getInt("strikes") - strikes;
+        if (MySQLUtils.exists("gary_warnings", new String[]{"user_id"}, new Object[]{userId})) {
+            int currentStrikes = Objects.requireNonNull(MySQLUtils.getRow("gary_warnings", new String[] {"user_id"}, new Object[] {userId})).getInt("strikes") - strikes;
 
             if (currentStrikes <= 0) {
-                return MySQLUtils.remove("gary_warnings", "user_id", userId);
+                return MySQLUtils.remove("gary_warnings", new String[]{"user_id"}, new Object[]{userId});
             }
 
             return MySQLUtils.set(

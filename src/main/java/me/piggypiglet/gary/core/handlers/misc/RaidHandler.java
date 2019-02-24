@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.handlers.misc;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 // ------------------------------
@@ -15,7 +15,7 @@ public final class RaidHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 
 //        if (e.getAuthor().getTimeCreated().getHour() <= 72) {

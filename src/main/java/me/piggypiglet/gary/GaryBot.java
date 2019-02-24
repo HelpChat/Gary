@@ -29,7 +29,6 @@ import org.reflections.Reflections;
 import java.util.Scanner;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import static me.piggypiglet.gary.core.objects.enums.Registerables.*;
@@ -115,7 +114,7 @@ public final class GaryBot {
             case MYSQL:
                 mySQLInitializer.connect();
 
-                Task.scheduleAsync(r -> giveawayHandler.populate(), 3, TimeUnit.SECONDS);
+//                Task.scheduleAsync(r -> giveawayHandler.populate(), 3, TimeUnit.SECONDS);
                 break;
 
             case CONSOLE:

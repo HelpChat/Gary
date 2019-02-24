@@ -21,14 +21,14 @@ public final class FaqUtils {
 
     public static String get(String key) {
         try {
-            return MySQLUtils.getRow("gary_faq", "key", key).getString("value");
+            return MySQLUtils.getRow("gary_faq", new String[] {"key"}, new Object[] {key}).getString("value");
         } catch (Exception ignored) {}
 
         return "null";
     }
 
     public static boolean remove(String key) {
-        return MySQLUtils.remove("gary_faq", "key", key);
+        return MySQLUtils.remove("gary_faq", new String[]{"key"}, new Object[]{key});
     }
 
     public static List<Faq> getFaqs() {

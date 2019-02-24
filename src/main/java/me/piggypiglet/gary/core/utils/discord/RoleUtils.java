@@ -38,6 +38,14 @@ public final class RoleUtils {
         return role;
     }
 
+    public static void addRole(Member member, long roleId) {
+        member.getGuild().getController().addRolesToMember(member, member.getGuild().getRoleById(roleId)).queue();
+    }
+
+    public static void removeRole(Member member, long roleId) {
+        member.getGuild().getController().removeRolesFromMember(member, member.getGuild().getRoleById(roleId)).queue();
+    }
+
     private static boolean containsRoles(Member member, Predicate<? super Long> predicate) {
         return member.getRoles().stream().map(Role::getIdLong).anyMatch(predicate);
     }

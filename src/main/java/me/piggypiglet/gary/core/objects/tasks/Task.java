@@ -18,26 +18,27 @@ import java.util.function.Consumer;
 public final class Task {
     @Inject private static GaryBot main;
 
-    private static ExecutorService executor;
-    private static ScheduledExecutorService scheduledExecutor;
-
-    private Task() {
-        executor = Executors.newFixedThreadPool(10);
-        scheduledExecutor = Executors.newScheduledThreadPool(10);
-    }
+    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(10);
+    private static final ExecutorService MYSQL_EXECUTOR = Executors.newFixedThreadPool(10);
+    private static final ScheduledExecutorService SCHEDULED_EXECUTOR = Executors.newScheduledThreadPool(10);
 
     public static void async(final Consumer<GRunnable> task, String... threadName) {
-        if (executor == null) {
-            new Task();
-        }
-
-        executor.submit(new GRunnable() {
+        EXECUTOR.submit(new GRunnable() {
             @Override
             public void run() {
                 if (threadName.length >= 1) {
                     Thread.currentThread().setName(threadName[0]);
                 }
 
+                task.accept(this);
+            }
+        });
+    }
+
+    public static void mysqlAsync(final Consumer<GRunnable> task) {
+        MYSQL_EXECUTOR.submit(new GRunnable() {
+            @Override
+            public void run() {
                 task.accept(this);
             }
         });
@@ -57,7 +58,7 @@ public final class Task {
     }
 
     public static void scheduleAsync(final Consumer<GRunnable> task, long period, TimeUnit timeUnit) {
-        scheduledExecutor.schedule(new GRunnable() {
+        SCHEDULED_EXECUTOR.schedule(new GRunnable() {
             @Override
             public void run() {
                 task.accept(this);
@@ -74,6 +75,6 @@ public final class Task {
 //    }
 
     public static void shutdown() {
-        executor.shutdownNow();
+        EXECUTOR.shutdownNow();
     }
 }

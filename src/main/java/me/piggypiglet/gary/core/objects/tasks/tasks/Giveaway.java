@@ -74,7 +74,7 @@ public final class Giveaway extends GRunnable {
         }
 
         List<User> users = new ArrayList<>();
-        message.getReactions().forEach(r -> r.getUsers().forEach(users::add));
+        message.getReactions().forEach(r -> r.retrieveUsers().forEach(users::add));
         User winner = users.get(new Random().nextInt(users.size()));
 
         message.delete().queue();

@@ -6,7 +6,7 @@ import me.piggypiglet.gary.core.utils.http.WebUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.time.ZonedDateTime;
@@ -27,7 +27,7 @@ public final class HastebinScanner extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
         String messageContent = e.getMessage().getContentRaw().toLowerCase();
 

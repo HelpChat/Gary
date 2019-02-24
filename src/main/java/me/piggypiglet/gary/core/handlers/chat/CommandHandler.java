@@ -8,7 +8,7 @@ import me.piggypiglet.gary.core.objects.enums.Roles;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.RoleUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public final class CommandHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
 
         String message = e.getMessage().getContentRaw().toLowerCase();

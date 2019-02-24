@@ -13,7 +13,7 @@ import me.piggypiglet.gary.core.utils.discord.RoleUtils;
 import me.piggypiglet.gary.core.utils.misc.QuestionnaireUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import sh.okx.timeapi.TimeAPI;
@@ -40,7 +40,7 @@ public final class RoleRequestHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         switch (EventsEnum.fromEvent(event)) {
             case MESSAGE_CREATE:
                 GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
@@ -87,7 +87,7 @@ public final class RoleRequestHandler extends GEvent {
                 Guild guild = e2.getGuild();
 
                 if (ids.containsKey(id) && !user.isBot() && RoleUtils.isTrusted(e2.getMember())) {
-                    e2.getChannel().getMessageById(id).queue(s -> {
+                    e2.getChannel().retrieveMessageById(id).queue(s -> {
                         MessageEmbed embed = s.getEmbeds().get(0);
                         Member applicant = guild.getMemberById(getTitleId(embed.getAuthor().getName()));
                         RequestableRoles role = RequestableRoles.getFromAlias(embed.getFields().get(0).getValue());

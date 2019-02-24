@@ -24,14 +24,14 @@ public final class SettingsUtils {
             case CHAT_REACTION: v[4] = 1; break;
         }
 
-        if (!MySQLUtils.exists("gary_settings", "user_id", userID)) {
+        if (!MySQLUtils.exists("gary_settings", new String[]{"user_id"}, new Object[]{userID})) {
             MySQLUtils.create("gary_settings", new String[] {"user_id", "global_announcements", "plugin_updates", "papi_git", "clip_ping", "chat_reaction"}, userID, v[0], v[1], v[2], v[3], v[4]);
         }
     }
 
-    public static void set(ChatSettings setting, long userID, int value) {
+    public static void set(ChatSettings setting, long userId, int value) {
         if (value == 0) {
-            DbRow row = MySQLUtils.getRow("gary_settings", "user_id", userID);
+            DbRow row = MySQLUtils.getRow("gary_settings", new String[] {"user_id"}, new Object[] {userId});
             List<String> columns = new ArrayList<>();
             Stream.of("global_announcements", "plugin_updates", "papi_git", "clip_ping", "chat_reaction").forEach(columns::add);
             columns.remove(setting.toString().toLowerCase());
@@ -39,11 +39,11 @@ public final class SettingsUtils {
             assert row != null;
 
             if (columns.stream().allMatch(s -> row.getInt(s) == 0)) {
-                MySQLUtils.remove("gary_settings", "user_id", userID);
+                MySQLUtils.remove("gary_settings", new String[]{"user_id"}, new Object[]{userId});
                 return;
             }
         }
 
-        MySQLUtils.set("gary_settings", new AbstractMap.SimpleEntry<>("user_id", userID), new AbstractMap.SimpleEntry<>(new String[]{setting.toString().toLowerCase()}, new Object[]{value}));
+        MySQLUtils.set("gary_settings", new AbstractMap.SimpleEntry<>("user_id", userId), new AbstractMap.SimpleEntry<>(new String[]{setting.toString().toLowerCase()}, new Object[]{value}));
     }
 }

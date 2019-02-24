@@ -60,3 +60,22 @@ CREATE TABLE `gary_giveaways` (
 	`time_left` BIGINT NULL,
 	PRIMARY KEY (`id`)
 ) COLLATE='utf8_general_ci' ENGINE=InnoDB;
+
+-
+
+CREATE TABLE `gary_bumps` (
+	`id` SMALLINT(6) NOT NULL AUTO_INCREMENT,
+	`user_id` BIGINT NULL,
+	`message` TEXT NULL,
+	PRIMARY KEY (`id`)
+) COLLATE='utf8_general_ci' ENGINE=InnoDB;
+
+-
+
+CREATE TABLE `gary_levels` (
+	`id` SMALLINT(6) NOT NULL AUTO_INCREMENT,
+	`user_id` TEXT NULL,
+	`xp` MEDIUMINT(9) NULL,
+	`lvl` SMALLINT(6) NULL,
+	PRIMARY KEY (`id`)
+) COLLATE='utf8_general_ci' ENGINE=InnoDB;

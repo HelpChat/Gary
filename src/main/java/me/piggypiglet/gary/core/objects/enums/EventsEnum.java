@@ -1,6 +1,6 @@
 package me.piggypiglet.gary.core.objects.enums;
 
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.channel.text.TextChannelDeleteEvent;
 import net.dv8tion.jda.api.events.channel.voice.VoiceChannelCreateEvent;
@@ -51,13 +51,13 @@ public enum EventsEnum {
     VOICE_MOVE(GuildVoiceMoveEvent.class),
     UNKNOWN(null);
 
-    private final Class<? extends Event> event;
+    private final Class<? extends GenericEvent> event;
 
-    EventsEnum(Class<? extends Event> c) {
+    EventsEnum(Class<? extends GenericEvent> c) {
         this.event = c;
     }
 
-    public static EventsEnum fromEvent(Event e) {
+    public static EventsEnum fromEvent(GenericEvent e) {
         for (EventsEnum type : values()) {
             if (type.event == e.getClass()) {
                 return type;
@@ -67,7 +67,7 @@ public enum EventsEnum {
         return UNKNOWN;
     }
 
-    public static boolean contains(Event e) {
+    public static boolean contains(GenericEvent e) {
         for (EventsEnum type : values()) {
             if (type.event == e.getClass()) {
                 return true;

@@ -26,7 +26,7 @@ public final class MySQLUtils {
         for (Object ignored : values) valuesBuilder.append(", ").append("%s");
         valuesBuilder.append(");");
 
-        Task.async(r -> {
+        Task.mysqlAsync(r -> {
             try {
                 DB.executeInsert(mysqlFormat("INSERT INTO " + table + " " + keysBuilder.toString() + " VALUES " + valuesBuilder.toString(), values));
                 success.complete(true);
@@ -64,7 +64,7 @@ public final class MySQLUtils {
             replacements.append(replaceKeys[replaceKeysLength - 1]).append("=").append("%s");
 
             try {
-                if (exists(table, location.getKey(), location.getValue())) {
+                if (exists(table, new String[]{location.getKey()}, new Object[]{location.getValue()})) {
                     DB.executeUpdateAsync("UPDATE `" + table + "` SET " + mysqlFormat(replacements.toString(), replaceValues) + " WHERE `" + location.getKey() + "`=?;", location.getValue());
                     success = true;
                 }
@@ -76,9 +76,11 @@ public final class MySQLUtils {
         return success;
     }
 
-    public static DbRow getRow(String table, String key, Object value) {
+    public static DbRow getRow(String table, String[] keys, Object[] values) {
+        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys), values) + "`";
+
         try {
-            return DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE `" + key + "`=?;", value).get();
+            return DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE `" + key + ";").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,12 +98,13 @@ public final class MySQLUtils {
         return new ArrayList<>();
     }
 
-    public static boolean remove(String table, String key, Object value) {
+    public static boolean remove(String table, String[] keys, Object[] values) {
         boolean success = false;
+        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys), values) + "`";
 
         try {
-            if (exists(table, key, value)) {
-                DB.executeUpdateAsync("DELETE FROM `" + table + "` WHERE `" + key + "`=?;", value);
+            if (exists(table, keys, values)) {
+                DB.executeUpdateAsync("DELETE FROM `" + table + "` WHERE " + key + ";");
                 success = true;
             }
         } catch (Exception e) {
@@ -111,11 +114,12 @@ public final class MySQLUtils {
         return success;
     }
 
-    public static boolean exists(String table, String key, Object value) {
+    public static boolean exists(String table, String[] keys, Object[] values) {
+        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys), values) + "`";
         boolean exists = false;
 
         try {
-            exists = DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE `" + key + "`=?;", value).get() != null;
+            exists = DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE " + key + ";").get() != null;
         } catch (Exception ignored) {}
 
         return exists;

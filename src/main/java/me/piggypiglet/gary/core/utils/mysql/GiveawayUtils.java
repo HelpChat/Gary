@@ -37,7 +37,7 @@ public final class GiveawayUtils {
         while (!message.isDone()) {}
 
         try {
-            return MySQLUtils.remove("gary_giveaways", "message_id", message.get().getIdLong());
+            return MySQLUtils.remove("gary_giveaways", new String[]{"message_id"}, new Object[]{message.get().getIdLong()});
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public final class GiveawayUtils {
                 .setPrize(r.getString("prize"))
                 .setTime(new TimeAPI(r.getString("time")))
                 .setTimeLeft(new TimeAPI(r.getLong("time_left") + "secs"))
-                .build(garyBot, guild.getTextChannelById(Constants.GIVEAWAY).getMessageById(r.getLong("message_id")).complete())
+                .build(garyBot, guild.getTextChannelById(Constants.GIVEAWAY).retrieveMessageById(r.getLong("message_id")).complete())
         ).collect(Collectors.toList());
     }
 }

@@ -10,7 +10,7 @@ import me.piggypiglet.gary.core.utils.mysql.MessageUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberLeaveEvent;
@@ -38,7 +38,7 @@ public final class LoggingHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         switch (EventsEnum.fromEvent(event)) {
             case MEMBER_JOIN:
                 GuildMemberJoinEvent e = (GuildMemberJoinEvent) event;

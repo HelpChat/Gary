@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.handlers.chat;
+package me.piggypiglet.gary.core.handlers.misc.services;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
@@ -7,12 +7,13 @@ import me.piggypiglet.gary.core.objects.services.FormatScanner;
 import me.piggypiglet.gary.core.objects.services.MinecraftServer;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
+import me.piggypiglet.gary.core.utils.discord.RoleUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GenericGuildMessageEvent;
 import sh.okx.timeapi.TimeAPI;
 
@@ -32,45 +33,52 @@ public final class ServiceHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         GenericGuildMessageEvent e = (GenericGuildMessageEvent) event;
         TextChannel channel = e.getChannel();
-        Message message = channel.getMessageById(e.getMessageId()).complete();
+        Message message = channel.retrieveMessageById(e.getMessageId()).complete();
         User author = message.getAuthor();
+        FormatScanner scanner = new FormatScanner(message);
 
-        if (!message.getAuthor().isBot()) {
+        if (!author.isBot()) {
+            boolean isRequest = false;
+
             switch (e.getChannel().getName()) {
-                case "request-free":
-                    FormatScanner rfScanner = new FormatScanner(message);
+                case "offer-services":
+                    RoleUtils.addRole(message.getMember(), Constants.OS_MUTE);
+                    break;
 
-                    if (!rfScanner.containsKeys("service", "request")) {
+                case "request-free":
+                    if (!scanner.containsKeys("service", "request")) {
                         message.delete().queue();
                         sendError(author, channel, message.getContentRaw());
+                    } else {
+                        RoleUtils.addRole(message.getMember(), Constants.RF_MUTE);
                     }
 
+                    isRequest = true;
                     break;
 
                 case "request-paid":
-                    FormatScanner rpScanner = new FormatScanner(message);
-
-                    if (!rpScanner.containsKeys("service", "request", "budget")) {
+                    if (scanner.containsKeys("service", "request", "budget")) {
                         message.delete().queue();
                         sendError(author, channel, message.getContentRaw());
+                    } else {
+                        RoleUtils.addRole(message.getMember(), Constants.RP_MUTE);
                     }
 
+                    isRequest = true;
                     break;
 
                 case "rate-my-server":
-                    FormatScanner rmsScanner = new FormatScanner(message);
-
-                    if (!rmsScanner.containsKeys("review") && !rmsScanner.containsKeys("name", "description", "ip")) {
+                    if (!scanner.containsKeys("review") && !scanner.containsKeys("name", "description", "ip")) {
                         message.delete().queue();
                         sendError(author, channel, message.getContentRaw());
                     }
 
-                    if (rmsScanner.containsKeys()) {
-                        EmbedBuilder builder = rmsScanner.toEmbed("name", "Description", "IP", "Website");
-                        Map<String, String> values = rmsScanner.getValues();
+                    if (scanner.containsKeys("name", "description", "ip")) {
+                        EmbedBuilder builder = scanner.toEmbed("name", "Description", "IP", "Website");
+                        Map<String, String> values = scanner.getValues();
                         MinecraftServer server = new MinecraftServer(values.get("ip"));
 
                         if (server.isSuccess()) {
@@ -96,9 +104,15 @@ public final class ServiceHandler extends GEvent {
                         }
 
                         message.delete().queue();
+                        RoleUtils.addRole(message.getMember(), Constants.RMS_MUTE);
                     }
 
+                    isRequest = true;
                     break;
+            }
+
+            if (isRequest) {
+                message.addReaction("\uD83D\uDEE0").queue();
             }
         }
     }

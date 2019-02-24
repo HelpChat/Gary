@@ -2,7 +2,7 @@ package me.piggypiglet.gary.core.handlers.chat;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -20,9 +20,9 @@ public final class SpamHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
 //        GenericGuildMessageEvent e = (GenericGuildMessageEvent) event;
-//        Message message = e.getChannel().getMessageById(e.getMessageId()).complete();
+//        Message message = e.getChannel().retrieveMessageById(e.getMessageId()).complete();
 //        if (message.getAuthor().isBot()) return;
 //        if (messages.contains(message.getContentRaw())) {
 //            message.delete().queue();

@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.EventListener;
@@ -23,9 +23,9 @@ import java.util.concurrent.atomic.AtomicReference;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class EventUtils {
-    private static Event pullEvent(EventsEnum event, JDA jda) {
+    private static GenericEvent pullEvent(EventsEnum event, JDA jda) {
         final Logger logger = LoggerFactory.getLogger("Event Puller");
-        final AtomicReference<Event> pulledEvent = new AtomicReference<>();
+        final AtomicReference<GenericEvent> pulledEvent = new AtomicReference<>();
 
         EventListener listener = l -> {
             if (EventsEnum.fromEvent(l) == event) {
@@ -69,7 +69,7 @@ public final class EventUtils {
         CompletableFuture<MessageReaction> future = new CompletableFuture<>();
         GuildMessageReactionAddEvent e = (GuildMessageReactionAddEvent) pullEvent(EventsEnum.MESSAGE_REACTION_ADD, jda);
 
-        while (message.getChannel().getMessageById(e.getMessageId()).complete() != message || e.getUser() != user) {
+        while (message.getChannel().retrieveMessageById(e.getMessageId()).complete() != message || e.getUser() != user) {
             e = (GuildMessageReactionAddEvent) pullEvent(EventsEnum.MESSAGE_REACTION_ADD, jda);
         }
 

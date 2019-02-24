@@ -9,7 +9,7 @@ import me.piggypiglet.gary.core.objects.paginations.PaginationSet;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.MessageReaction;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
 
@@ -29,7 +29,7 @@ public final class PaginationHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         switch (EventsEnum.fromEvent(event)) {
             case MESSAGE_REACTION_ADD:
                 GuildMessageReactionAddEvent e = (GuildMessageReactionAddEvent) event;
@@ -48,7 +48,7 @@ public final class PaginationHandler extends GEvent {
 
                         if (newPage != null) {
                             Object newMessage = newPage.getMessage();
-                            Message message = e.getChannel().getMessageById(messageId).complete();
+                            Message message = e.getChannel().retrieveMessageById(messageId).complete();
 
                             if (newMessage instanceof String) {
                                 message.editMessage((String) newMessage).queue();

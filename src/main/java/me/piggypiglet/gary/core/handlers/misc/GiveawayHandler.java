@@ -10,7 +10,7 @@ import me.piggypiglet.gary.core.objects.tasks.tasks.Giveaway;
 import me.piggypiglet.gary.core.utils.mysql.GiveawayUtils;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.events.Event;
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GenericGuildMessageReactionEvent;
 
 import java.util.Map;
@@ -30,7 +30,7 @@ public final class GiveawayHandler extends GEvent {
     }
 
     @Override
-    protected void execute(Event event) {
+    protected void execute(GenericEvent event) {
         GenericGuildMessageReactionEvent e = (GenericGuildMessageReactionEvent) event;
 
         if (!e.getUser().isBot() && e.getReactionEmote().getName().equalsIgnoreCase(Constants.THUMBSUP) && e.getMessageIdLong() == Constants.GIVEAWAY_MESSAGE) {
