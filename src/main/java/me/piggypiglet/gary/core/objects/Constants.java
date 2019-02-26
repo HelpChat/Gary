@@ -10,7 +10,7 @@ public final class Constants {
     public static final long GARY = 411094432402636802L, LOG = 434652560939286528L, GIVEAWAY = 411094432402636802L, STAFF = 164618267586068480L;
     public static final long ROLE_REQUEST = 538559611234680862L, TBD_REQUESTS = 538559931968651284L;
     public static final long ARTIST_CHAT = 485396430169833482L, BUILDER_CHAT = 485396325735727104L, DEVELOPER_CHAT = 346972410282508299L, SERVER_OWNER_CHAT = 346973021023633408L;
-    public static final String[] CHANNELS = {"164280494874165248", "165129131770511360", "339773683469910016", "529516755698188288", "529516757162131468", "529516758940385280", "529516760492146738", "452279708856614912", "382856648064237568", "473609716371554334", "164523548390457355", "481451745990541314", "485396430169833482", "485396325735727104", "346972410282508299", "346973021023633408", "455441750035791903", "430620491276091402", "339674158596358145", "373010561794834432", "335627263175294989", "421440696801558529", "480577005612433418", "526221471349997599"};
+    public static final String[] CHANNELS = {"plugin-help", "development", "plugin-ideas", "offer-services", "rate-my-server", "request-free", "request-paid", "showcase", "minecraft", "off-topic", "role-request", "artist-chat", "builder-chat", "developer-chat", "server-owner-chat", "staff-chat", "helpful-hangout", "papi-private"};
     public static final String[] SERVICE_CHANNELS = {"offer-services", "rate-my-server", "request-free", "request-paid"};
 
     public static final long SERVICES = 382856487589904395L;

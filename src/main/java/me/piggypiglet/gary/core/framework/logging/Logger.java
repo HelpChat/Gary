@@ -76,6 +76,7 @@ public abstract class Logger {
 
         try {
             MessageEmbed messageEmbed = send();
+            clearAll();
 
             if (messageEmbed != null) {
                 jda.getTextChannelById(Constants.LOG).sendMessage(messageEmbed).queue();
@@ -85,5 +86,16 @@ public abstract class Logger {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void clearAll() {
+        users.clear();
+        textChannels.clear();
+        voiceChannels.clear();
+        messages.clear();
+        list.clear();
+        longs.clear();
+        strings.clear();
+        other = null;
     }
 }

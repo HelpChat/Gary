@@ -68,7 +68,7 @@ public final class LoggingHandler extends GEvent {
             case MESSAGE_EDIT:
                 GuildMessageUpdateEvent e5 = (GuildMessageUpdateEvent) event;
 
-                if (!e5.getAuthor().isBot() && StringUtils.equalsIgnoreCase(e5.getChannel().getId(), Constants.CHANNELS)) {
+                if (!e5.getAuthor().isBot() && StringUtils.equalsIgnoreCase(e5.getChannel().getName(), Constants.CHANNELS)) {
                     log(EventsEnum.MESSAGE_EDIT, e5.getJDA(), e5.getGuild(), e5.getAuthor(), e5.getChannel(), e5.getMessage());
                 }
 
@@ -77,7 +77,7 @@ public final class LoggingHandler extends GEvent {
             case MESSAGE_DELETE:
                 GuildMessageDeleteEvent e6 = (GuildMessageDeleteEvent) event;
 
-                if ((StringUtils.equalsIgnoreCase(e6.getChannel().getId(), Constants.CHANNELS))) {
+                if ((StringUtils.equalsIgnoreCase(e6.getChannel().getName(), Constants.CHANNELS))) {
                     log(EventsEnum.MESSAGE_DELETE, e6.getJDA(), e6.getGuild(), MessageUtils.getAuthor(e6.getMessageIdLong()), e6.getChannel(), e6.getMessageIdLong(), MessageUtils.getMessage(e6.getMessageIdLong()));
                 }
 
@@ -86,7 +86,7 @@ public final class LoggingHandler extends GEvent {
             case MESSAGE_BULK_DELETE:
                 MessageBulkDeleteEvent e7 = (MessageBulkDeleteEvent) event;
 
-                if ((StringUtils.equalsIgnoreCase(e7.getChannel().getId(), Constants.CHANNELS))) {
+                if ((StringUtils.equalsIgnoreCase(e7.getChannel().getName(), Constants.CHANNELS))) {
                     log(EventsEnum.MESSAGE_BULK_DELETE, e7.getJDA(), e7.getGuild(), e7.getChannel(), e7.getMessageIds());
                 }
 
