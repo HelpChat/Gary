@@ -7,7 +7,6 @@ import me.piggypiglet.gary.core.objects.services.FormatScanner;
 import me.piggypiglet.gary.core.objects.services.MinecraftServer;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
-import me.piggypiglet.gary.core.utils.discord.RoleUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -45,7 +44,7 @@ public final class ServiceHandler extends GEvent {
 
             switch (e.getChannel().getName()) {
                 case "offer-services":
-                    RoleUtils.addRole(message.getMember(), Constants.OS_MUTE);
+//                    RoleUtils.addRole(message.getMember(), Constants.OS_MUTE);
                     break;
 
                 case "request-free":
@@ -53,7 +52,7 @@ public final class ServiceHandler extends GEvent {
                         message.delete().queue();
                         sendError(author, channel, message.getContentRaw());
                     } else {
-                        RoleUtils.addRole(message.getMember(), Constants.RF_MUTE);
+//                        RoleUtils.addRole(message.getMember(), Constants.RF_MUTE);
                     }
 
                     isRequest = true;
@@ -64,7 +63,7 @@ public final class ServiceHandler extends GEvent {
                         message.delete().queue();
                         sendError(author, channel, message.getContentRaw());
                     } else {
-                        RoleUtils.addRole(message.getMember(), Constants.RP_MUTE);
+//                        RoleUtils.addRole(message.getMember(), Constants.RP_MUTE);
                     }
 
                     isRequest = true;
@@ -104,7 +103,7 @@ public final class ServiceHandler extends GEvent {
                         }
 
                         message.delete().queue();
-                        RoleUtils.addRole(message.getMember(), Constants.RMS_MUTE);
+//                        RoleUtils.addRole(message.getMember(), Constants.RMS_MUTE);
                     }
 
                     isRequest = true;
