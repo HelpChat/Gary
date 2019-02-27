@@ -109,10 +109,10 @@ public final class ServiceHandler extends GEvent {
                     isRequest = true;
                     break;
             }
-
-            if (isRequest) {
-                message.addReaction("\uD83D\uDEE0").queue();
-            }
+//
+//            if (isRequest) {
+//                message.addReaction("\uD83D\uDEE0").queue();
+//            }
         }
     }
 
