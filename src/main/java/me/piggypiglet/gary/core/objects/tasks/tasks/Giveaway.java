@@ -8,6 +8,7 @@ import me.piggypiglet.gary.core.objects.giveaways.GiveawayBuilder;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
+import me.piggypiglet.gary.core.utils.misc.GaryInfoUtils;
 import me.piggypiglet.gary.core.utils.mysql.GiveawayUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
@@ -52,7 +53,7 @@ public final class Giveaway extends GRunnable {
                             .setDescription(channel.getGuild().getPublicRole().getAsMention())
                             .addField("Prize:", prize, false)
                             .addField("Time:", time.getOgTime(), false)
-                            .setFooter("Gary v" + GaryBot.getVersion(), garyBot.getJda().getSelfUser().getEffectiveAvatarUrl())
+                            .setFooter("Gary v" + GaryInfoUtils.getVersion(), garyBot.getJda().getSelfUser().getEffectiveAvatarUrl())
                             .setTimestamp(ZonedDateTime.now())
                             .build()
             ).queue(s -> {

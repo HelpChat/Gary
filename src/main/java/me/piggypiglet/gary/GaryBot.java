@@ -44,7 +44,6 @@ public final class GaryBot {
     @Getter private JDA jda;
     @Getter private Injector injector;
 
-    @Inject private static GFile sGFile;
     @Inject private GFile gFile;
     @Inject private MySQLInitializer mySQLInitializer;
 
@@ -149,9 +148,5 @@ public final class GaryBot {
      */
     public void queue(GRunnable gRunnable) {
         queue.add(gRunnable);
-    }
-
-    public static String getVersion() {
-        return sGFile.getFileConfiguration("embed").getString("version");
     }
 }

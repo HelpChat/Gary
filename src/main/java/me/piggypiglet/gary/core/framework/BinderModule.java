@@ -6,10 +6,10 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
-import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.objects.tasks.Task;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.http.HasteUtils;
+import me.piggypiglet.gary.core.utils.misc.GaryInfoUtils;
 import me.piggypiglet.gary.core.utils.misc.PunishmentUtils;
 import me.piggypiglet.gary.core.utils.mysql.GiveawayUtils;
 import me.piggypiglet.gary.core.utils.mysql.MessageUtils;
@@ -35,7 +35,7 @@ public final class BinderModule extends AbstractModule {
     @SuppressWarnings("unchecked")
     public void configure() {
         bind(clazz).toInstance(clazz);
-        requestStaticInjection(HasteUtils.class, MessageUtils.class, Task.class, Lang.class, PunishmentUtils.class, GiveawayUtils.class, me.piggypiglet.gary.core.utils.discord.MessageUtils.class, GaryBot.class);
+        requestStaticInjection(HasteUtils.class, MessageUtils.class, Task.class, Lang.class, PunishmentUtils.class, GiveawayUtils.class, me.piggypiglet.gary.core.utils.discord.MessageUtils.class, GaryInfoUtils.class);
     }
 
     @Provides

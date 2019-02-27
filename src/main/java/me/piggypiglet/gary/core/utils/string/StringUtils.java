@@ -67,6 +67,6 @@ public final class StringUtils {
         replacements.forEach(s -> msg.set(msg.get().replaceFirst(s, "")));
         String[] args = msg.get().trim().split("\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 
-        return args.length == 0 ? new String[] {} : args;
+        return args.length == 0 ? new String[] {} : args.length == 1 ? args[0].isEmpty() ? new String[] {} : args : args;
     }
 }
