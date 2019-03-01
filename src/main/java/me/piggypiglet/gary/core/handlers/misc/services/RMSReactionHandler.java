@@ -26,7 +26,9 @@ public final class RMSReactionHandler extends GEvent {
         if (e.getChannel().getName().equalsIgnoreCase("rate-my-server") && !e.getUser().isBot()) {
             Message message = e.getChannel().retrieveMessageById(e.getMessageId()).complete();
             List<MessageReaction> reactions = new ArrayList<>(message.getReactions());
-            reactions.remove(e.getReaction());
+            // this exception will never happen, so can be ignored
+            //noinspection OptionalGetWithoutIsPresent
+            reactions.remove(reactions.stream().filter(r -> r.toString().equals(e.getReaction().toString())).findFirst().get());
 
             if (reactions.stream().anyMatch(d -> d.retrieveUsers().complete().contains(e.getUser()))) {
                 e.getReaction().removeReaction(e.getUser()).queue();
