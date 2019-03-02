@@ -42,8 +42,6 @@ public final class FormatScanner {
 
             values.put(key.trim(), value.trim());
         }
-
-        System.out.println(values);
     }
 
     /**
