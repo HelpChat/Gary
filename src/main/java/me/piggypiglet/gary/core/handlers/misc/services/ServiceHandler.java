@@ -8,7 +8,6 @@ import me.piggypiglet.gary.core.objects.services.MinecraftServer;
 import me.piggypiglet.gary.core.storage.file.Lang;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -59,7 +58,7 @@ public final class ServiceHandler extends GEvent {
                     break;
 
                 case "request-paid":
-                    if (scanner.containsKeys("service", "request", "budget")) {
+                    if (!scanner.containsKeys("service", "request", "budget")) {
                         message.delete().queue();
                         sendError(author, channel, message.getContentRaw());
                     } else {
@@ -87,7 +86,7 @@ public final class ServiceHandler extends GEvent {
                             if (!server.getFavicon().equalsIgnoreCase("null")) {
                                 builder.setThumbnail("attachment://server.png");
                                 InputStream stream = new ByteArrayInputStream(Base64.getDecoder().decode(server.getFavicon().replace("\n", "").split(",")[1]));
-                                channel.sendFile(stream, "server.png", new MessageBuilder().setEmbed(builder.build()).build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
+                                channel.sendFile(stream, "server.png").embed(builder.build()).queue(s -> Arrays.stream(Constants.RATINGS).forEach(em -> s.addReaction(e.getJDA().getEmoteById(em)).queue()));
 
                                 try {
                                     stream.close();
