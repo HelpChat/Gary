@@ -77,10 +77,10 @@ public final class MySQLUtils {
     }
 
     public static DbRow getRow(String table, String[] keys, Object[] values) {
-        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys), values) + "`";
+        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys) + "`=%s", values);
 
         try {
-            return DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE `" + key + ";").get();
+            return DB.getFirstRowAsync("SELECT * FROM `" + table + "` WHERE " + key + ";").get();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public final class MySQLUtils {
 
     public static boolean remove(String table, String[] keys, Object[] values) {
         boolean success = false;
-        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys), values) + "`";
+        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys) + "`=%s", values);
 
         try {
             if (exists(table, keys, values)) {
@@ -115,7 +115,7 @@ public final class MySQLUtils {
     }
 
     public static boolean exists(String table, String[] keys, Object[] values) {
-        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys), values) + "`";
+        String key = "`" + mysqlFormat(String.join("`=%s AND `", keys) + "`=%s", values);
         boolean exists = false;
 
         try {

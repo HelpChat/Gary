@@ -21,7 +21,7 @@ public final class FaqUtils {
 
     public static String get(String key) {
         try {
-            return MySQLUtils.getRow("gary_faq", new String[] {"key"}, new Object[] {key}).getString("value");
+            return MySQLUtils.getRow("gary_faq", new String[]{"key"}, new Object[]{key}).getString("value");
         } catch (Exception ignored) {}
 
         return "null";
