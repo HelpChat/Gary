@@ -10,6 +10,7 @@ import me.piggypiglet.gary.core.objects.enums.RequestableRoles;
 import me.piggypiglet.gary.core.objects.services.FormatScanner;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
 import me.piggypiglet.gary.core.utils.discord.RoleUtils;
+import me.piggypiglet.gary.core.utils.http.HasteUtils;
 import me.piggypiglet.gary.core.utils.misc.QuestionnaireUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.*;
@@ -66,7 +67,7 @@ public final class RoleRequestHandler extends GEvent {
                                         .setColor(Constants.BLUE)
                                         .setAuthor(author.getName() + "#" + author.getDiscriminator() + " - " + author.getId(), null, author.getEffectiveAvatarUrl())
                                         .addField("Requesting: ", values.get("role"), false)
-                                        .setDescription("```" + values.get("proof") + "```")
+                                        .setDescription(HasteUtils.haste(values.get("proof")))
                                         .setFooter("ID: " + message.getId() + " - React with ✅ to approve - React with ❌ to deny", null)
                                         .setTimestamp(ZonedDateTime.now())
                                         .build()
