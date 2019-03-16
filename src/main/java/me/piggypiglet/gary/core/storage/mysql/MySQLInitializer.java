@@ -23,7 +23,7 @@ public final class MySQLInitializer {
         // all mysql tasks are on their own executor except for the connection, which should be on the main executor
         Task.async(r -> {
             final FileConfiguration config = gFile.getFileConfiguration("config");
-            final String[] tables = {"gary_faq", "gary_messages", "gary_stats", "gary_settings", "gary_warnings", "gary_giveaways", "gary_bumps", "gary_levels"};
+            final String[] tables = {"gary_faq", "gary_messages", "gary_stats", "gary_settings", "gary_warnings", "gary_giveaways", "gary_bumps", "gary_levels", "gary_fools"};
             final String[] schemas = ((String) gFile.getItemMaps().get("schema").get("file-content")).split("-");
 
             DatabaseOptions options = DatabaseOptions.builder().mysql(

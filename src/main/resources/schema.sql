@@ -21,8 +21,9 @@ CREATE TABLE `gary_messages` (
 
 CREATE TABLE `gary_stats` (
   `id` SMALLINT NOT NULL AUTO_INCREMENT,
-  `user_id` BIGINT NULL,
-  `wins` SMALLINT NULL,
+  `user_id` TEXT NULL,
+  `wins` SMALLINT NULL DEFAULT '0',
+  `streaks` SMALLINT(6) NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) COLLATE = 'utf8_general_ci' ENGINE = InnoDB;
 
@@ -55,8 +56,7 @@ CREATE TABLE `gary_giveaways` (
 	`message_id` BIGINT NULL,
 	`author_id` BIGINT NULL,
 	`prize` TEXT NULL,
-	`emote` TEXT NULL,
-	`time` TEXT NULL,
+	`time` BIGINT NULL,
 	`time_left` BIGINT NULL,
 	PRIMARY KEY (`id`)
 ) COLLATE='utf8_general_ci' ENGINE=InnoDB;
@@ -77,5 +77,14 @@ CREATE TABLE `gary_levels` (
 	`user_id` TEXT NULL,
 	`xp` MEDIUMINT(9) NULL,
 	`lvl` SMALLINT(6) NULL,
+	PRIMARY KEY (`id`)
+) COLLATE='utf8_general_ci' ENGINE=InnoDB;
+
+-
+
+CREATE TABLE `gary_fools` (
+	`id` SMALLINT(6) NOT NULL AUTO_INCREMENT,
+	`user_id` TEXT NULL,
+	`coins` INT(11) NULL,
 	PRIMARY KEY (`id`)
 ) COLLATE='utf8_general_ci' ENGINE=InnoDB;
