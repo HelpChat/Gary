@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands.placeholderapi;
+package me.piggypiglet.gary.commands.faq;
 
 import me.piggypiglet.gary.core.framework.commands.Command;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
@@ -7,14 +7,14 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 // Copyright (c) PiggyPiglet 2019
 // https://www.piggypiglet.me
 // ------------------------------
-public final class PapiCommand extends Command {
-    public PapiCommand() {
-        super("papi");
-        options.setDescription("Papi command");
+public final class FaqCommand extends Command {
+    public FaqCommand() {
+        super("faq");
+        options.setDescription("Retired command.");
     }
 
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
-        e.getChannel().sendMessage("Gary's placeholderapi system is retired, please use <@510750938672136193> with `-papi <expansion name>`.").queue();
+        e.getChannel().sendMessage("This command is retired, please use <@532800069565546496>'s `=faq <faq name>` command.").queue();
     }
 }
