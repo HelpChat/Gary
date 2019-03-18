@@ -10,5 +10,12 @@
   "mysql-host": "<IP>:<PORT>",
   "mysql-username": "<USERNAME>",
   "mysql-db": "<DB>",
-  "mysql-password": "<PASSWORD>"
+  "mysql-password": "<PASSWORD>",
+
+  "raid-words": [
+    ""
+  ],
+  "allowed-links": [
+    ""
+  ]
 }
