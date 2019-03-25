@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.core.handlers.misc;
+package me.piggypiglet.gary.core.handlers.chat;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;

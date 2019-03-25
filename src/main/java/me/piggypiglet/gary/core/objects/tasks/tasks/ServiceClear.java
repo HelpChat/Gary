@@ -56,7 +56,7 @@ public final class ServiceClear extends GRunnable {
                             c.sendMessage(Lang.getALString( prefix + "channel-message",
                                     Lang.getALString(prefix + "requirements"),
                                     Lang.getALString(prefix + "template"),
-                                    ZonedDateTime.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH))).queue();
+                                    ZonedDateTime.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH))).queue(m -> m.pin().queue());
                             c.getManager().setParent(c.getGuild().getCategoryById(Constants.SERVICES)).queue();
                         });
             });
