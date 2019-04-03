@@ -45,7 +45,7 @@ public enum EventsEnum {
     ROLE_UPDATE(RoleUpdateColorEvent.class),
     ROLE_GIVE(GuildMemberRoleAddEvent.class),
     ROLE_REMOVE(GuildMemberRoleRemoveEvent.class),
-    NICKNAME_CHANGE(GuildMemberNickChangeEvent.class),
+    NICKNAME_CHANGE(GuildMemberUpdateNicknameEvent.class),
     VOICE_JOIN(GuildVoiceJoinEvent.class),
     VOICE_LEAVE(GuildVoiceLeaveEvent.class),
     VOICE_MOVE(GuildVoiceMoveEvent.class),

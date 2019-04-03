@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'me.piggypiglet'
-version = '4.0.5.1'
+version = '4.0.5.2'
 mainClassName = 'me.piggypiglet.gary.GaryBootstrap'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -43,6 +43,7 @@ dependencies {
     compile 'com.zaxxer:HikariCP:2.4.1'
     compile 'org.jsoup:jsoup:1.11.3'
     compile 'com.kcthota:emoji4j:5.0'
+    compile 'me.xdrop:fuzzywuzzy:+'
 }
 
 lombok {

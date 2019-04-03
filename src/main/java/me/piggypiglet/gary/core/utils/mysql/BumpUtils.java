@@ -10,6 +10,8 @@ public final class BumpUtils {
     }
 
     public static boolean contains(long userId, String message) {
+//        List<DbRow> rows =
+
         return MySQLUtils.exists("gary_bumps", new String[]{"user_id", "message"}, new Object[]{userId, message});
     }
 }

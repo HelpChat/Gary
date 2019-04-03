@@ -133,7 +133,7 @@ public final class MySQLUtils {
                 switch (param.getClass().getSimpleName()) {
                     case "String":
                         // prevent gary seizures and injection
-                        string.set(string.get().replaceFirst("%s", "'" + ((String) param).replaceAll("[^A-Za-z0-9 ]", "") + "'"));
+                        string.set(string.get().replaceFirst("%s", "'" + ((String) param).replaceAll("[^A-Za-z0-9.\\-_:<>@\\s ]", "") + "'"));
                         break;
 
                     case "Integer":
