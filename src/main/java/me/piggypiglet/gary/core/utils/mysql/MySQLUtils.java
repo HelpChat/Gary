@@ -133,7 +133,10 @@ public final class MySQLUtils {
             List<String> matches = DB.getResultsAsync("SELECT * FROM `" + table + "` WHERE " + loc).get().stream().map(m -> m.getString(keyAndValue.getKey())).collect(Collectors.toList());
 
             for (String str : matches) {
-                if (FuzzySearch.weightedRatio(keyAndValue.getValue(), str) >= ratio) {
+                int r = FuzzySearch.weightedRatio(keyAndValue.getValue(), str);
+                System.out.println(r + " " + str + " " + keyAndValue.getValue());
+
+                if (r >= ratio) {
                     return true;
                 }
             }
@@ -158,7 +161,7 @@ public final class MySQLUtils {
                 switch (param.getClass().getSimpleName()) {
                     case "String":
                         // prevent gary seizures and injection
-                        string.set(string.get().replaceFirst("%s", "'" + ((String) param).replaceAll("[^A-Za-z0-9.\\-_:<>@\\s ]", "") + "'"));
+                        string.set(string.get().replaceFirst("%s", "'" + ((String) param).replaceAll("[^A-Za-z0-9.\\[\\]\\-_:<>@\\s ]", "") + "'"));
                         break;
 
                     case "Integer":
