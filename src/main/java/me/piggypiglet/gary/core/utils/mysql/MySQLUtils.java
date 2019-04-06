@@ -133,10 +133,7 @@ public final class MySQLUtils {
             List<String> matches = DB.getResultsAsync("SELECT * FROM `" + table + "` WHERE " + loc).get().stream().map(m -> m.getString(keyAndValue.getKey())).collect(Collectors.toList());
 
             for (String str : matches) {
-                int r = FuzzySearch.weightedRatio(keyAndValue.getValue(), str);
-                System.out.println(r + " " + str + " " + keyAndValue.getValue());
-
-                if (r >= ratio) {
+                if (FuzzySearch.weightedRatio(keyAndValue.getValue(), str) >= ratio) {
                     return true;
                 }
             }
