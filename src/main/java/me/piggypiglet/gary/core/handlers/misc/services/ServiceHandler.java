@@ -1,5 +1,6 @@
 package me.piggypiglet.gary.core.handlers.misc.services;
 
+import com.google.inject.Inject;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.enums.EventsEnum;
@@ -26,6 +27,8 @@ import java.util.Map;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class ServiceHandler extends GEvent {
+    @Inject private ServiceBumpHandler serviceBumpHandler;
+
     public ServiceHandler() {
         super(EventsEnum.MESSAGE_CREATE, EventsEnum.MESSAGE_EDIT);
     }
@@ -36,36 +39,18 @@ public final class ServiceHandler extends GEvent {
         TextChannel channel = e.getChannel();
         Message message = channel.retrieveMessageById(e.getMessageId()).complete();
         User author = message.getAuthor();
-        FormatScanner scanner = new FormatScanner(message);
 
         if (!author.isBot()) {
-            boolean isRequest = false;
+            FormatScanner scanner = new FormatScanner(message);
+            String[] keys = null;
 
             switch (e.getChannel().getName()) {
-                case "offer-services":
-//                    RoleUtils.addRole(message.getMember(), Constants.OS_MUTE);
-                    break;
-
                 case "request-free":
-                    if (!scanner.containsKeys("service", "request")) {
-                        message.delete().queue();
-                        sendError(author, channel, message.getContentRaw());
-                    } else {
-//                        RoleUtils.addRole(message.getMember(), Constants.RF_MUTE);
-                    }
-
-                    isRequest = true;
+                    keys = new String[]{"service", "request"};
                     break;
 
                 case "request-paid":
-                    if (!scanner.containsKeys("service", "request", "budget")) {
-                        message.delete().queue();
-                        sendError(author, channel, message.getContentRaw());
-                    } else {
-//                        RoleUtils.addRole(message.getMember(), Constants.RP_MUTE);
-                    }
-
-                    isRequest = true;
+                    keys = new String[]{"service", "request", "budget"};
                     break;
 
                 case "rate-my-server":
@@ -102,16 +87,16 @@ public final class ServiceHandler extends GEvent {
                         }
 
                         message.delete().queue();
-//                        RoleUtils.addRole(message.getMember(), Constants.RMS_MUTE);
                     }
-
-                    isRequest = true;
-                    break;
+                    return;
             }
-//
-//            if (isRequest) {
-//                message.addReaction("\uD83D\uDEE0").queue();
-//            }
+
+            if (keys != null && !scanner.containsKeys(keys)) {
+                message.delete().queue();
+                sendError(author, channel, message.getContentRaw());
+            } else {
+                serviceBumpHandler.execute(e);
+            }
         }
     }
 
