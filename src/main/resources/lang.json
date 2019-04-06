@@ -86,6 +86,7 @@
       ]
     },
     "request-free": {
+      "topic": "Request free services - Building/Developing/Artists/SysAdmin and more. Read the pin!",
       "channel-message": [
         "**READ THIS BEFORE POSTING**",
         ":tools: Welcome to the Unpaid Request Services channel!",
@@ -96,7 +97,7 @@
         "```",
         "%s",
         "```\n",
-        "ℹ Last reset: %s 1st"
+        ":information_source: Last reset: %s 1st"
       ],
       "requirements": [
         "- This is only for requesting services, do not reply to services here.",
@@ -114,6 +115,7 @@
       ]
     },
     "request-paid": {
+      "topic": "Request paid services - Building/Developing/Artists/SysAdmin and more. Read the pin!",
       "channel-message": [
         "**READ THIS BEFORE POSTING**",
         ":tools: Welcome to the Paid Request Services channel!",
@@ -124,7 +126,7 @@
         "```",
         "%s",
         "```\n",
-        "ℹ Last reset: %s 1st"
+        ":information_source: Last reset: %s 1st"
       ],
       "requirements": [
         "- This is only for requesting services, do not reply to services here.",
@@ -143,6 +145,7 @@
       ]
     },
     "rate-my-server": {
+      "topic": "Post your server for others to rate it! | Please don't post if you can't handle creative criticism.",
       "channel-message": [
         ":star: Rate My Server Guidelines :gear:\n",
         "Please follow the below guidelines and formats in order to post in this channel and only request reviews if you are able to handle constructive criticism. This is not a place to advertise your server, therefore you are only allowed to post your server in here once a month.\n",
@@ -156,7 +159,7 @@
         "```\n",
         "NOTE: Website is optional, but we suggest including it.",
         "NOTE 2: We've had issues reported to us that domains behind CloudFlares proxies don't work. If this is the case, please put the server's ip and port in the ip section instead of your domain.\n",
-        "ℹ Last reset: %s 1st"
+        ":information_source: Last reset: %s 1st"
       ],
       "requirements": [
         "- Discussion will not be tolerated in this channel. Feel free to post multiple review messages for the same server if discord's character limit is limiting you, but do not abuse the review tag by using it to start conversations.",
@@ -179,6 +182,7 @@
       "server-error": "%s The server's ip you specified doesn't exist or https://mcapi.us is down. Please retry at a later date once these issues have been resolved."
     },
     "offer-services": {
+      "topic": "Offer your services - Building/Developing/Artists/SysAdmin and more. Read the pin!",
       "channel-message": [
         "**READ ME**",
         ":tools: Welcome to the Offer Services channel! :tools:",
@@ -186,7 +190,7 @@
         "```",
         "%s",
         "```",
-        "ℹ Last reset: %s 1st"
+        ":information_source: Last reset: %s 1st"
       ],
       "requirements": [
         "When posting please make sure to include some details about how to contact you and the various details of your service. This channel will only clear each month if the post threshold has been met."

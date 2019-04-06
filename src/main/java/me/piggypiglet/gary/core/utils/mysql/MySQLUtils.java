@@ -3,6 +3,7 @@ package me.piggypiglet.gary.core.utils.mysql;
 import co.aikar.idb.DB;
 import co.aikar.idb.DbRow;
 import me.piggypiglet.gary.core.objects.tasks.Task;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -123,6 +125,29 @@ public final class MySQLUtils {
         } catch (Exception ignored) {}
 
         return exists;
+    }
+
+    public static boolean fuzzyWuzzy(String table, Map.Entry<String, Object> location, Map.Entry<String, String> keyAndValue, int ratio) {
+        try {
+            String loc = mysqlFormat("`" + location.getKey() + "`=%s", location.getValue());
+            List<String> matches = DB.getResultsAsync("SELECT * FROM `" + table + "` WHERE " + loc).get().stream().map(m -> m.getString(keyAndValue.getKey())).collect(Collectors.toList());
+
+            for (String str : matches) {
+                if (FuzzySearch.weightedRatio(keyAndValue.getValue(), str) >= ratio) {
+                    return true;
+                }
+            }
+        } catch (Exception ignored) {}
+
+        return false;
+    }
+
+    public static void purge(String table) {
+        try {
+            DB.executeUpdate("TRUNCATE TABLE `" + table + "`;");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static String mysqlFormat(String str, Object... params) {

@@ -1,5 +1,7 @@
 package me.piggypiglet.gary.core.utils.mysql;
 
+import java.util.AbstractMap;
+
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
@@ -10,8 +12,18 @@ public final class BumpUtils {
     }
 
     public static boolean contains(long userId, String message) {
-//        List<DbRow> rows =
+        if (MySQLUtils.exists("gary_bumps", new String[]{"user_id"}, new Object[]{userId})) {
+            return MySQLUtils.fuzzyWuzzy(
+                    "gary_bumps",
+                    new AbstractMap.SimpleEntry<>("user_id", userId),
+                    new AbstractMap.SimpleEntry<>("message", message),
+                    80);
+        }
 
-        return MySQLUtils.exists("gary_bumps", new String[]{"user_id", "message"}, new Object[]{userId, message});
+        return false;
+    }
+
+    public static void clear() {
+        MySQLUtils.purge("gary_bumps");
     }
 }

@@ -5,6 +5,7 @@ import me.piggypiglet.gary.GaryBot;
 import me.piggypiglet.gary.core.objects.Constants;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.storage.file.Lang;
+import me.piggypiglet.gary.core.utils.mysql.BumpUtils;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
@@ -30,7 +31,8 @@ public final class ServiceClear extends GRunnable {
             Guild guild = garyBot.getJda().getGuildById(Constants.GUILD);
 
             Member gary = guild.getMemberById(332142935380459520L);
-            List<Permission> garyPerms = Arrays.asList(MANAGE_PERMISSIONS, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_MANAGE, MESSAGE_EMBED_LINKS, MANAGE_CHANNEL);
+            Member barry = guild.getMemberById(532800069565546496L);
+            List<Permission> bots = Arrays.asList(MANAGE_PERMISSIONS, MESSAGE_READ, MESSAGE_WRITE, MESSAGE_MANAGE, MESSAGE_EMBED_LINKS, MANAGE_CHANNEL);
 
             Role everyone = guild.getPublicRole();
             List<Permission> everyonePerms = Arrays.asList(MESSAGE_READ, MESSAGE_WRITE);
@@ -45,7 +47,8 @@ public final class ServiceClear extends GRunnable {
             Stream.of("offer-services", "rate-my-server", "request-free", "request-paid").forEach(s -> {
                 guild.getTextChannelsByName(s, false).get(0).delete().queue();
                 guild.getController().createTextChannel(s)
-                        .addPermissionOverride(gary, garyPerms, new ArrayList<>())
+                        .addPermissionOverride(gary, bots, new ArrayList<>())
+                        .addPermissionOverride(barry, bots, new ArrayList<>())
                         .addPermissionOverride(everyone, new ArrayList<>(), everyonePerms)
                         .addPermissionOverride(sm, new ArrayList<>(), mutePerms)
                         .addPermissionOverride(gm, new ArrayList<>(), mutePerms)
@@ -56,10 +59,15 @@ public final class ServiceClear extends GRunnable {
                             c.sendMessage(Lang.getALString( prefix + "channel-message",
                                     Lang.getALString(prefix + "requirements"),
                                     Lang.getALString(prefix + "template"),
-                                    ZonedDateTime.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH))).queue(m -> m.pin().queue());
+                                    ZonedDateTime.now().getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH))).queue(m -> m.pin().queue(p -> {
+                                        c.getHistoryAfter(m.getId(), 1).queue(mh -> mh.getRetrievedHistory().get(0).delete().queue());
+                            }));
+
                             c.getManager().setParent(c.getGuild().getCategoryById(Constants.SERVICES)).queue();
                         });
             });
+
+            BumpUtils.clear();
         }
     }
 }
