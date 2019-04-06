@@ -95,7 +95,7 @@ public final class ServiceHandler extends GEvent {
                 message.delete().queue();
                 sendError(author, channel, message.getContentRaw());
             } else {
-                serviceBumpHandler.execute(e);
+                serviceBumpHandler.execute(e, keys);
             }
         }
     }

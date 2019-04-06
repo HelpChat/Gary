@@ -14,13 +14,17 @@ import java.util.concurrent.TimeUnit;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class ServiceBumpHandler {
-    public void execute(GenericGuildMessageEvent event) {
+    public void execute(GenericGuildMessageEvent event, String[] keys) {
         if (event instanceof GuildMessageReceivedEvent) {
             GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
             User user = e.getAuthor();
 
             if (!user.isBot() && StringUtils.equalsIgnoreCase(e.getChannel().getName(), "offer-services", "request-free", "request-paid")) {
                 String message = e.getMessage().getContentRaw();
+
+                for (String key : keys) {
+                    message = message.replace("[" + key + "]", "");
+                }
 
                 if (BumpUtils.contains(user.getIdLong(), message)) {
                     e.getMessage().delete().queue();
