@@ -3,14 +3,14 @@
 Hi! My name is Gary. I'm the bot that helps moderate [clip and funny's help chat](https://testplugins.com/discord).<br/>Currently, I do the following:
 * Clear the RMS, Offer and Request service channels monthly.
 * Enforce the format in the above channels.
-* Be an awesome AI
-* Assist staff with moderator commands
-* Display placeholderapi info
-* Run giveaways
-* And more!
+* Prevent bumping in the above channels.
+* Run the Role Request system.
+* Provide logs for staff.
+* Prevent people from spamming/raiding the server.
 
 ## For Developers
-Gary has fairly limited documentation, with a few inconsistent comments scattered around the codebase, so unless you have the time and patience, I suggest you just forward your requests to me.
+Gary's framework is only comparable to spaghetti, but if you wish to ignore that and try to add on to it, just a few things to keep in mind. Always attempt to follow SOLID, OOP & DRY to the best of your ability, and look through the util classes/objects as there's things in there premade to make life easier.
 
-If you're unpersuaded however, here's what you need to know.
-insert stuff here
+Gary uses guice along with org.reflections to automatically find any classes that extend specific classes, eg command and event classes. This means that you can simply make a new event class, and you don't have to manually add it's instance to jda.
+
+If the above has discouraged you from contributing, remember that ideas are always welcome. Feel free to tag @PiggyPiglet in the [discord](https://helpch.at/discord) with anything you think should be added to gary.
