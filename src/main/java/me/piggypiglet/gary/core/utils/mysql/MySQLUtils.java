@@ -127,9 +127,9 @@ public final class MySQLUtils {
         return exists;
     }
 
-    public static boolean fuzzyWuzzy(String table, Map.Entry<String, Object> location, Map.Entry<String, String> keyAndValue, int ratio) {
+    public static boolean fuzzyWuzzy(String table, Map.Entry<String[], Object[]> location, Map.Entry<String, String> keyAndValue, int ratio) {
         try {
-            String loc = mysqlFormat("`" + location.getKey() + "`=%s", location.getValue());
+            String loc = "`" + mysqlFormat(String.join("`=%s AND `", location.getKey()) + "`=%s", location.getValue());
             List<String> matches = DB.getResultsAsync("SELECT * FROM `" + table + "` WHERE " + loc).get().stream().map(m -> m.getString(keyAndValue.getKey())).collect(Collectors.toList());
 
             for (String str : matches) {

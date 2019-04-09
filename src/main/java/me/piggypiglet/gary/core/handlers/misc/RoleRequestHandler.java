@@ -17,6 +17,8 @@ import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sh.okx.timeapi.TimeAPI;
 
 import java.time.ZonedDateTime;
@@ -35,6 +37,7 @@ public final class RoleRequestHandler extends GEvent {
 
     private final Map<String, String> ids = new HashMap<>();
     private final Map<String, String> reserved = new HashMap<>();
+    private final static Logger LOGGER = LoggerFactory.getLogger("RoleRequest");
 
     public RoleRequestHandler() {
         super(EventsEnum.MESSAGE_CREATE, EventsEnum.MESSAGE_REACTION_ADD);
@@ -88,6 +91,9 @@ public final class RoleRequestHandler extends GEvent {
                 Guild guild = e2.getGuild();
 
                 if (ids.containsKey(id) && !user.isBot() && RoleUtils.isTrusted(e2.getMember())) {
+                    String name = user.getName();
+                    LOGGER.info("{} just responded to a request", name);
+
                     e2.getChannel().retrieveMessageById(id).queue(s -> {
                         MessageEmbed embed = s.getEmbeds().get(0);
                         Member applicant = guild.getMemberById(getTitleId(embed.getAuthor().getName()));
@@ -98,6 +104,7 @@ public final class RoleRequestHandler extends GEvent {
                             case "✅":
                                 if (isNotReserver(id, user.getId())) {
                                     e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
+                                    LOGGER.info("{} couldn't accept request because it was reserved", name);
                                     return;
                                 }
 
@@ -105,39 +112,52 @@ public final class RoleRequestHandler extends GEvent {
                                     String question;
 
                                     try {
+                                        LOGGER.info("{} is telling us what role it is", name);
                                         question = QuestionnaireUtils.askQuestion("I'm not sure what role the user has requested, please type it out.", e2.getMember(), e2.getChannel());
                                     } catch (Exception ex) {
+                                        LOGGER.error("{} fucked something up or cancelled", name);
                                         e2.getChannel().sendMessage("Cancelled.").queue();
                                         e2.getReaction().removeReaction(user).queue();
                                         return;
                                     }
 
                                     role = RequestableRoles.getFromAlias(question);
+                                    LOGGER.info("{} said the role is {}", name, role.getRoleId());
                                 }
 
                                 guild.getController().addRolesToMember(applicant, guild.getRoleById(role.getRoleId())).queue();
+                                LOGGER.info("Adding {} to {}", role.getRoleId(), applicant.getEffectiveName());
                                 s.editMessage(new EmbedBuilder(embed).setColor(Constants.GREEN).setFooter("Accepted by " + formattedName, null).build()).queue();
+                                LOGGER.info("Updating embed with this information: {} {}", HasteUtils.haste(embed.toJSONObject().toString()), formattedName);
                                 guild.getTextChannelById(role.getChannelId()).sendMessage("Welcome " + applicant.getAsMention()).queue();
+                                LOGGER.info("Sending acceptance message for {} for {}", role.getRoleId(), applicant.getEffectiveName());
                                 ids.remove(id);
+                                LOGGER.info("Removing id: {}", id);
                                 break;
 
                             case "❌":
                                 if (isNotReserver(id, user.getId())) {
                                     e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
+                                    LOGGER.info("{} couldn't accept request because it was reserved", name);
                                     return;
                                 }
 
                                 String question;
 
                                 try {
+                                    LOGGER.info("{} is telling why they should be denied", name);
                                     question = QuestionnaireUtils.askQuestion("Why should this user be denied?", e2.getMember(), e2.getChannel());
                                 } catch (Exception ex) {
+                                    LOGGER.error("{} fucked something up or cancelled", name);
                                     e2.getChannel().sendMessage("Cancelled.").queue();
                                     e2.getReaction().removeReaction(user).queue();
                                     return;
                                 }
 
+                                LOGGER.info("{} denied {} for {}", name, user.getName(), question);
+
                                 s.editMessage(new EmbedBuilder(embed).setColor(Constants.RED).addField("Deny reason: ", question, false).setFooter("Denied by " + formattedName, null).build()).queue();
+                                LOGGER.info("Editing embed with this info: {} {} {}", embed.toJSONObject().toString(), question, formattedName);
 
                                 String msg = "Your role request has been denied, please read the reasons below at re-apply when you have improved.\n" + question;
 
@@ -148,7 +168,9 @@ public final class RoleRequestHandler extends GEvent {
                                         applicant.getAsMention() + "\nDenied, please read haste for more information.",
                                         new TimeAPI("24hours")
                                 );
+                                LOGGER.info("{} Sending the message", name);
                                 ids.remove(id);
+                                LOGGER.info("Removing id: {}", id);
                                 break;
 
                             case "➖":
@@ -175,7 +197,11 @@ public final class RoleRequestHandler extends GEvent {
         garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().retrievePast(100).queue(l -> l.forEach(m -> {
             if (m.getAuthor().isBot()) {
                 if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor().getRGB() == Constants.BLUE.getRGB()) {
-                    ids.put(m.getId(), m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", ""));
+                    String messageId = m.getId();
+                    String userId = m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", "");
+
+                    LOGGER.info("Found: {} by {}", messageId, userId);
+                    ids.put(messageId, userId);
                 }
             }
         }));

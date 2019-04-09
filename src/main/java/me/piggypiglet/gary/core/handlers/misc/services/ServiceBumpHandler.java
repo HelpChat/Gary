@@ -20,20 +20,20 @@ public final class ServiceBumpHandler {
             User user = e.getAuthor();
 
             if (!user.isBot() && StringUtils.equalsIgnoreCase(e.getChannel().getName(), "offer-services", "request-free", "request-paid")) {
-                String message = e.getMessage().getContentRaw();
+                String message = e.getMessage().getContentRaw().toLowerCase();
 
                 for (String key : keys) {
                     message = message.replace("[" + key + "]", "");
                 }
 
-                if (BumpUtils.contains(user.getIdLong(), message)) {
+                if (BumpUtils.contains(user.getIdLong(), e.getChannel().getIdLong(), message)) {
                     e.getMessage().delete().queue();
 
                     e.getChannel().sendMessage(
                             e.getAuthor().getAsMention() + "\nI've removed your request as it is too similar to one of your other requests.\n" + HasteUtils.haste(message)
                     ).queue(s -> s.delete().queueAfter(30, TimeUnit.SECONDS));
                 } else {
-                    BumpUtils.create(user.getIdLong(), message);
+                    BumpUtils.create(user.getIdLong(), e.getChannel().getIdLong(), message);
                 }
             }
         }
