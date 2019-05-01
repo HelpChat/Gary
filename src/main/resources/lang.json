@@ -103,10 +103,10 @@
         "- This is only for requesting services, do not reply to services here.",
         "- If you wish to complete a request. DM Them. Do not reply here.",
         "- Remove completed requests to keep the list \"fresh\"",
-        "- Only have one request in this channel at a time.",
         "- The list is cleared every month.",
         "- Services should not be for plugin help. Please post in #plugin-help",
         "- Bumping requests is not permitted.",
+        "- Read full requirements here: https://helpch.at/faq/request-free",
         "- Stick to the template below:"
       ],
       "template": [
@@ -132,10 +132,10 @@
         "- This is only for requesting services, do not reply to services here.",
         "- If you wish to complete a request. DM Them. Do not reply here.",
         "- Remove completed requests to keep the list \"fresh\"",
-        "- Only have one request in this channel at a time.",
         "- The list is cleared every month.",
         "- Bumping requests is not permitted.",
         "- Requests are required to have a set budget or a range (No DM for budget)",
+        "- Read full requirements here: https://helpch.at/faq/request-paid",
         "- Stick to the template below:"
       ],
       "template": [
@@ -200,7 +200,7 @@
         "- You may repost your service after the monthly clear",
         "- Bumping posts will get your permission to post here removed.",
         "- There is not template but it is recommended you include a link to your Spigot thread if you have one.",
-        "- This channel may change at any time without notice"
+        "- Read full requirements here: https://helpch.at/faq/offer-services"
       ]
     }
   }
