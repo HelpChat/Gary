@@ -9,7 +9,6 @@ import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.objects.enums.RequestableRoles;
 import me.piggypiglet.gary.core.objects.services.FormatScanner;
 import me.piggypiglet.gary.core.utils.discord.MessageUtils;
-import me.piggypiglet.gary.core.utils.discord.RoleUtils;
 import me.piggypiglet.gary.core.utils.http.HasteUtils;
 import me.piggypiglet.gary.core.utils.misc.QuestionnaireUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -32,6 +31,7 @@ import java.util.stream.Stream;
 // https://www.piggypiglet.me
 // ------------------------------
 @Singleton
+@SuppressWarnings("ConstantConditions")
 public final class RoleRequestHandler extends GEvent {
     @Inject private GaryBot garyBot;
 
@@ -90,7 +90,7 @@ public final class RoleRequestHandler extends GEvent {
                 User user = e2.getUser();
                 Guild guild = e2.getGuild();
 
-                if (ids.containsKey(id) && !user.isBot() && RoleUtils.isTrusted(e2.getMember())) {
+                if (ids.containsKey(id) && !user.isBot()) {
                     String name = user.getName();
                     LOGGER.info("{} just responded to a request", name);
 
@@ -128,7 +128,7 @@ public final class RoleRequestHandler extends GEvent {
                                 guild.getController().addRolesToMember(applicant, guild.getRoleById(role.getRoleId())).queue();
                                 LOGGER.info("Adding {} to {}", role.getRoleId(), applicant.getEffectiveName());
                                 s.editMessage(new EmbedBuilder(embed).setColor(Constants.GREEN).setFooter("Accepted by " + formattedName, null).build()).queue();
-                                LOGGER.info("Updating embed with this information: {} {}", HasteUtils.haste(embed.toJSONObject().toString()), formattedName);
+                                LOGGER.info("Updating embed with this information: {} {}", HasteUtils.haste(embed.toData().toString()), formattedName);
                                 guild.getTextChannelById(role.getChannelId()).sendMessage("Welcome " + applicant.getAsMention()).queue();
                                 LOGGER.info("Sending acceptance message for {} for {}", role.getRoleId(), applicant.getEffectiveName());
                                 ids.remove(id);
@@ -157,7 +157,7 @@ public final class RoleRequestHandler extends GEvent {
                                 LOGGER.info("{} denied {} for {}", name, user.getName(), question);
 
                                 s.editMessage(new EmbedBuilder(embed).setColor(Constants.RED).addField("Deny reason: ", question, false).setFooter("Denied by " + formattedName, null).build()).queue();
-                                LOGGER.info("Editing embed with this info: {} {} {}", embed.toJSONObject().toString(), question, formattedName);
+                                LOGGER.info("Editing embed with this info: {} {} {}", embed.toData().toString(), question, formattedName);
 
                                 String msg = "Your role request has been denied, please read the reasons below at re-apply when you have improved.\n" + question;
 
@@ -194,6 +194,7 @@ public final class RoleRequestHandler extends GEvent {
     }
 
     public void populateMap() {
+        System.out.println("test");
         garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().retrievePast(100).queue(l -> l.forEach(m -> {
             if (m.getAuthor().isBot()) {
                 if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor().getRGB() == Constants.BLUE.getRGB()) {

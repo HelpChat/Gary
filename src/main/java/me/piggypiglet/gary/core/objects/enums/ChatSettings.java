@@ -1,28 +1,29 @@
 package me.piggypiglet.gary.core.objects.enums;
 
+import net.dv8tion.jda.api.entities.MessageReaction;
+
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
 // https://www.piggypiglet.me
 // ------------------------------
 public enum ChatSettings {
-    GLOBAL_ANNOUNCEMENTS(498452848787324928L, 498454721275756545L),
-    PLUGIN_UPDATES(498453814136012815L, 498454945910095877L),
-    PAPI_GIT(498454341955616769L, 498455002243923978L),
-    CLIP_PING(498454528635568138L, 498455190140354591L),
-    CHAT_REACTION(498454582112813074L, 498456348195946512L),
-    UNKNOWN(0L, 0L);
+    PLUGIN_UPDATES(498454945910095877L, "Spigot"),
+    ECLOUD_UPDATES(574470889459154944L, "eCloud"),
+    PAPI_GIT(498455002243923978L, "PAPI"),
+    CLIP_PING(498455190140354591L, "Clip"),
+    UNKNOWN(0L, "");
 
-    private final long messageID;
     public final long roleID;
+    private final String emote;
 
-    ChatSettings(long messageID, long roleID) {
-        this.messageID = messageID;
+    ChatSettings(long roleID, String emote) {
         this.roleID = roleID;
+        this.emote = emote;
     }
 
-    public static ChatSettings getSetting(long messageID) {
+    public static ChatSettings getSetting(MessageReaction.ReactionEmote emote) {
         for (ChatSettings setting : values()) {
-            if (setting.messageID == messageID) {
+            if (emote.getName().equalsIgnoreCase(setting.emote)) {
                 return setting;
             }
         }

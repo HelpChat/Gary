@@ -135,6 +135,39 @@ public final class GaryBot {
                 Task.async(r -> {
                     r.sleep(4000);
                     roleRequestHandler.populateMap();
+
+//                    TextChannel guild = jda.getGuildById(Constants.GUILD).getTextChannelById(498451758717337611L);
+//
+//                    try {
+//                        InputStream stream = new URL("http://localhost/chatsettings.png").openStream();
+//                        guild.sendFile(stream, "chatsettings.png").queue();
+//
+//                        Task.async(r2 -> {
+//                            r.sleep(6000);
+//                            try {
+//                                stream.close();
+//                            } catch (Exception e) {
+//                                e.printStackTrace();
+//                            }
+//                        });
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                    guild.sendMessage(new EmbedBuilder()
+//                            .setAuthor("HelpChat | Chat Settings")
+//                            .setDescription("React with the relevant reactions to toggle which channels and notifications you'll receive.")
+//                            .setColor(new Color(72, 177, 191))
+//                            .addField("<:Spigot:313644584355758080> - Plugin Updates", "• Opt out of update notifications.", true)
+//                            .addField("<:eCloud:520488273357832192> - eCloud Updates", "• Opt out of eCloud notifications.", true)
+//                            .addField("<:PAPI:574488598485794818> - PAPI Updates", "• Opt out of Github notifications.", true)
+//                            .addField("<:Clip:231593363504234496> - Clip's Pings", "• Get pinged when clip is bored.", true)
+//                            .setFooter("React below to change your settings!")
+//                            .build()).queue(s -> {
+//                        s.addReaction(guild.getGuild().getEmoteById(313644584355758080L)).queue();
+//                        s.addReaction(guild.getGuild().getEmoteById(520488273357832192L)).queue();
+//                        s.addReaction(guild.getGuild().getEmoteById(574488598485794818L)).queue();
+//                        s.addReaction(guild.getGuild().getEmoteById(231593363504234496L)).queue();
+//                    });
                 });
 
                 break;

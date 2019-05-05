@@ -26,6 +26,7 @@ public final class ServiceClear extends GRunnable {
     @Inject private GaryBot garyBot;
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void run() {
         if (ZonedDateTime.now().getDayOfMonth() == 1) {
             Guild guild = garyBot.getJda().getGuildById(Constants.GUILD);

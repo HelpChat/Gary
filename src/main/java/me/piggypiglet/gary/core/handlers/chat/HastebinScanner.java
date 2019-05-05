@@ -2,6 +2,7 @@ package me.piggypiglet.gary.core.handlers.chat;
 
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.objects.Constants;
+import me.piggypiglet.gary.core.utils.http.HasteUtils;
 import me.piggypiglet.gary.core.utils.http.WebUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -60,9 +61,11 @@ public final class HastebinScanner extends GEvent {
                         }
 
                         if (success) {
+                            String catchesStr = catches.toString().length() >= 1500 ? HasteUtils.haste(catches.toString()) : catches.toString();
+
                             MessageEmbed message = new EmbedBuilder()
                                     .setColor(Constants.YELLOW)
-                                    .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this data:" + catches.toString() + "\n[Link to paste](" + i + ")")
+                                    .setDescription("⚠ " + e.getAuthor().getAsMention() + " just posted a log with this data:" + catchesStr + "\n[Link to paste](" + i + ")")
                                     .setTimestamp(ZonedDateTime.now())
                                     .build();
 
