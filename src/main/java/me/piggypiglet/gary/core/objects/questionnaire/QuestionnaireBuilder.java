@@ -70,8 +70,6 @@ public final class QuestionnaireBuilder {
     }
 
     public Questionnaire build(@Nonnull String questionnaireName) {
-        Questionnaire questionnaire;
-
         questions.values().forEach(question -> {
             List<Object> emotes = question.getEmotes();
             Message message = MessageUtils.getFutureMessage(question.getQuestion(), channel);

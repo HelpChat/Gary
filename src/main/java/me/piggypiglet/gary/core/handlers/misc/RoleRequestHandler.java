@@ -33,7 +33,8 @@ import java.util.stream.Stream;
 @Singleton
 @SuppressWarnings("ConstantConditions")
 public final class RoleRequestHandler extends GEvent {
-    @Inject private GaryBot garyBot;
+    @Inject
+    private GaryBot garyBot;
 
     private final Map<String, String> ids = new HashMap<>();
     private final Map<String, String> reserved = new HashMap<>();
@@ -76,7 +77,7 @@ public final class RoleRequestHandler extends GEvent {
                                         .build()
                         ).queue(s -> {
                             Stream.of("✅", "❌", "➖").forEach(em -> s.addReaction(em).queue());
-                            ids.put(s.getId(), message.getId());
+                            ids.put(message.getId(), author.getId());
                         });
                     } else {
                         message.delete().queue(s -> channel.sendMessage(author.getAsMention() + " please follow the format pinned in this channel.").queue(s2 -> s2.delete().queueAfter(15, TimeUnit.SECONDS)));
@@ -87,33 +88,72 @@ public final class RoleRequestHandler extends GEvent {
             case MESSAGE_REACTION_ADD:
                 GuildMessageReactionAddEvent e2 = (GuildMessageReactionAddEvent) event;
                 String id = e2.getMessageId();
-                User user = e2.getUser();
-                Guild guild = e2.getGuild();
 
-                if (ids.containsKey(id) && !user.isBot()) {
-                    String name = user.getName();
-                    LOGGER.info("{} just responded to a request", name);
+                e2.getChannel().retrieveMessageById(id).queue(s -> {
+                    if (s.getEmbeds().size() > 0) {
+                        String requestId = getFooterId(s.getEmbeds().get(0).getFooter().getText());
+                        User user = e2.getUser();
+                        Guild guild = e2.getGuild();
 
-                    e2.getChannel().retrieveMessageById(id).queue(s -> {
-                        MessageEmbed embed = s.getEmbeds().get(0);
-                        Member applicant = guild.getMemberById(getTitleId(embed.getAuthor().getName()));
-                        RequestableRoles role = RequestableRoles.getFromAlias(embed.getFields().get(0).getValue());
-                        String formattedName = user.getName() + "#" + user.getDiscriminator();
+                        if (ids.containsKey(requestId) && !user.isBot()) {
+                            String name = user.getName();
+                            LOGGER.info("{} just responded to a request", name);
 
-                        switch (e2.getReactionEmote().getName()) {
-                            case "✅":
-                                if (isNotReserver(id, user.getId())) {
-                                    e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
-                                    LOGGER.info("{} couldn't accept request because it was reserved", name);
-                                    return;
-                                }
+                            MessageEmbed embed = s.getEmbeds().get(0);
+                            Member applicant = guild.getMemberById(getTitleId(embed.getAuthor().getName()));
+                            RequestableRoles role = RequestableRoles.getFromAlias(embed.getFields().get(0).getValue());
+                            String formattedName = user.getName() + "#" + user.getDiscriminator();
 
-                                while (role == RequestableRoles.DEFAULT) {
+                            switch (e2.getReactionEmote().getName()) {
+                                case "✅":
+                                    if (isNotReserver(requestId, user.getId())) {
+                                        e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
+                                        LOGGER.info("{} couldn't accept request because it was reserved", name);
+                                        return;
+                                    }
+
+                                    while (role == RequestableRoles.DEFAULT) {
+                                        String question;
+
+                                        try {
+                                            LOGGER.info("{} is telling us what role it is", name);
+                                            question = QuestionnaireUtils.askQuestion("I'm not sure what role the user has requested, please type it out.", e2.getMember(), e2.getChannel());
+                                        } catch (Exception ex) {
+                                            LOGGER.error("{} fucked something up or cancelled", name);
+                                            e2.getChannel().sendMessage("Cancelled.").queue();
+                                            e2.getReaction().removeReaction(user).queue();
+                                            return;
+                                        }
+
+                                        role = RequestableRoles.getFromAlias(question);
+                                        LOGGER.info("{} said the role is {}", name, role.getRoleId());
+                                    }
+
+                                    guild.getController().addRolesToMember(applicant, guild.getRoleById(role.getRoleId())).queue();
+                                    LOGGER.info("Adding {} to {}", role.getRoleId(), applicant.getEffectiveName());
+                                    s.editMessage(new EmbedBuilder(embed).setColor(Constants.GREEN).setFooter("Accepted by " + formattedName, null).build()).queue();
+                                    LOGGER.info("Updating embed with this information: {} {}", HasteUtils.haste(embed.toData().toString()), formattedName);
+                                    guild.getTextChannelById(role.getChannelId()).sendMessage("Welcome " + applicant.getAsMention()).queue();
+                                    LOGGER.info("Sending acceptance message for {} for {}", role.getRoleId(), applicant.getEffectiveName());
+                                    ids.remove(id);
+                                    LOGGER.info("Removing id: {}", id);
+                                    break;
+
+                                case "❌":
+                                    if (isNotReserver(requestId, user.getId())) {
+                                        e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
+                                        LOGGER.info("{} couldn't accept request because it was reserved", name);
+                                        return;
+                                    }
+
                                     String question;
 
                                     try {
-                                        LOGGER.info("{} is telling us what role it is", name);
-                                        question = QuestionnaireUtils.askQuestion("I'm not sure what role the user has requested, please type it out.", e2.getMember(), e2.getChannel());
+                                        System.out.println("1");
+                                        LOGGER.info("{} is telling why they should be denied", name);
+                                        System.out.println("2");
+                                        question = QuestionnaireUtils.askQuestion("Why should this user be denied?", e2.getMember(), e2.getChannel());
+                                        System.out.println("3");
                                     } catch (Exception ex) {
                                         LOGGER.error("{} fucked something up or cancelled", name);
                                         e2.getChannel().sendMessage("Cancelled.").queue();
@@ -121,66 +161,41 @@ public final class RoleRequestHandler extends GEvent {
                                         return;
                                     }
 
-                                    role = RequestableRoles.getFromAlias(question);
-                                    LOGGER.info("{} said the role is {}", name, role.getRoleId());
-                                }
+                                    LOGGER.info("{} denied {} for {}", name, user.getName(), question);
 
-                                guild.getController().addRolesToMember(applicant, guild.getRoleById(role.getRoleId())).queue();
-                                LOGGER.info("Adding {} to {}", role.getRoleId(), applicant.getEffectiveName());
-                                s.editMessage(new EmbedBuilder(embed).setColor(Constants.GREEN).setFooter("Accepted by " + formattedName, null).build()).queue();
-                                LOGGER.info("Updating embed with this information: {} {}", HasteUtils.haste(embed.toData().toString()), formattedName);
-                                guild.getTextChannelById(role.getChannelId()).sendMessage("Welcome " + applicant.getAsMention()).queue();
-                                LOGGER.info("Sending acceptance message for {} for {}", role.getRoleId(), applicant.getEffectiveName());
-                                ids.remove(id);
-                                LOGGER.info("Removing id: {}", id);
-                                break;
+                                    s.editMessage(new EmbedBuilder(embed).setColor(Constants.RED).addField("Deny reason: ", question, false).setFooter("Denied by " + formattedName, null).build()).queue();
+                                    LOGGER.info("Editing embed with this info: {} {} {}", embed.toData().toString(), question, formattedName);
 
-                            case "❌":
-                                if (isNotReserver(id, user.getId())) {
-                                    e2.getChannel().sendMessage(user.getAsMention() + " this request has already been reserved.").queue();
-                                    LOGGER.info("{} couldn't accept request because it was reserved", name);
-                                    return;
-                                }
+                                    String msg = "Your role request has been denied, please read the reasons below at re-apply when you have improved.\n" + question;
 
-                                String question;
+                                    MessageUtils.sendMessageHaste(
+                                            msg,
+                                            applicant.getUser(),
+                                            guild.getTextChannelById(Constants.ROLE_REQUEST),
+                                            applicant.getAsMention() + "\nDenied, please read haste for more information.",
+                                            new TimeAPI("24hours")
+                                    );
+                                    LOGGER.info("{} Sending the message", name);
+                                    ids.remove(id);
+                                    LOGGER.info("Removing id: {}", id);
+                                    break;
 
-                                try {
-                                    LOGGER.info("{} is telling why they should be denied", name);
-                                    question = QuestionnaireUtils.askQuestion("Why should this user be denied?", e2.getMember(), e2.getChannel());
-                                } catch (Exception ex) {
-                                    LOGGER.error("{} fucked something up or cancelled", name);
-                                    e2.getChannel().sendMessage("Cancelled.").queue();
-                                    e2.getReaction().removeReaction(user).queue();
-                                    return;
-                                }
+                                case "➖":
+                                    if (!reserved.containsKey(requestId)) {
+                                        String footer = embed.getFooter().getText().split("-")[0] + "- Reserved by " + user.getId();
 
-                                LOGGER.info("{} denied {} for {}", name, user.getName(), question);
-
-                                s.editMessage(new EmbedBuilder(embed).setColor(Constants.RED).addField("Deny reason: ", question, false).setFooter("Denied by " + formattedName, null).build()).queue();
-                                LOGGER.info("Editing embed with this info: {} {} {}", embed.toData().toString(), question, formattedName);
-
-                                String msg = "Your role request has been denied, please read the reasons below at re-apply when you have improved.\n" + question;
-
-                                MessageUtils.sendMessageHaste(
-                                        msg,
-                                        applicant.getUser(),
-                                        guild.getTextChannelById(Constants.ROLE_REQUEST),
-                                        applicant.getAsMention() + "\nDenied, please read haste for more information.",
-                                        new TimeAPI("24hours")
-                                );
-                                LOGGER.info("{} Sending the message", name);
-                                ids.remove(id);
-                                LOGGER.info("Removing id: {}", id);
-                                break;
-
-                            case "➖":
-                                s.editMessage(new EmbedBuilder(embed).setColor(Constants.YELLOW).setFooter(embed.getFooter().getText(), user.getEffectiveAvatarUrl()).build()).queue();
-                                reserved.put(id, user.getId());
-                                e2.getChannel().sendMessage("I've reserved this request for you.").queue(s1 -> s1.delete().queueAfter(10, TimeUnit.SECONDS));
-                                break;
+                                        s.editMessage(new EmbedBuilder(embed).setColor(Constants.YELLOW).setFooter(footer, user.getEffectiveAvatarUrl()).build()).queue();
+                                        reserved.put(requestId, user.getId());
+                                        e2.getChannel().sendMessage("I've reserved this request for you.").queue(s1 -> s1.delete().queueAfter(10, TimeUnit.SECONDS));
+                                    } else {
+                                        e2.getChannel().sendMessage("This request is already reserved.").queue(s1 -> s1.delete().queueAfter(10, TimeUnit.SECONDS));
+                                    }
+                                    break;
+                            }
                         }
-                    });
-                }
+                    }
+                });
+
                 break;
         }
     }
@@ -194,15 +209,26 @@ public final class RoleRequestHandler extends GEvent {
     }
 
     public void populateMap() {
-        System.out.println("test");
-        garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().retrievePast(100).queue(l -> l.forEach(m -> {
-            if (m.getAuthor().isBot()) {
-                if (m.getEmbeds().size() >= 1 && m.getEmbeds().get(0).getColor().getRGB() == Constants.BLUE.getRGB()) {
-                    String messageId = m.getId();
-                    String userId = m.getEmbeds().get(0).getFooter().getText().split("-")[0].replace(" ", "").replace("ID:", "");
+        LOGGER.info("Starting population process");
 
-                    LOGGER.info("Found: {} by {}", messageId, userId);
-                    ids.put(messageId, userId);
+        garyBot.getJda().getTextChannelById(Constants.TBD_REQUESTS).getHistory().retrievePast(1000).queue(l -> l.forEach(m -> {
+            if (m.getAuthor().isBot()) {
+                if (m.getEmbeds().size() >= 1) {
+                    MessageEmbed embed = m.getEmbeds().get(0);
+
+                    if (embed.getColor().getRGB() == Constants.BLUE.getRGB() || embed.getColor().getRGB() == Constants.YELLOW.getRGB()) {
+                        String messageId = getFooterId(embed.getFooter().getText());
+                        String userId = getTitleId(embed.getAuthor().getName());
+
+                        LOGGER.info("Found: {} by {}", messageId, userId);
+                        ids.put(messageId, userId);
+
+                        if (embed.getColor() == Constants.YELLOW) {
+                            userId = embed.getFooter().getText().split("-")[1].replace(" Reserved by ", "");
+
+                            reserved.put(messageId, userId);
+                        }
+                    }
                 }
             }
         }));
@@ -211,5 +237,9 @@ public final class RoleRequestHandler extends GEvent {
     private String getTitleId(String title) {
         String[] titleSegments = title.split("-");
         return titleSegments[titleSegments.length - 1].replace(" ", "");
+    }
+
+    private String getFooterId(String footer) {
+        return footer.split("-")[0].replace(" ", "").replace("ID:", "");
     }
 }
