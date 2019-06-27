@@ -14,3 +14,5 @@ Gary's framework is only comparable to spaghetti, but if you wish to ignore that
 Gary uses guice along with org.reflections to automatically find any classes that extend specific classes, eg command and event classes. This means that you can simply make a new event class, and you don't have to manually add it's instance to jda.
 
 If the above has discouraged you from contributing, remember that ideas are always welcome. Feel free to tag @PiggyPiglet in the [discord](https://helpch.at/discord) with anything you think should be added to gary.
+
+test
