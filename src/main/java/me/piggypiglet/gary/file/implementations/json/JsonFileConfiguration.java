@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.file.implementations;
+package me.piggypiglet.gary.file.implementations.json;
 
 import me.piggypiglet.gary.file.framework.AbstractFileConfiguration;
 import me.piggypiglet.gary.file.framework.FileConfiguration;

@@ -16,7 +16,7 @@ public final class JDARegisterable extends Registerable {
     @Override
     protected void execute() {
         try {
-            addProvider(new JDABuilder(fileManager.getConfig("config").getString("token"))
+            addBinding(new JDABuilder(fileManager.getConfig("config").getString("token"))
                     .setActivity(Activity.playing("testing"))
                     .build());
         } catch (Exception e) {

@@ -1,8 +1,7 @@
-package me.piggypiglet.gary.guice;
+package me.piggypiglet.gary.guice.modules;
 
-import com.google.inject.AbstractModule;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.*;
+import org.reflections.Reflections;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2019
@@ -23,5 +22,11 @@ public final class InitializationModule extends AbstractModule {
     @SuppressWarnings("unchecked")
     public void configure() {
         bind(main).toInstance(main);
+    }
+
+    @Provides
+    @Singleton
+    public Reflections providesReflections() {
+        return new Reflections("me.piggypiglet.gary");
     }
 }

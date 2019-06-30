@@ -27,6 +27,7 @@ dependencies {
     compile 'com.google.code.gson:gson:+'
     compile 'commons-io:commons-io:+'
     compile 'me.piggypiglet:TimeAPI:+'
+    compile 'org.reflections:reflections:+'
 }
 
 lombok {

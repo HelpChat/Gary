@@ -1,7 +1,7 @@
 package me.piggypiglet.gary;
 
 import com.google.inject.Injector;
-import me.piggypiglet.gary.guice.InitializationModule;
+import me.piggypiglet.gary.guice.modules.InitializationModule;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2019

@@ -3,7 +3,7 @@ package me.piggypiglet.gary.file;
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.GaryBootstrap;
 import me.piggypiglet.gary.file.framework.FileConfiguration;
-import me.piggypiglet.gary.file.utils.FileUtils;
+import me.piggypiglet.gary.utils.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.LoggerFactory;
 

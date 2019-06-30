@@ -3,8 +3,8 @@ package me.piggypiglet.gary.file;
 import me.piggypiglet.gary.file.exceptions.UnknownConfigTypeException;
 import me.piggypiglet.gary.file.framework.AbstractFileConfiguration;
 import me.piggypiglet.gary.file.framework.FileConfiguration;
-import me.piggypiglet.gary.file.implementations.JsonFileConfiguration;
-import me.piggypiglet.gary.file.utils.FileUtils;
+import me.piggypiglet.gary.file.implementations.json.JsonFileConfiguration;
+import me.piggypiglet.gary.utils.FileUtils;
 
 import java.io.File;
 

@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.file.utils;
+package me.piggypiglet.gary.utils;
 
 import java.io.File;
 import java.io.InputStream;
