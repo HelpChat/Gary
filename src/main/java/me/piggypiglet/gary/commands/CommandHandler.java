@@ -15,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static me.piggypiglet.gary.file.implementations.json.types.Lang.NO_PERMISSION;
+import static me.piggypiglet.gary.file.implementations.json.types.Lang.getMessage;
+
 // ------------------------------
 // Copyright (c) PiggyPiglet 2019
 // https://www.piggypiglet.me
@@ -42,7 +45,7 @@ public final class CommandHandler extends ListenerAdapter {
                         return;
                     }
 
-                    e.getChannel().sendMessage("no perms").queue();
+                    e.getChannel().sendMessage(getMessage(NO_PERMISSION)).queue();
                 }
             }
         }
