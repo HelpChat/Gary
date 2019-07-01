@@ -4,24 +4,26 @@ import lombok.Getter;
 import me.piggypiglet.gary.guice.objects.AnnotatedBinding;
 
 import java.lang.annotation.Annotation;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2019
 // https://www.piggypiglet.me
 // ------------------------------
 public abstract class Registerable {
-    @Getter private final List<Object> providers = new ArrayList<>();
+    @Getter private final Map<Class, Object> providers = new HashMap<>();
     @Getter private final List<AnnotatedBinding> annotatedBindings = new ArrayList<>();
     @Getter private final List<Class> staticInjections = new ArrayList<>();
 
     protected abstract void execute();
 
     // TODO: provide injector back into registerable and inject members
+    protected void addBinding(Class interfaze, Object instance) {
+        providers.put(interfaze, instance);
+    }
+
     protected void addBinding(Object instance) {
-        providers.add(instance);
+        providers.put(instance.getClass(), instance);
     }
 
     protected void addAnnotatedBinding(Class interfaze, Class<? extends Annotation> annotation, Object instance) {
