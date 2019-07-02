@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 // https://www.piggypiglet.me
 // ------------------------------
 public final class Task {
-    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(10);
+    private static final ExecutorService EXECUTOR = Executors.newFixedThreadPool(13);
     private static final ScheduledExecutorService SCHEDULER = Executors.newScheduledThreadPool(10);
 
     public static void async(final Consumer<GRunnable> task) {
