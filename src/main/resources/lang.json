@@ -1,3 +1,7 @@
 {
-  "test": "test"
+  "commands": {
+    "no-permission": "You do not have permission for that command.",
+    "stop": "Shutting down.",
+    "reload": "Reloading all files."
+  }
 }

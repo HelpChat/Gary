@@ -2,6 +2,7 @@ package me.piggypiglet.gary.file;
 
 import com.google.inject.Singleton;
 import me.piggypiglet.gary.GaryBootstrap;
+import me.piggypiglet.gary.file.framework.AbstractFileConfiguration;
 import me.piggypiglet.gary.file.framework.FileConfiguration;
 import me.piggypiglet.gary.utils.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -43,6 +44,16 @@ public final class FileManager {
 
     public FileConfiguration getConfig(String name) {
         return configs.get(name);
+    }
+
+    // only works with abstract file configuration extensions
+    public void update(String name) {
+        FileConfiguration config = getConfig(name);
+
+        if (config instanceof AbstractFileConfiguration) {
+            AbstractFileConfiguration ac = (AbstractFileConfiguration) config;
+            ac.load(ac.getFile(), FileUtils.readFileToString(ac.getFile()));
+        }
     }
 
     private FileConfiguration load(String name, File file) throws Exception {

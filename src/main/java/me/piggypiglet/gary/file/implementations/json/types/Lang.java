@@ -10,7 +10,8 @@ import javax.annotation.Nonnull;
 // https://www.piggypiglet.me
 // ------------------------------
 public enum Lang {
-    TEST("test", "default message"),
+    STOP("commands.stop", "Shutting down."),
+    RELOAD("commands.reload", "Reloaded all configuration files."),
 
     NO_PERMISSION("no-permission", "You do not have permission for that command.");
 

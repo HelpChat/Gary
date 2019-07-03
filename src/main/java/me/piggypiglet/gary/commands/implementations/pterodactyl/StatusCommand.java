@@ -1,4 +1,4 @@
-package me.piggypiglet.gary.commands.implementations;
+package me.piggypiglet.gary.commands.implementations.pterodactyl;
 
 import com.google.inject.Inject;
 import com.stanjg.ptero4j.PteroAdminAPI;
@@ -13,13 +13,13 @@ import java.util.List;
 // Copyright (c) PiggyPiglet 2019
 // https://www.piggypiglet.me
 // ------------------------------
-public final class TestCommand extends Command {
+public final class StatusCommand extends Command {
     @Inject private PteroAdminAPI pteroAdminAPI;
     @Inject private PteroUserAPI pteroUserAPI;
 
-    public TestCommand() {
-        super("test");
-        options.setPermission("test");
+    public StatusCommand() {
+        super("ptero status", "pterodactyl status");
+        options.setPermission("pterodactyl.status");
     }
 
     @Override
@@ -28,8 +28,7 @@ public final class TestCommand extends Command {
             List<Server> servers = pteroAdminAPI.getServersController().getServers(args[0]);
 
             if (servers.size() > 0) {
-                System.out.println(servers.get(0).getUuid());
-                System.out.println(pteroUserAPI.getServersController().getServers().get(0).getId());
+                e.getChannel().sendMessage(pteroUserAPI.getServersController().getServer(servers.get(0).getUuid().split("-")[0]).getPowerState().getValue()).queue();
             } else {
                 e.getChannel().sendMessage("no servers found lol").queue();
             }

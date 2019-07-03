@@ -6,6 +6,7 @@ import lombok.Getter;
 import me.piggypiglet.gary.file.framework.FileConfiguration;
 import me.piggypiglet.gary.guice.annotations.Config;
 import me.piggypiglet.gary.permission.PermissionMember;
+import me.piggypiglet.gary.tasks.Task;
 import me.piggypiglet.gary.utils.StringUtils;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -40,8 +41,8 @@ public final class CommandHandler extends ListenerAdapter {
                 if (StringUtils.startsWith(message, command.getCommands())) {
                     String[] args = commandSplit(message, command.getCommands());
 
-                    if (new PermissionMember(e.getMember()).hasPermission(command.getPermission())) {
-                        command.run(e, args);
+                    if (command.getPermission().equalsIgnoreCase("null") || new PermissionMember(e.getMember()).hasPermission(command.getPermission())) {
+                        Task.async(r -> command.run(e, args));
                         return;
                     }
 
