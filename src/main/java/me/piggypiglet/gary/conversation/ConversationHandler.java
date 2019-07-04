@@ -13,7 +13,7 @@ import java.util.*;
 // https://www.piggypiglet.me
 // ------------------------------
 @Singleton
-public final class ConversationEventListener extends ListenerAdapter {
+public final class ConversationHandler extends ListenerAdapter {
     private final List<Conversation> conversations = Collections.synchronizedList(new ArrayList<>());
 
     @Override
@@ -22,27 +22,29 @@ public final class ConversationEventListener extends ListenerAdapter {
 
         assert e.getMember() != null;
 
-        for (Conversation conversation : conversations) {
-            if (conversation.match(e.getMember(), e.getChannel())) {
-                try {
-                    Prompt current = conversation.getPrompts().get(0);
+        Task.async(r -> {
+            for (Conversation conversation : conversations) {
+                if (conversation.match(e.getMember(), e.getChannel())) {
+                    try {
+                        Prompt current = conversation.getPrompts().get(0);
 
-                    if (current.getMatch().test(message)) {
-                        conversation.getCompletedAnswers().put(current.getKey(), message);
+                        if (current.getMatch() == null || current.getMatch().test(message)) {
+                            conversation.getCompletedAnswers().put(current.getKey(), message);
 
-                        if (current.isEnd()) {
-                            conversation.getAnswers().complete(conversation.getCompletedAnswers());
-                            Task.async(r -> conversations.remove(conversation));
+                            if (current.isEnd()) {
+                                conversation.getAnswers().complete(conversation.getCompletedAnswers());
+                                Task.async(r2 -> conversations.remove(conversation));
+                            } else {
+                                conversation.getPrompts().remove(0);
+                                e.getChannel().sendMessage(conversation.getPrompts().get(0).getQuestion()).queue();
+                            }
                         } else {
-                            conversation.getPrompts().remove(0);
-                            e.getChannel().sendMessage(conversation.getPrompts().get(0).getQuestion()).queue();
+                            e.getChannel().sendMessage("doesn't match requirements").queue();
                         }
-                    } else {
-                        e.getChannel().sendMessage("doesn't match requirements").queue();
-                    }
-                } catch (Exception ignored) {}
+                    } catch (Exception ignored) {}
+                }
             }
-        }
+        });
     }
 
     public Map<String, String> converse(Conversation conversation) {
@@ -51,6 +53,7 @@ public final class ConversationEventListener extends ListenerAdapter {
 
         Task.async(r -> conversations.remove(conversation), "5 mins");
 
+        //noinspection StatementWithEmptyBody
         while (!conversation.getAnswers().isDone() && conversations.contains(conversation)) {}
 
         try {

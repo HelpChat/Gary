@@ -3,7 +3,7 @@ package me.piggypiglet.gary.commands.implementations.admin;
 import com.google.inject.Inject;
 import me.piggypiglet.gary.commands.Command;
 import me.piggypiglet.gary.conversation.Conversation;
-import me.piggypiglet.gary.conversation.ConversationEventListener;
+import me.piggypiglet.gary.conversation.ConversationHandler;
 import me.piggypiglet.gary.conversation.Prompt;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 
@@ -16,7 +16,7 @@ import java.util.Map;
 // ------------------------------
 public final class TestCommand extends Command {
     @Inject
-    private ConversationEventListener conversationEventListener;
+    private ConversationHandler conversationHandler;
 
     public TestCommand() {
         super("test");
@@ -24,7 +24,7 @@ public final class TestCommand extends Command {
 
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
-        Map<String, String> conversation = conversationEventListener.converse(
+        Map<String, String> conversation = conversationHandler.converse(
                 Conversation.builder().member(e.getMember()).textChannel(e.getChannel()).prompts(Collections.singletonList(
                         Prompt.builder().question("say a number.").key("test").match(s -> {
                             try {
