@@ -17,6 +17,9 @@ repositories {
     maven {
         url = 'https://repo.piggypiglet.me/repository/maven-releases/'
     }
+    maven {
+        url = 'http://repo.mvdw-software.be/content/groups/public/'
+    }
 }
 
 dependencies {
@@ -27,9 +30,10 @@ dependencies {
     compile 'com.google.code.gson:gson:+'
     compile 'commons-io:commons-io:+'
     compile 'me.piggypiglet:TimeAPI:+'
-    compile 'com.stanjg:Ptero4J:0.4'
+    compile 'com.stanjg:Ptero4J:+'
     compile 'org.reflections:reflections:+'
     compile 'com.github.ben-manes.caffeine:caffeine:+'
+    compile 'be.maximvdw:spigotsite:+'
 }
 
 lombok {

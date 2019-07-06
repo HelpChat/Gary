@@ -5,6 +5,11 @@
     "admin-token": "<TOKEN>",
     "user-token": "<TOKEN>"
   },
+  "spigot": {
+    "username": "<USERNAME>",
+    "password": "<PASSWORD>",
+    "recovery-key": "<KEY>"
+  },
 
   "command-prefix": "."
 }

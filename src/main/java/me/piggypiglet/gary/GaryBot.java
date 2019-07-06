@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import me.piggypiglet.gary.guice.modules.BindingSetterModule;
 import me.piggypiglet.gary.registerables.Registerable;
 import me.piggypiglet.gary.registerables.implementations.*;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
@@ -17,7 +18,13 @@ final class GaryBot {
         AtomicReference<Injector> injector = new AtomicReference<>(parentInjector);
 
         Stream.of(
-                FilesRegisterable.class, PterodactylRegisterable.class, JDARegisterable.class, CommandsRegisterable.class, ShutdownHookRegisterable.class, ConsoleRegisterable.class
+                FilesRegisterable.class,
+                PterodactylRegisterable.class,
+                SpigotRegisterable.class,
+                JDARegisterable.class,
+                CommandsRegisterable.class,
+                ShutdownHookRegisterable.class,
+                ConsoleRegisterable.class
         ).forEach(r -> {
             Registerable registerable = injector.get().getInstance(r);
             registerable.run();
@@ -30,5 +37,7 @@ final class GaryBot {
                 )));
             }
         });
+
+        LoggerFactory.getLogger("Gary").info("Startup done");
     }
 }
