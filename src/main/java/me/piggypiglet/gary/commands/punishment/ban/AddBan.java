@@ -19,12 +19,10 @@ public final class AddBan extends Command {
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (args.length >= 1) {
-            Member member;
+            Member member = e.getGuild().getMemberById(args[0]);
             String reason = "";
 
-            try {
-                member = e.getGuild().getMemberById(args[0]);
-            } catch (Exception ex) {
+            if (member == null) {
                 e.getChannel().sendMessage(Lang.getString("commands.incorrect-usage", "ban <user id> [reason]")).queue();
                 return;
             }
@@ -33,7 +31,7 @@ public final class AddBan extends Command {
                 reason = args[1];
             }
 
-            e.getGuild().getController().ban(member, 0, reason).queue();
+            e.getGuild().ban(member, 0, reason).queue();
             e.getChannel().sendMessage(Lang.getString("commands.punishment.ban.add.success", member.getAsMention())).queue();
         } else {
             e.getChannel().sendMessage(Lang.getString("commands.incorrect-usage", "ban <user id> [reason]")).queue();

@@ -18,7 +18,7 @@ public final class DelBan extends Command {
     @Override
     protected void execute(GuildMessageReceivedEvent e, String[] args) {
         if (args.length >= 1) {
-            e.getGuild().getController().unban(args[0]).queue();
+            e.getGuild().unban(args[0]).queue();
             e.getChannel().sendMessage(Lang.getString("commands.punishment.ban.del.success", args[0])).queue();
         } else {
             e.getChannel().sendMessage(Lang.getString("commands.incorrect-usage", "unban <user id>")).queue();

@@ -39,11 +39,11 @@ public final class RoleUtils {
     }
 
     public static void addRole(Member member, long roleId) {
-        member.getGuild().getController().addRolesToMember(member, member.getGuild().getRoleById(roleId)).queue();
+        member.getGuild().addRoleToMember(member, member.getGuild().getRoleById(roleId)).queue();
     }
 
     public static void removeRole(Member member, long roleId) {
-        member.getGuild().getController().removeRolesFromMember(member, member.getGuild().getRoleById(roleId)).queue();
+        member.getGuild().removeRoleFromMember(member, member.getGuild().getRoleById(roleId)).queue();
     }
 
     private static boolean containsRoles(Member member, Predicate<? super Long> predicate) {

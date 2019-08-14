@@ -8,6 +8,8 @@ import me.piggypiglet.gary.core.objects.enums.EventsEnum;
 import me.piggypiglet.gary.core.objects.selfexpiringmap.SelfExpiringHashMap;
 import me.piggypiglet.gary.core.objects.selfexpiringmap.SelfExpiringMap;
 import me.piggypiglet.gary.core.storage.file.GFile;
+import me.piggypiglet.gary.core.utils.discord.RoleUtils;
+import me.piggypiglet.gary.core.utils.http.HasteUtils;
 import me.piggypiglet.gary.core.utils.string.StringUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
@@ -38,8 +40,15 @@ public final class RaidHandler extends GEvent {
         GuildMessageReceivedEvent e = (GuildMessageReceivedEvent) event;
         Member member = e.getMember();
 
-        if (member.getRoles().isEmpty() && !e.getAuthor().isBot()) {
-            String message = e.getMessage().getContentRaw();
+        if (!RoleUtils.isHelpful(member) && !e.getAuthor().isBot()) {
+            String message;
+
+            if (e.getMessage().getEmbeds().size() > 0) {
+                message = e.getMessage().getEmbeds().get(0).toData().toString();
+            } else {
+                message = e.getMessage().getContentRaw();
+            }
+
             List<String> raidWords = gFile.getFileConfiguration("config").getStringList("raid-words");
             
             if (StringUtils.contains(message, raidWords)) {
@@ -47,13 +56,13 @@ public final class RaidHandler extends GEvent {
                         .addField("⚠️AntiRaid Filter Trigger!",
                                 "some goofy dude called " + e.getAuthor().getAsMention() + " gon be triggering the raid alerts in " + e.getChannel().getAsMention() + " smh",
                                 false)
-                        .addField("Message:", "```" + message + "```", false)
+                        .addField("Message:", HasteUtils.haste(message), false)
                         .setTimestamp(ZonedDateTime.now());
                 Guild guild = e.getGuild();
 
                 if (expiringMap.containsKey(message)) {
                     e.getMessage().delete().queue();
-                    guild.getController().addRolesToMember(member, guild.getRoleById(Constants.GLOBAL_MUTE)).queue();
+                    guild.addRoleToMember(member, guild.getRoleById(Constants.GLOBAL_MUTE)).queue();
                     builder.setFooter("I've muted them to prevent further spamming.", e.getJDA().getSelfUser().getEffectiveAvatarUrl());
                 }
 

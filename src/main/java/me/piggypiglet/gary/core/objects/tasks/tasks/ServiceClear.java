@@ -47,7 +47,7 @@ public final class ServiceClear extends GRunnable {
 
             Stream.of("offer-services", "rate-my-server", "request-free", "request-paid").forEach(s -> {
                 guild.getTextChannelsByName(s, false).get(0).delete().queue();
-                guild.getController().createTextChannel(s)
+                guild.createTextChannel(s)
                         .addPermissionOverride(gary, bots, new ArrayList<>())
                         .addPermissionOverride(barry, bots, new ArrayList<>())
                         .addPermissionOverride(everyone, new ArrayList<>(), everyonePerms)

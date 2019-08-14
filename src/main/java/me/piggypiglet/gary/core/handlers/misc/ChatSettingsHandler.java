@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.guild.react.GenericGuildMessageReactionEvent;
-import net.dv8tion.jda.api.managers.GuildController;
 
 // ------------------------------
 // Copyright (c) PiggyPiglet 2018
@@ -30,20 +29,24 @@ public final class ChatSettingsHandler extends GEvent {
 
         if (e.getMessageIdLong() == 574493964724469780L && !e.getUser().isBot()) {
             ChatSettings setting = ChatSettings.getSetting(emote);
-            GuildController controller = guild.getController();
 
             Member member = e.getMember();
             Role role = guild.getRoleById(setting.roleID);
+
+            if (role == null) {
+                return;
+            }
+
             long id = member.getIdLong();
 
             switch (EventsEnum.fromEvent(event)) {
                 case MESSAGE_REACTION_ADD:
-                    controller.addRolesToMember(member, role).queue();
+                    guild.addRoleToMember(member, role).queue();
                     set(setting, emote, id, true);
                     break;
 
                 case MESSAGE_REACTION_REMOVE:
-                    controller.removeRolesFromMember(member, role).queue();
+                    guild.removeRoleFromMember(member, role).queue();
                     set(setting, emote, id, false);
                     break;
             }

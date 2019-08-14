@@ -39,11 +39,11 @@ public final class GiveawayHandler extends GEvent {
 
             switch (EventsEnum.fromEvent(event)) {
                 case MESSAGE_REACTION_ADD:
-                    guild.getController().addRolesToMember(e.getMember(), role).queue();
+                    guild.addRoleToMember(e.getMember(), role).queue();
                     break;
 
                 case MESSAGE_REACTION_REMOVE:
-                    guild.getController().removeRolesFromMember(e.getMember(), role).queue();
+                    guild.removeRoleFromMember(e.getMember(), role).queue();
                     break;
             }
         }

@@ -10,9 +10,7 @@ import me.piggypiglet.gary.core.handlers.EventHandler;
 import me.piggypiglet.gary.core.handlers.GEvent;
 import me.piggypiglet.gary.core.handlers.ShutdownHandler;
 import me.piggypiglet.gary.core.handlers.chat.CommandHandler;
-import me.piggypiglet.gary.core.handlers.misc.GiveawayHandler;
 import me.piggypiglet.gary.core.handlers.misc.LoggingHandler;
-import me.piggypiglet.gary.core.handlers.misc.RoleRequestHandler;
 import me.piggypiglet.gary.core.objects.enums.Registerables;
 import me.piggypiglet.gary.core.objects.tasks.GRunnable;
 import me.piggypiglet.gary.core.objects.tasks.Task;
@@ -51,8 +49,6 @@ public final class GaryBot {
     @Inject private ShutdownHandler shutdownHandler;
     @Inject private CommandHandler commandHandler;
     @Inject private LoggingHandler loggingHandler;
-    @Inject private GiveawayHandler giveawayHandler;
-    @Inject private RoleRequestHandler roleRequestHandler;
 
     @Inject private ServiceClear serviceClear;
 
@@ -60,7 +56,7 @@ public final class GaryBot {
         this.injector = injector;
 
         Task.async((g) -> Stream.of(
-                FILES, EVENTS, COMMANDS, LOGGERS, BOT, MYSQL, CONSOLE, ROLE_REQUESTS, TASKS
+                FILES, EVENTS, COMMANDS, BOT, MYSQL, CONSOLE, TASKS
         ).forEach(this::register), "Gary");
 
         // sacrifice the main thread.
@@ -134,7 +130,6 @@ public final class GaryBot {
 
                 Task.async(r -> {
                     r.sleep(4000);
-                    roleRequestHandler.populateMap();
 
 //                    TextChannel guild = jda.getGuildById(Constants.GUILD).getTextChannelById(498451758717337611L);
 //

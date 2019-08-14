@@ -15,7 +15,7 @@ public final class PunishmentUtils {
     public static void update(long userId, int strikes) {
         if (strikes >= 3) {
             Guild guild = garyBot.getJda().getGuildById(Constants.GUILD);
-            guild.getController().addRolesToMember(guild.getMemberById(userId), guild.getRoleById(Constants.GLOBAL_MUTE)).queue();
+            guild.addRoleToMember(guild.getMemberById(userId), guild.getRoleById(Constants.GLOBAL_MUTE)).queue();
         }
     }
 }
